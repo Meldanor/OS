@@ -54,5 +54,14 @@ void kernel(uint32_t magic, const Multiboot_Info* info){
   //TaskClass task(magic, info);
   
   //task.action();
+
+    char* CGA = (char*)0xB8000;
+    CGA[0] = 'a';
+    
+    const char* msg = "Hallo World!"; 
+    for(unsigned int i=0; i < sizeof("Hallo World!"); ++i) {
+        CGA[80*2+2*i] = msg[i];
+        CGA[80*2+2*i+1] = 28;
+    }    
   
 }
