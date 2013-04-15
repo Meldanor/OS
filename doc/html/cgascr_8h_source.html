@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>OOStuBS - Technische Informatik II (TI-II): include/machine/cgascr.h Quellcode</title>
+
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+
+
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">OOStuBS - Technische Informatik II (TI-II)
+   &#160;<span id="projectnumber">2.3</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- Erzeugt von Doxygen 1.7.6.1 -->
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+      <li><a href="globals.html"><span>Datei-Elemente</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="header">
+  <div class="headertitle">
+<div class="title">include/machine/cgascr.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="cgascr_8h.html">gehe zur Dokumentation dieser Datei</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\</span>
+<a name="l00002"></a>00002 <span class="comment"> *                                 Technische Informatik II                                      *</span>
+<a name="l00003"></a>00003 <span class="comment"> * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *</span>
+<a name="l00004"></a>00004 <span class="comment"> *                                                                                               *</span>
+<a name="l00005"></a>00005 <span class="comment"> *                                    C G A _ S C R E E N                                        *</span>
+<a name="l00006"></a>00006 <span class="comment"> *                                                                                               *</span>
+<a name="l00007"></a>00007 <span class="comment">\* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */</span>
+<a name="l00008"></a>00008 
+<a name="l00009"></a>00009 <span class="preprocessor">#ifndef __screen_include__</span>
+<a name="l00010"></a>00010 <span class="preprocessor"></span><span class="preprocessor">#define __screen_include__</span>
+<a name="l00011"></a>00011 <span class="preprocessor"></span>
+<a name="l00012"></a>00012 <span class="comment">/* INCLUDES */</span>
+<a name="l00013"></a>00013 
+<a name="l00014"></a>00014 <span class="preprocessor">#include &quot;<a class="code" href="io__port_8h.html">machine/io_port.h</a>&quot;</span>
+<a name="l00015"></a>00015 
+<a name="l00021"></a><a class="code" href="classCGA__Screen.html">00021</a> <span class="keyword">class </span><a class="code" href="classCGA__Screen.html" title="CGA-Dispaly driver.">CGA_Screen</a> {
+<a name="l00022"></a>00022   <span class="keyword">private</span>:
+<a name="l00023"></a>00023     
+<a name="l00024"></a>00024     
+<a name="l00025"></a>00025   <span class="keyword">protected</span>:
+<a name="l00026"></a>00026     
+<a name="l00027"></a>00027   <span class="keyword">public</span>:
+<a name="l00028"></a>00028     
+<a name="l00029"></a>00029     
+<a name="l00035"></a><a class="code" href="classCGA__Screen.html#a4415c1855a6afdc5cd3116e5fa054252">00035</a>     <a class="code" href="classCGA__Screen.html#a4415c1855a6afdc5cd3116e5fa054252" title="Constructor.">CGA_Screen</a>(){};
+<a name="l00036"></a>00036   
+<a name="l00042"></a><a class="code" href="classCGA__Screen.html#a8bfd69c9fc770359fb8d6e3a02cbdd1e">00042</a>     <a class="code" href="classCGA__Screen.html#a8bfd69c9fc770359fb8d6e3a02cbdd1e" title="Destructor.">~CGA_Screen</a>(){};
+<a name="l00043"></a>00043     
+<a name="l00052"></a>00052     <span class="keywordtype">void</span> <a class="code" href="classCGA__Screen.html#a346b7ccc05356f76e738a76a24510e33" title="set the cursor position">setpos</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> x, <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> y);
+<a name="l00053"></a>00053     
+<a name="l00062"></a>00062     <span class="keywordtype">void</span> <a class="code" href="classCGA__Screen.html#a6f47426c0cf0662b6835d64e08cf929e" title="get the cursor position">getpos</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">short</span>&amp; x, <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span>&amp; y) <span class="keyword">const</span>;
+<a name="l00063"></a>00063     
+<a name="l00074"></a>00074     <span class="keywordtype">void</span> <a class="code" href="classCGA__Screen.html#a8176499ecb3ce4e9eb05910e66aee9d2" title="print a character to a specific position">show</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> x, <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> y, <span class="keywordtype">char</span> c, <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> attrib);
+<a name="l00075"></a>00075     
+<a name="l00085"></a>00085     <span class="keywordtype">void</span> <a class="code" href="classCGA__Screen.html#afe9aed1f6f82bba5719a527a67658447" title="print a string to the current position">print</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* <span class="keywordtype">string</span>, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> n, <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> attrib);
+<a name="l00086"></a>00086     
+<a name="l00093"></a>00093     <span class="keywordtype">void</span> <a class="code" href="classCGA__Screen.html#a3808a301813e3e1b6368ab75a94ea652" title="scroll the display one line upwards">scrollup</a>();
+<a name="l00094"></a>00094     
+<a name="l00100"></a>00100     <span class="keywordtype">void</span> <a class="code" href="classCGA__Screen.html#a622bc3a2822e3006579167343d639353" title="clear the screen">clear</a>();
+<a name="l00101"></a>00101     
+<a name="l00112"></a>00112     <span class="keywordtype">void</span> <a class="code" href="classCGA__Screen.html#a26ae51f8598addd5d78fc16595b0fcfd" title="setzt die Vordergrundfarbe für die nachfolgenden Zeichen">setFGColor</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> fgColor);
+<a name="l00113"></a>00113     
+<a name="l00124"></a>00124     <span class="keywordtype">void</span> <a class="code" href="classCGA__Screen.html#a3f7ae0ef1eb1a89da2fca22dd2c170f5" title="setzt die Hintergrundfarbe für die nachfolgenden Zeichen">setBGColor</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> bgColor);
+<a name="l00125"></a>00125     
+<a name="l00136"></a>00136     <span class="keywordtype">void</span> <a class="code" href="classCGA__Screen.html#a380e3685d4cc9abcf8037e00dcea85fe" title="setzt das Blinken für die nachfolgenden Zeichen">setBlink</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> blink);
+<a name="l00137"></a>00137     
+<a name="l00148"></a>00148     <span class="keywordtype">void</span> <a class="code" href="classCGA__Screen.html#a1bba1fd39b90ab524aea1c6e13e7cc8f" title="setzt die Attribute (alle) für die nachfolgenden Zeichen">setDefaultAttrib</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> attrib);
+<a name="l00149"></a>00149 };
+<a name="l00150"></a>00150 
+<a name="l00151"></a>00151 <span class="preprocessor">#endif</span>
+</pre></div></div><!-- contents -->
+
+
+<hr class="footer"/><address class="footer"><small>
+Erzeugt am Mon Apr 15 2013 13:51:47 für OOStuBS - Technische Informatik II (TI-II) von &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.7.6.1
+</small></address>
+
+</body>
+</html>

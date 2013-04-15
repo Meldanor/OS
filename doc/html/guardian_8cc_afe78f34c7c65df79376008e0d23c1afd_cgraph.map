@@ -1,0 +1,4 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classCPU.html#a23c8f5e46dac3304f1d8def9c612b88e" title="globally dissable interrupts" alt="" coords="176,5,299,35"/>
+<area shape="rect" id="node5" href="$classCPU.html#a189729f4ca240ff52004a34b9057d448" title="halt the cpu" alt="" coords="199,58,276,89"/>
+</map>

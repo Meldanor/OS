@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>OOStuBS - Technische Informatik II (TI-II): include/device/cgastr.h Quellcode</title>
+
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+
+
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">OOStuBS - Technische Informatik II (TI-II)
+   &#160;<span id="projectnumber">2.3</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- Erzeugt von Doxygen 1.7.6.1 -->
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li><a href="annotated.html"><span>Klassen</span></a></li>
+      <li class="current"><a href="files.html"><span>Dateien</span></a></li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Auflistung&#160;der&#160;Dateien</span></a></li>
+      <li><a href="globals.html"><span>Datei-Elemente</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="header">
+  <div class="headertitle">
+<div class="title">include/device/cgastr.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="cgastr_8h.html">gehe zur Dokumentation dieser Datei</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\</span>
+<a name="l00002"></a>00002 <span class="comment"> *                                 Technische Informatik II                                      *</span>
+<a name="l00003"></a>00003 <span class="comment"> * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *</span>
+<a name="l00004"></a>00004 <span class="comment"> *                                                                                               *</span>
+<a name="l00005"></a>00005 <span class="comment"> *                                   C G A _ S T R E A M                                         *</span>
+<a name="l00006"></a>00006 <span class="comment"> *                                                                                               *</span>
+<a name="l00007"></a>00007 <span class="comment">\* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */</span>
+<a name="l00008"></a>00008 
+<a name="l00009"></a>00009 <span class="preprocessor">#ifndef __cgastr_include__</span>
+<a name="l00010"></a>00010 <span class="preprocessor"></span><span class="preprocessor">#define __cgastr_include__</span>
+<a name="l00011"></a>00011 <span class="preprocessor"></span>
+<a name="l00012"></a>00012 <span class="preprocessor">#include &quot;<a class="code" href="o__stream_8h.html">object/o_stream.h</a>&quot;</span>
+<a name="l00013"></a>00013 <span class="preprocessor">#include &quot;<a class="code" href="cgascr_8h.html">machine/cgascr.h</a>&quot;</span>
+<a name="l00014"></a>00014 
+<a name="l00031"></a><a class="code" href="classCGA__Stream.html">00031</a> <span class="keyword">class </span><a class="code" href="classCGA__Stream.html" title="CGA basierte Ausgabe, ählich zu std::cout von C++.">CGA_Stream</a>  : <span class="keyword">public</span> <a class="code" href="classO__Stream.html" title="Manipulation class providing formatted output support.">O_Stream</a>, <span class="keyword">public</span> <a class="code" href="classCGA__Screen.html" title="CGA-Dispaly driver.">CGA_Screen</a> {
+<a name="l00032"></a>00032   <span class="keyword">public</span>:
+<a name="l00033"></a>00033    
+<a name="l00047"></a>00047     <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classCGA__Stream.html#a73572f5377a28f09ee9dc3af7b5a65b9" title="ausgeben des Inhaltes des internen Puffers">flush</a>();
+<a name="l00048"></a>00048     
+<a name="l00052"></a>00052     <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classCGA__Stream.html#a47b2a2a3bfc97057d086ab77551b4491">setAttribFGColor</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> ucColor);
+<a name="l00053"></a>00053     
+<a name="l00057"></a>00057     <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classCGA__Stream.html#a01bb11b8a1e197e607bb81e45e22900d">setAttribBGColor</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> ucColor);
+<a name="l00058"></a>00058     
+<a name="l00062"></a>00062     <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classCGA__Stream.html#a34de92e7083d69656d3140f10096f07d">setAttribBlink</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> ucBlink);
+<a name="l00063"></a>00063 };
+<a name="l00064"></a>00064 
+<a name="l00065"></a>00065 <span class="preprocessor">#endif</span>
+</pre></div></div><!-- contents -->
+
+
+<hr class="footer"/><address class="footer"><small>
+Erzeugt am Mon Apr 15 2013 13:51:47 für OOStuBS - Technische Informatik II (TI-II) von &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.7.6.1
+</small></address>
+
+</body>
+</html>

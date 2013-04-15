@@ -1,0 +1,22 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classKey.html#a62e735f4121d8984d994a508bdd6a74b" title="Key::shift" alt="" coords="605,5,680,35"/>
+<area shape="rect" id="node7" href="$classKey.html#af4fa809960860523573abd695e3f8fbe" title="Key::alt_right" alt="" coords="593,58,692,89"/>
+<area shape="rect" id="node11" href="$classKey.html#ab1199ecfd588b567053543b6715ba19a" title="Key::alt_left" alt="" coords="368,322,459,353"/>
+<area shape="rect" id="node15" href="$classKey.html#a90ea541bc6d1286a517eaccd700c4ba0" title="Key::ctrl_right" alt="" coords="363,375,464,406"/>
+<area shape="rect" id="node19" href="$classKey.html#af1c7ef33119f0c10909a2de246de7854" title="Key::ctrl_left" alt="" coords="367,429,460,459"/>
+<area shape="rect" id="node23" href="$classKey.html#a45fb60e270f30b9f23e28259e851b14a" title="Key::caps_lock" alt="" coords="585,218,700,249"/>
+<area shape="rect" id="node27" href="$classKeyboard__Controller.html#a36dfc2c73c4031c8662e37159238d5b0" title="switch the specified LED of the keyboard on or off." alt="" coords="315,482,512,513"/>
+<area shape="rect" id="node29" href="$classKey.html#af3d96c346d2e6088cafbc94fe7c783ef" title="Key::scroll_lock" alt="" coords="355,535,472,566"/>
+<area shape="rect" id="node33" href="$classKeyboard__Controller.html#ac2b33ffe1e2794c81249861aa792513a" title="convert the received scancode and modfier bits to an ascii char" alt="" coords="291,165,536,195"/>
+<area shape="rect" id="node39" href="$classKey.html#a4a8da77b0cb57bf89bffa3903c2f79ce" title="Key::num_lock" alt="" coords="588,271,697,302"/>
+<area shape="rect" id="node5" href="$classKey.html#a19b48c665bdda438c55de7399eb4a631" title="Key::shift" alt="" coords="769,5,844,35"/>
+<area shape="rect" id="node9" href="$classKey.html#af12fb21a12c35fb89f6ff43db96759ba" title="Key::alt_right" alt="" coords="757,58,856,89"/>
+<area shape="rect" id="node13" href="$classKey.html#a8d41de9c5f54ed629bfd7a7f4742fbbc" title="Key::alt_left" alt="" coords="597,325,688,355"/>
+<area shape="rect" id="node17" href="$classKey.html#a8c4d5f648534aa271a9582d53382e54f" title="Key::ctrl_right" alt="" coords="592,378,693,409"/>
+<area shape="rect" id="node21" href="$classKey.html#aaa434afc90ecb93a28a0e5e6e8c58e87" title="Key::ctrl_left" alt="" coords="596,431,689,462"/>
+<area shape="rect" id="node25" href="$classKey.html#a8a4da1819e66bb141c4dea2934845fab" title="Key::caps_lock" alt="" coords="749,218,864,249"/>
+<area shape="rect" id="node31" href="$classKey.html#a5f85f2e72598824e028162ec53890260" title="Key::scroll_lock" alt="" coords="584,535,701,566"/>
+<area shape="rect" id="node35" href="$classKey.html#abb65ed9de2b4a8c24f557416b484df34" title="set ascii value" alt="" coords="603,111,683,142"/>
+<area shape="rect" id="node37" href="$classKey.html#ae67075af1a5c0a7f585e8e61fc8515f8" title="set scancode value" alt="" coords="587,165,699,195"/>
+<area shape="rect" id="node41" href="$classKey.html#aab1b4f9446a6db6fc4a6a1f7824d51b5" title="Key::num_lock" alt="" coords="752,271,861,302"/>
+</map>

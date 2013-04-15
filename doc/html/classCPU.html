@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>OOStuBS - Technische Informatik II (TI-II): CPU Klassenreferenz</title>
+
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+
+
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">OOStuBS - Technische Informatik II (TI-II)
+   &#160;<span id="projectnumber">2.3</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- Erzeugt von Doxygen 1.7.6.1 -->
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Hauptseite</span></a></li>
+      <li><a href="pages.html"><span>Zusätzliche&#160;Informationen</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Klassen</span></a></li>
+      <li><a href="files.html"><span>Dateien</span></a></li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="annotated.html"><span>Auflistung&#160;der&#160;Klassen</span></a></li>
+      <li><a href="classes.html"><span>Klassen-Verzeichnis</span></a></li>
+      <li><a href="inherits.html"><span>Klassenhierarchie</span></a></li>
+      <li><a href="functions.html"><span>Klassen-Elemente</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Öffentliche Methoden</a> &#124;
+<a href="#pri-attribs">Private Attribute</a>  </div>
+  <div class="headertitle">
+<div class="title">CPU Klassenreferenz</div>  </div>
+</div><!--header-->
+<div class="contents">
+<!-- doxytag: class="CPU" -->
+<p>Hardware accessor for CPU specific instructions.  
+ <a href="classCPU.html#details">Mehr ...</a></p>
+
+<p><code>#include &lt;<a class="el" href="machine_2cpu_8h_source.html">cpu.h</a>&gt;</code></p>
+
+<p><a href="classCPU-members.html">Aufstellung aller Elemente</a></p>
+<table class="memberdecls">
+<tr><td colspan="2"><h2><a name="pub-methods"></a>
+Öffentliche Methoden</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCPU.html#a2fdd8153d0979ccad9ed8452897267f4">CPU</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">...  <a href="#a2fdd8153d0979ccad9ed8452897267f4"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCPU.html#a23c8f5e46dac3304f1d8def9c612b88e">disable_int</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">globally dissable interrupts  <a href="#a23c8f5e46dac3304f1d8def9c612b88e"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCPU.html#ab5e5a2260ef84a433c181786f11c4609">enable_int</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">globally enable interrupts  <a href="#ab5e5a2260ef84a433c181786f11c4609"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCPU.html#a189729f4ca240ff52004a34b9057d448">halt</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">halt the cpu  <a href="#a189729f4ca240ff52004a34b9057d448"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCPU.html#a725124d36e67ea9e9539e4828ce54847">retore_interrupt_state</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">restore old state of interrupt  <a href="#a725124d36e67ea9e9539e4828ce54847"></a><br/></td></tr>
+<tr><td colspan="2"><h2><a name="pri-attribs"></a>
+Private Attribute</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCPU.html#a505d3345ea8a55f064d72d79a33794fc">iIFlag</a></td></tr>
+</table>
+<hr/><a name="details" id="details"></a><h2>Ausführliche Beschreibung</h2>
+<div class="textblock"><p>Hardware accessor for CPU specific instructions. </p>
+<p>Class <a class="el" href="classCPU.html" title="Hardware accessor for CPU specific instructions.">CPU</a> implements an abstraction of the processor. It provides methods to enable/disable interrupts globally and to halt the processor. </p>
+
+<p>Definiert in Zeile <a class="el" href="machine_2cpu_8h_source.html#l00017">17</a> der Datei <a class="el" href="machine_2cpu_8h_source.html">cpu.h</a>.</p>
+</div><hr/><h2>Beschreibung der Konstruktoren und Destruktoren</h2>
+<a class="anchor" id="a2fdd8153d0979ccad9ed8452897267f4"></a><!-- doxytag: member="CPU::CPU" ref="a2fdd8153d0979ccad9ed8452897267f4" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classCPU.html#a2fdd8153d0979ccad9ed8452897267f4">CPU::CPU</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>... </p>
+
+<p>Definiert in Zeile <a class="el" href="machine_2cpu_8h_source.html#l00030">30</a> der Datei <a class="el" href="machine_2cpu_8h_source.html">cpu.h</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Dokumentation der Elementfunktionen</h2>
+<a class="anchor" id="a23c8f5e46dac3304f1d8def9c612b88e"></a><!-- doxytag: member="CPU::disable_int" ref="a23c8f5e46dac3304f1d8def9c612b88e" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classCPU.html#a23c8f5e46dac3304f1d8def9c612b88e">CPU::disable_int</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>globally dissable interrupts </p>
+
+<p>Definiert in Zeile <a class="el" href="machine_2cpu_8h_source.html#l00044">44</a> der Datei <a class="el" href="machine_2cpu_8h_source.html">cpu.h</a>.</p>
+
+<p><div class="dynheader">
+Hier ist ein Graph der zeigt, wo diese Funktion aufgerufen wird:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCPU_a23c8f5e46dac3304f1d8def9c612b88e_icgraph.png" border="0" usemap="#classCPU_a23c8f5e46dac3304f1d8def9c612b88e_icgraph" alt=""/></div>
+<map name="classCPU_a23c8f5e46dac3304f1d8def9c612b88e_icgraph" id="classCPU_a23c8f5e46dac3304f1d8def9c612b88e_icgraph">
+<area shape="rect" id="node3" href="guardian_8cc.html#afe78f34c7c65df79376008e0d23c1afd" title="This function is called if a normal exception is raised by the cpu." alt="" coords="207,5,327,35"/><area shape="rect" id="node5" href="guardian_8cc.html#a70466c5bd3ffac85265c22f65e9a4ef9" title="This function is called if a normal exception with error code is raised by the cpu." alt="" coords="203,58,331,89"/><area shape="rect" id="node7" href="guardian_8cc.html#a390d383038610b600ab986ec9b54879a" title="This function is called if a reserved exception is raised by the cpu." alt="" coords="177,111,356,142"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="ab5e5a2260ef84a433c181786f11c4609"></a><!-- doxytag: member="CPU::enable_int" ref="ab5e5a2260ef84a433c181786f11c4609" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classCPU.html#ab5e5a2260ef84a433c181786f11c4609">CPU::enable_int</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>globally enable interrupts </p>
+
+<p>Definiert in Zeile <a class="el" href="machine_2cpu_8h_source.html#l00035">35</a> der Datei <a class="el" href="machine_2cpu_8h_source.html">cpu.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a189729f4ca240ff52004a34b9057d448"></a><!-- doxytag: member="CPU::halt" ref="a189729f4ca240ff52004a34b9057d448" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classCPU.html#a189729f4ca240ff52004a34b9057d448">CPU::halt</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>halt the cpu </p>
+<p>When the cpu is halted the program counter will not increase until an interrupt occurs. If an interrupt occurs the cpu will handle the interrupt and continue with the execution after the halt command. </p>
+
+<p>Definiert in Zeile <a class="el" href="machine_2cpu_8h_source.html#l00073">73</a> der Datei <a class="el" href="machine_2cpu_8h_source.html">cpu.h</a>.</p>
+
+<p><div class="dynheader">
+Hier ist ein Graph der zeigt, wo diese Funktion aufgerufen wird:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCPU_a189729f4ca240ff52004a34b9057d448_icgraph.png" border="0" usemap="#classCPU_a189729f4ca240ff52004a34b9057d448_icgraph" alt=""/></div>
+<map name="classCPU_a189729f4ca240ff52004a34b9057d448_icgraph" id="classCPU_a189729f4ca240ff52004a34b9057d448_icgraph">
+<area shape="rect" id="node3" href="guardian_8cc.html#afe78f34c7c65df79376008e0d23c1afd" title="This function is called if a normal exception is raised by the cpu." alt="" coords="164,5,284,35"/><area shape="rect" id="node5" href="guardian_8cc.html#a70466c5bd3ffac85265c22f65e9a4ef9" title="This function is called if a normal exception with error code is raised by the cpu." alt="" coords="160,58,288,89"/><area shape="rect" id="node7" href="guardian_8cc.html#a390d383038610b600ab986ec9b54879a" title="This function is called if a reserved exception is raised by the cpu." alt="" coords="135,111,313,142"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a725124d36e67ea9e9539e4828ce54847"></a><!-- doxytag: member="CPU::retore_interrupt_state" ref="a725124d36e67ea9e9539e4828ce54847" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classCPU.html#a725124d36e67ea9e9539e4828ce54847">CPU::retore_interrupt_state</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>restore old state of interrupt </p>
+
+<p>Definiert in Zeile <a class="el" href="machine_2cpu_8h_source.html#l00055">55</a> der Datei <a class="el" href="machine_2cpu_8h_source.html">cpu.h</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Dokumentation der Datenelemente</h2>
+<a class="anchor" id="a505d3345ea8a55f064d72d79a33794fc"></a><!-- doxytag: member="CPU::iIFlag" ref="a505d3345ea8a55f064d72d79a33794fc" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="classCPU.html#a505d3345ea8a55f064d72d79a33794fc">CPU::iIFlag</a><code> [private]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Definiert in Zeile <a class="el" href="machine_2cpu_8h_source.html#l00019">19</a> der Datei <a class="el" href="machine_2cpu_8h_source.html">cpu.h</a>.</p>
+
+</div>
+</div>
+<hr/>Die Dokumentation für diese Klasse wurde erzeugt aufgrund der Datei:<ul>
+<li>include/machine/<a class="el" href="machine_2cpu_8h_source.html">cpu.h</a></li>
+</ul>
+</div><!-- contents -->
+
+
+<hr class="footer"/><address class="footer"><small>
+Erzeugt am Mon Apr 15 2013 13:51:48 für OOStuBS - Technische Informatik II (TI-II) von &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.7.6.1
+</small></address>
+
+</body>
+</html>
