@@ -1,7 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$kout_8h.html" title="alles notwendige zum nutzen der in main.cc deklarierten globalen Variable kout" alt="" coords="11,86,152,117"/>
-<area shape="rect" id="node7" href="$cgastr_8cc.html" title="src/device/cgastr.cc" alt="" coords="176,86,317,117"/>
-<area shape="rect" id="node9" href="$main_8cc.html" title="Grunddatei von OOStuBS." alt="" coords="341,86,432,117"/>
-<area shape="rect" id="node11" href="$task1_8cc.html" title="src/user/task1.cc" alt="" coords="456,86,579,117"/>
-<area shape="rect" id="node5" href="$guardian_8cc.html" title="src/guard/guardian.cc" alt="" coords="5,166,157,197"/>
-</map>
