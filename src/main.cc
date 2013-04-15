@@ -51,10 +51,10 @@ extern "C" void kernel(uint32_t magic, const Multiboot_Info* info);
 
 void kernel(uint32_t magic, const Multiboot_Info* info){
   //folgende Zeilen einkommentieren
-  //TaskClass task(magic, info);
+  TaskClass task(magic, info);
   
-  //task.action();
-
+  task.action();
+/*
     char* CGA = (char*)0xB8000;
     CGA[0] = 'a';
     
@@ -63,5 +63,5 @@ void kernel(uint32_t magic, const Multiboot_Info* info){
         CGA[80*2+2*i] = msg[i];
         CGA[80*2+2*i+1] = 28;
     }    
-  
+ */ 
 }
