@@ -1,6 +1,7 @@
 /** 
  * \~german
  * \page devenv Enwicklungsumgebung
+ * \tableofcontents
  * 
  * Als Entwicklungsumgebung wird Linux in Form von einer 32- oder 64-Bit Variante vorgesehen. 
  * Es gibt in den Vorgaben auch die Möglichkeit für MacOSX und 
@@ -35,9 +36,42 @@ wget [Archiv-Adresse]
 tar xvfz [Archiv-Name].tar.gz
 \endverbatim
  * 
+ * \note
+ * Bei 64-Bit Ubuntu muss die apt-get-Zeile um \c libc6-dev-i386 erweitert werden.
+ * 
+ * \warning
+ * Die Installation der Pakete erfordert i.d.R. root-Rechte und muss nur bei neuen Installationen
+ * durchgeführt werden. Auf den Computern im Labor ist bereits alles notwendige installiert.
+ * Die Zeile kann dort also weggelassen werden.
+ * 
  * Dabei muss [Ordner] mit dem Ordner ersetzt werden, in dem OOStuBS liegen soll. [Archiv-Adresse] 
  * ist die Adresse zum Archiv auf der Webseite, in dem die Vorgabe liegt. [Archiv-Name] ist dann
  * der Name des heruntergeladenen Archivs, ohne Endung. Die Endung müsste ".tar.gz" sein.
+ * 
+ * 
+ * \section devenv_sec1 OOStuBS anpassen
+ * Je nach verwendetem Linux müssen noch einige Dateien angepasst werden.
+ * 
+ * \subsection devenv_sec1_1 Makefile
+ * In der \c Makefile unter \c PLATFORM muss das Betriebssystem unter dem entwickelt wird 
+ * spezifiziert werden. Unter einem 32-Bit Linux ist es \c linux und unter 64 Bit entsprechend
+ * \c linux64.
+ * \code{.py}
+# one of linux, linux64
+# the platforms osxcross and windows are also possible but are not supported
+PLATFORM=linux
+  \endcode
+ * 
+ * \subsection devenv_sec1_2 misc/[PLATFORM]/config.mk
+ * Unter dem Ordner \c misc sind die einzelnen Konfigurationen abgelegt. Im Unterordner der
+ * gewählten Plattform gibt es eine Datei \c config.mk. Diese speichert welche Dateien vorhanden 
+ * sind. Bei QEMU gibt es ab und zu das Problem der Bezeichnung des Programms. In der 
+ * Konfigurationsdatei gibt es eine Zeile, die mit EMU anfängt:
+ * \code{.py}
+EMU=qemu-system-i386
+  \endcode
+ * Diese muss u.U. auf die richtige QEMU-Datei umgeschrieben werden. Dies hängt definitiv vom 
+ * System ab. Unter Gentoo ist es z.B. \"<tt>qemu-kvm</tt>\".
  * 
  * \section devenv_sec1 OOStuBS bauen
  * Zum Bauen von OOStuBS muss zuerst die Plattform in der Datei Makefile des Hauptordners
@@ -77,7 +111,7 @@ make debug
  * debuggt werden. Dabei startet sowohl das QEMU-Fenster, als auch gdb in der Konsole. Das System
  * wird dabei gleich angehalten, so dass gleich mit der Arbeit begonnen werden kann.
  * 
- * \section devenv_sec3 OOStuBS an echter Hardware testen
+ * \section devenv_sec4 OOStuBS an echter Hardware testen
  * Um das Betriebssystem auf einem echten Computer zu testen, muss zuerst ein USB-Stick 
  * bootfähig gemacht werden. Als Bootmanager bieten sich 
  * <a href="http://www.lowlevel.eu/wiki/GRUB_Installation_auf_einem_USB-Stick">GRUB</a> oder 
@@ -244,6 +278,11 @@ make debug
               <img width=200 src="small_InstallCygwin_14.png" />
             </a>
           </li>
+          <li style="list-style:none; display:inline; margin:2px; padding:2px;">
+            <a href="InstallCygwin_15.png">
+              <img width=200 src="small_InstallCygwin_15.png" />
+            </a>
+          </li>
         </ul>
  \endhtmlonly
  * 
@@ -353,12 +392,613 @@ $
  * des gerade genutzten Computers erscheinen.
  * 
  * \section devenv_win_sec5 Schritt 5 - Visual Studio
+ * Prinzipiell existiert bereits alles, um OOStuBS zu bauen, dokumentieren, auszuführen 
+ * und zu debuggen. Allerdings ist dafür noch einige "Handarbeit" notwendig, um jedes Mal 
+ * die Einzelteile zusammen zu führen. Diese Arbeit soll Visual Studio abnehmen. Weitere 
+ * Vorteile sind die Code-Vervollständigung und die Syntaxhervorhebung.\n
+ * Dazu ist <a href="oostubs_VS.zip">dieses vorbereitete Paket</a> herunter zu laden und 
+ * nach \"F:\\Daten\\oostubs\" zu entpacken. Somit müssten sich dann unter \"F:\\Daten\\oostubs\" 
+ * drei Ordner befinden, "code", in dem die OOStuBS-Vorgaben liegen, "scripts", in dem einige 
+ * Hilfs-Batch-Dateien liegen und "vsproject", in dem die Visual Studio Projekte liegen. 
+ * 
+ * Bevor nun Visual Studio gestartet wird, sollte die Datei 
+ * \"F:\\Daten\\oostubs\\scripts\\setVariable.bat\" überprüft werden. In dieser sind die Orte 
+ * eingetragen, an denen die verschiedenen Programme vorzufinden sind. Die Datei müsste wie 
+ * folgt aussehen: 
+ * \code{.py}
+@set "CYGWINPATH=F:\Programme\CygWin"
+@set "DOXYGENPATH=F:\Programme\Doxygen"
+@set "QEMUPATH=F:\Programme\QEMU"
+@set "GRAPHVIZPATH=F:\Programme\Graphviz"
+
+@set "CROSSPATH=F:\Programme\CygWin\usr\src\cross"
+  \endcode
+ * 
+ * Wurden andere Orte als die in dieser Anleitung verwendet, so gilt es nun diese Pfade 
+ * zu korrigieren. Es ist wichtig darauf zu achten, dass alles vor dem Gleichheitszeichen 
+ * (incl.) und die Anführungszeichen am Ende unverändert bleiben. "CROSSPATH" muss an 
+ * dieser Stelle nicht verändert werden, es dient nur einer alternativen Variante 
+ * (siehe \ref devenv_win_sec8 "Alternativen"). \n
+ * Wurde alles kontrolliert und notfalls angepasst, kann nun Visual Studio gestartet werden, 
+ * indem entweder die Datei \"F:\\Daten\\oostubs\\vsproject\\oostubs.sln\" oder 
+ * \"F:\\Daten\\oostubs\\vsproject\\oostubs.vcxproj\" geöffnet wird. Sollte eine neuere 
+ * Version von Visual Studio verwendet werden, so wird nun vermutlich eine Konvertierung 
+ * stattfinden, die hoffentlich auch korrekt funktioniert. Da aktuell keine neuere Visual 
+ * Studio Version existiert, kann dies natürlich momentan nicht getestet werden. \n
+ * Nach dem Start kann nun die Entwicklung losgehen. 
+ * 
+ * \subsection devenv_win_sec5_1 Arbeiten mit Visual Studio als Verwalter
+ * Das ganze System ist so aufgebaut, dass alles über Projekte gesteuert wird. 
+ * Von diesen gibt es fünf Stück. \n 
+ * Das wichtigste Projekt ist "oostubs". In diesem sind die Quellcode-Dateien 
+ * eingebunden und die Code-Autovervollständigung ist entsprechend konfiguriert. Um 
+ * OOStuBS zu bauen gilt es das Projekt zu erstellen. Eine Möglichkeit dazu ist über 
+ * einen Rechtsklick auf das Projekt und "erstellen". Zum Ausführen von OOStuBS kann 
+ * allerdings keine der Standard-Ausführungs-Varianten von Visual Studio ([F5], 
+ * [Strg]+[F5], grüner Pfeil, ...) verwendet werden. Wird dies versucht, so kommt 
+ * u.U. erst eine Warnung, wird der Vorgang dann mit "Ja" fortgesetzt, erscheint Wordpad 
+ * mit einem kleinen Text. \n 
+ * Zum Ausführen von OOStuBS sind die Projekte "run_debug" und "run_normal" vorgesehen. 
+ * Diese müssen erstellt werden, um OOStuBS zu starten. Dies mag jetzt etwas seltsam 
+ * klingen, jedoch ist es eine einfache Variante, mit Visual Studio projektspezifisch 
+ * andere Programme zu starten, ohne dass Visual Studio versucht diese mit den internen 
+ * Mitteln zu debuggen und ohne dass Visual Studio dafür - zum Beispiel über PlugIns - 
+ * verändert werden muss. \n 
+ * Bei "run_debug" wird QEMU wartend gestartet und kurze Zeit später GDB, welches mit 
+ * QEMU Kontakt aufnimmt. Wird hingegen "run_normal" erstellt, so wird kein GDB gestartet 
+ * und QEMU pausiert auch nicht, sondern führt OOStuBS direkt aus. \n 
+ * Die Dokumentation kann mittels "write_doc" erstellt und mittels "show_doc" im 
+ * Standard-Internet-Browser geöffnet werden. 
+ * 
+ * \subsection devenv_win_sec5_2 Anpassung der Projekte bei späteren Vorgaben
+ * Das oostubs-Projekt kennt nur die in Aufgabe 1 vorhandenen Dateien. Dateien späterer 
+ * Aufgaben sind entsprechend noch nicht berücksichtigt und müssen von Hand hinzugefügt 
+ * werden. An dieser Stelle wird anhand der fiktiven Datei src/test/test.cc beispielhaft 
+ * das Vorgehen gezeigt. Es wird davon ausgegangen, dass die Dateien schon im entsprechenden 
+ * code-Ordner existieren (Schritt 7). \n 
+ * Per Rechtsklick auf "src", "Hinzufügen", "neuer Filter" und der Benennung in "test" wird 
+ * ein neuer virtueller Ordner angelegt. Der Übersichtlichkeit wird hier die gleiche Struktur 
+ * verwendet, wie sie real aussieht. Per Rechtsklick auf "test", "Hinzufügen", "Vorhandenes 
+ * Element..." kann eine neue Quelltextdatei (oder mehrere auf einmal) hinzugefügt werden. 
+ * Im Aufgehenden Dialog wird in den korrekten Ordner gewechselt und die entsprechende Datei 
+ * ausgewählt. \n
+ * Fertig.
+ * 
+ * <h4>Bilder</h4>
+ * \htmlonly
+<ul style="margin:2px; padding:0px;">
+          <li style="list-style:none; display:inline; margin:2px; padding:2px;">
+            <a href="UseVS_01.png">
+              <img width=200 src="small_UseVS_01.png" />
+            </a>
+          </li>
+          <li style="list-style:none; display:inline; margin:2px; padding:2px;">
+            <a href="UseVS_02.png">
+              <img width=200 src="small_UseVS_02.png" />
+            </a>
+          </li>
+          <li style="list-style:none; display:inline; margin:2px; padding:2px;">
+            <a href="UseVS_03.png">
+              <img width=200 src="small_UseVS_03.png" />
+            </a>
+          </li>
+          <li style="list-style:none; display:inline; margin:2px; padding:2px;">
+            <a href="UseVS_04.png">
+              <img width=200 src="small_UseVS_04.png" />
+            </a>
+          </li>
+          <li style="list-style:none; display:inline; margin:2px; padding:2px;">
+            <a href="UseVS_05.png">
+              <img width=200 src="small_UseVS_05.png" />
+            </a>
+          </li>
+          <li style="list-style:none; display:inline; margin:2px; padding:2px;">
+            <a href="UseVS_06.png">
+              <img width=200 src="small_UseVS_06.png" />
+            </a>
+          </li>
+          <li style="list-style:none; display:inline; margin:2px; padding:2px;">
+            <a href="UseVS_07.png">
+              <img width=200 src="small_UseVS_07.png" />
+            </a>
+          </li>
+          <li style="list-style:none; display:inline; margin:2px; padding:2px;">
+            <a href="UseVS_08.png">
+              <img width=200 src="small_UseVS_08.png" />
+            </a>
+          </li>
+          <li style="list-style:none; display:inline; margin:2px; padding:2px;">
+            <a href="UseVS_09.png">
+              <img width=200 src="small_UseVS_09.png" />
+            </a>
+          </li>
+          <li style="list-style:none; display:inline; margin:2px; padding:2px;">
+            <a href="UseVS_10.png">
+              <img width=200 src="small_UseVS_10.png" />
+            </a>
+          </li>
+          <li style="list-style:none; display:inline; margin:2px; padding:2px;">
+            <a href="UseVS_11.png">
+              <img width=200 src="small_UseVS_11.png" />
+            </a>
+          </li>
+          <li style="list-style:none; display:inline; margin:2px; padding:2px;">
+            <a href="UseVS_12.png">
+              <img width=200 src="small_UseVS_12.png" />
+            </a>
+          </li>
+          <li style="list-style:none; display:inline; margin:2px; padding:2px;">
+            <a href="UseVS_13.png">
+              <img width=200 src="small_UseVS_13.png" />
+            </a>
+          </li>
+          <li style="list-style:none; display:inline; margin:2px; padding:2px;">
+            <a href="UseVS_14.png">
+              <img width=200 src="small_UseVS_14.png" />
+            </a>
+          </li>
+          <li style="list-style:none; display:inline; margin:2px; padding:2px;">
+            <a href="UseVS_15.png">
+              <img width=200 src="small_UseVS_15.png" />
+            </a>
+          </li>
+          <li style="list-style:none; display:inline; margin:2px; padding:2px;">
+            <a href="UseVS_16.png">
+              <img width=200 src="small_UseVS_16.png" />
+            </a>
+          </li>
+          <li style="list-style:none; display:inline; margin:2px; padding:2px;">
+            <a href="UseVS_17.png">
+              <img width=200 src="small_UseVS_17.png" />
+            </a>
+          </li>
+          <li style="list-style:none; display:inline; margin:2px; padding:2px;">
+            <a href="UseVS_18.png">
+              <img width=200 src="small_UseVS_18.png" />
+            </a>
+          </li>
+          <li style="list-style:none; display:inline; margin:2px; padding:2px;">
+            <a href="UseVS_19.png">
+              <img width=200 src="small_UseVS_19.png" />
+            </a>
+          </li>
+          <li style="list-style:none; display:inline; margin:2px; padding:2px;">
+            <a href="UseVS_20.png">
+              <img width=200 src="small_UseVS_20.png" />
+            </a>
+          </li>
+          <li style="list-style:none; display:inline; margin:2px; padding:2px;">
+            <a href="UseVS_21.png">
+              <img width=200 src="small_UseVS_21.png" />
+            </a>
+          </li>
+          <li style="list-style:none; display:inline; margin:2px; padding:2px;">
+            <a href="UseVS_22.png">
+              <img width=200 src="small_UseVS_22.png" />
+            </a>
+          </li>
+        </ul>
+  \endhtmlonly
  * 
  * \section devenv_win_sec6 Schritt 6 - bootfähiger USB-Stick
+ * Da die Abnahmen der Aufgaben an realen Computern geschehen, ist es notwendig, 
+ * das Betriebssystem auf einem echten Computer direkt auszuführen. Dies geschieht, indem ein 
+ * USB-Stick bootfähig gemacht wird und so eingerichtet wird, dass er OOStuBS startet. 
+ * An dieser Stelle wird Syslinux verwendet, um OOStuBS vom Stick zu starten. \n
+ * Als Arbeitsmaterial wird ein USB-Stick benötigt, der prinzipiell bootfähig ist. <b>Da während 
+ * der Behandlung alle Daten des USB-Sticks vernichtet werden, gilt es diese zu sichern!</b>
+ * 
+ * \subsection devenv_win_sec6_1 FAT32 formatieren
+ * Syslinux kann nicht mit NTFS umgehen, aber mit FAT32. Deshalb muss der Stick FAT32 
+ * formatiert werden. Auch wenn der Stick bereits dieses Format hat, bietet sich eine 
+ * Formatierung an, um alte Leichen und evtl. Fehler im Dateisystem zu bereinigen. \n 
+ * Im Windows Explorer sollte mit einem Rechtsklick auf das Laufwerk des USB-Sticks, 
+ * in diesem Beispiel G:, geklickt und "Formatieren..." ausgewählt werden. Ist der Stick 
+ * nicht zu groß, wird unter "Dateisystem" FAT32 angeboten, welches auszuwählen ist. 
+ * Unter "Größe der Zuordnungseinheiten" wird "Standardgröße" ausgewählt. Es wird empfohlen, 
+ * den Haken bei "Schnellformatierung" zu entfernen. Damit wird der komplette Speicherbereich 
+ * beschrieben. Dann kann "Starten" geklickt werden. \n 
+ * Ist die Formatierung abgeschlossen, kann das Fenster geschlossen werden. \n
+ * Nun müssen auf dem Stick noch drei Ordner angelegt werden: 
+ *  - \"G:\\boot\" 
+ *  - \"G:\\boot\\kernel\" 
+ *  - \"G:\\boot\\syslinux\" 
+ * 
+ * \subsection devenv_win_sec6_2 Syslinux aufbringen
+ * Nun geht es an das Aufspielen von <a href="http://www.syslinux.org/wiki/">Syslinux</a>. Auf 
+ * der Webseite von Syslinux kann über "download" auf 
+ * <a href="http://www.kernel.org/pub/linux/utils/boot/syslinux/">eine Unterwebseite</a> von 
+ * Kernel.org gelangt werden. Hier kann das aktuelle ZIP-Paket (momentan 
+ * <a href="https://www.kernel.org/pub/linux/utils/boot/syslinux/syslinux-5.01.zip">syslinux-5.01.zip</a>) 
+ * herunter geladen zu werden. \n 
+ * Das Paket wird dann nach \"F:\\Temp\\Syslinux\" entpackt. 
+ * Das Paket enthält bereits Windows-Dateien, ein Erstellen dieser ist also nicht mehr 
+ * notwendig. Es wird die Eingabeaufforderung von Windows, mit Administratorrechten 
+ * gestartet - zum Beispiel über "Start", bei "Programme/Dateien durchsuchen" wird "cmd" 
+ * eingegeben, auf das vorgeschlagene "cmd.exe" wird ein Rechtsklick, 
+ * "Als Administrator ausführen" getätigt. Im erscheinenden Fenster wird in das richtige 
+ * Laufwerk gewechselt, hier "F:" und danach in den richtigen Ordner per 
+ * \"cd F:\\Temp\\Syslinux\\win32\" gegangen. Mit dem Befehl 
+ * \"syslinux.exe -m -a -d boot G:\" wird nun Syslinux auf den USB-Stick G: 
+ * übertragen und dieser zugleich bootfähig gemacht. Die Eingabeaufforderung kann nun 
+ * wieder geschlossen werden. Ein Beispielablauf könnte so aussehen: 
+ * \verbatim
+Microsoft Windows [Version 6.1.7601]
+Copyright (c) 2009 Microsoft Corporation. Alle Rechte vorbehalten.
+
+C:\Windows\system32>F:
+
+F:\>cd Temp\Syslinux\win32
+
+F:\Temp\Syslinux\win32>syslinux.exe -m -a -d boot G:
+
+F:\Temp\Syslinux\win32>
+  \endverbatim
+ * 
+ * Der USB-Stick müsste nun außer den drei Ordnern unter boot auch noch die zwei Dateien
+ * \c ldlinux.sys und \c ldlinux.c32 haben:
+  \verbatim
+G:\boot>dir /Ah
+ Datenträger in Laufwerk G: ist OOSTUBS
+ Volumeseriennummer: 2EBA-DC86
+
+ Verzeichnis von G:\boot
+
+15.04.2013  19:58            55.296 ldlinux.sys
+15.04.2013  19:58           115.784 ldlinux.c32
+               2 Datei(en),        171.080 Bytes
+               0 Verzeichnis(se),  8.018.268.160 Bytes frei
+  \endverbatim
+ * 
+ * \subsection devenv_win_sec6_3 Syslinux für OOStuBS konfigurieren
+ * Die Dateien \"F:\\Temp\\Syslinux\\com32\\mboot\\mboot.c32\" und
+ * \"F:\\Temp\\Syslinux\\com32\\lib\\libcom32.c32\" werden nach \"G:\\boot\\syslinux\\\" 
+ * kopiert. 
+ * Dort wird auch eine Text-Datei mit dem Namen "syslinux.cfg" angelegt. Der Inhalt dieser 
+ * müsste dann wie folgt gesetzt werden: 
+ * \code{.py}
+PROMPT 1
+TIMEOUT 10
+DEFAULT oostubs
+DISPLAY bootmenu.lst
+
+LABEL oostubs
+  KERNEL /boot/syslinux/mboot.c32
+  APPEND /boot/kernel/oostubs
+  \endcode
+ * Es folgt das Anlegen der Datei "G:\boot\syslinux\bootmenu.lst": 
+ * 
+ * \code{.py}
+oostubs   - aktuelle OOStuBS-Version [DEFAULT]
+  \endcode
+ * Nachdem dies erledigt ist, muss nur noch die oostubs-Datei von 
+ * \"F:\\Daten\\oostubs\\code\\bin\\oostubs\" nach \"G:\\boot\\kernel\\" kopiert werden. \n 
+ * Der Stick ist nun bereit und es kann OOStuBS gestartet werden. 
+ * Beim Booten mit dem Stick startet das Betriebssystem nahezu sofort. Dies ist dank des 
+ * geringen \c TIMEOUTs der Fall.
+ * 
+ * \subsection devenv_win_sec6_4 Optional: mehrere Versionen
+ * Möchte man für jede Aufgabe eine eigene Bootoption haben - beispielsweise um später 
+ * in Nostalgie zu schwelgen oder nachzusehen, ob bestimmte Fehler auch schon in 
+ * früheren Versionen auftreten, kann ein Menü angelegt werden. In diesem Beispiel 
+ * wurde Aufgabe 1 und 2 bereits bearbeitet wurde und Aufgabe 3 teilweise. Die aktuelle 
+ * Version ist immer noch \"G:\\boot\\kernel\\oostubs\". Die fertige Aufgabe 1 liegt als 
+ * \"G:\\boot\\kernel\\oostubs.A1" vor und Aufgabe 2 als \"G:\\boot\\kernel\\oostubs.A2\". \n
+ * Nun werden zuerst die Datei \"F:\\Temp\\Syslinux\\com32\\menu\\menu.c32\" und 
+ * \"F:\\Temp\\Syslinux\\com32\\libutil\\libutil.c32\" zusätzlich nach \"G:\\boot\\syslinux\\\" 
+ * kopiert. Im Anschluss wird die \"G:\\boot\\syslinux\\syslinux.cfg\"-Datei bearbeitet, 
+ * diese müsste dann wie folgt aussehen: 
+ * \code{.py}
+PROMPT 1
+TIMEOUT 100
+DEFAULT oostubs
+UI /boot/menu.c32
+MENU TITLE OOStuBS Bootmenue mit Syslinux
+
+LABEL -
+	MENU LABEL OOStuBS:
+	MENU DISABLE
+
+LABEL oostubs
+	MENU LABEL ^oostubs   - aktuelle Version [DEFAULT]
+	MENU INDENT 1
+	TEXT HELP
+Dies ist die aktuelle Entwicklungsversion von OOStuBS.
+	ENDTEXT
+	KERNEL /boot/mboot.c32
+	APPEND /boot/kernel/oostubs
+
+LABEL oostubsA1
+	MENU LABEL oostubsA^1 - fertige Aufgabe 1
+	MENU INDENT 1
+	TEXT HELP
+Diese Version von OOStuBS beeinhaltet nur die abgeschlossene Aufgabe 1.
+	ENDTEXT
+	KERNEL /boot/mboot.c32
+	APPEND /boot/kernel/oostubs.A1
+
+LABEL oostubsA2
+	MENU LABEL oostubsA^2 - fertige Aufgabe 2
+	MENU INDENT 1
+	TEXT HELP
+Diese Version von OOStuBS beeinhaltet nur die abgeschlossenen Aufgaben 1 bis 2.
+	ENDTEXT
+	KERNEL /boot/mboot.c32
+	APPEND /boot/kernel/oostubs.A2
+  \endcode
+ * 
+ * Der Wert bei \c TIMEOUT gibt an, wie lange gewartet wird, bis die Standard-Option 
+ * genutzt wird. Die Angabe ist in 1/10 Sekunden, der Wert 100 besagt also 10 Sekunden. \n 
+ * Bei den Namen gilt die "8+3"-Regel zu beachten, max. acht Zeichen vor und drei Zeichen 
+ * nach dem Punkt. \n 
+ * Der Lohn der Mühe sieht dann wie folgt aus: 
+ * 
+ * \htmlonly
+        <ul style="margin:2px; padding:0px;">
+          <li style="list-style:none; display:inline; margin:2px; padding:2px;">
+            <a href="bootSyslinux_01.png">
+              <img width=200 src="small_bootSyslinux_01.png" />
+            </a>
+          </li>
+          <li style="list-style:none; display:inline; margin:2px; padding:2px;">
+            <a href="bootSyslinux_02.png">
+              <img width=200 src="small_bootSyslinux_02.png" />
+            </a>
+          </li>
+          <li style="list-style:none; display:inline; margin:2px; padding:2px;">
+            <a href="bootSyslinux_03.png">
+              <img width=200 src="small_bootSyslinux_03.png" />
+            </a>
+          </li>
+          <li style="list-style:none; display:inline; margin:2px; padding:2px;">
+            <a href="bootSyslinux_04.png">
+              <img width=200 src="small_bootSyslinux_04.png" />
+            </a>
+          </li>
+        </ul>
+  \endhtmlonly
+ * 
+ * Alternativ zu \c menu.c32 kann auch \c vesamenu.c32 verwendet werden, um statt des
+ * Textmodus-Menüs ein grafisches Menü zu erhalten.
  * 
  * \section devenv_win_sec7 Schritt 7 - Vorgaben weiterer Aufgaben
+ * Die Vorgaben zu den weiteren Aufgaben werden als patch-Dateien angeboten. Am Beispiel 
+ * der zweiten Aufgabe wird das Vorgehen zum Einpflegen dieser Veränderungen gezeigt. 
+ * Es wird davon ausgegangen, dass die Datei bereits heruntergeladen wurde. In diesem 
+ * Beispiel ist sie als \"F:\\Daten\\oostubs\\oostubs_task2.patch\" abgelegt. 
+ * \note 
+ * Es empfiehlt sich vor dem Aktualisieren ein Backup der Dateien, am Besten des 
+ * kompletten code-Ordners, anzulegen.
+ * 
+ * Sollte noch ein Programm - Visual Studio, QEMU oder GDB - auf Dateien von OOStuBS 
+ * zugreifen, so sollten diese jetzt beendet werden. Danach wird die Datei 
+ * \"F:\\Daten\\oostubs\\scripts\\doConsole\" gestartet. Der Patch wird dann mittels 
+ * "patch -p1 -i ../oostubs_task2.patch" eingespielt. Der Ablauf könnte dort so aussehen: 
+ * \verbatim
+Setup Environment
+
+F:\Daten\oostubs\code>patch -p1 -i ../oostubs_task2.patch
+patching file include/machine/io_port.h
+patching file Makefile
+patching file include/device/keyboard.h
+patching file include/device/panic.h
+patching file include/guard/gate.h
+patching file include/machine/cpu.h
+patching file include/machine/keyctrl.h
+patching file include/machine/pic.h
+patching file include/machine/plugbox.h
+patching file include/user/task2.h
+patching file src/device/keyboard.cc
+patching file src/device/panic.cc
+patching file src/machine/pic.cc
+patching file src/machine/plugbox.cc
+patching file src/main.cc
+Hunk #1 succeeded at 9 with fuzz 2.
+Hunk #2 succeeded at 28 (offset 4 lines).
+Hunk #3 succeeded at 36 with fuzz 1 (offset 4 lines).
+patching file src/user/task2.cc
+
+F:\Daten\oostubs\code>
+  \endverbatim
+ * Damit sollte alles abgeschlossen sein, das Konsolenfenster kann wieder geschlossen werden. 
+ * 
+ * \subsection devenv_win_sec7_1 Probleme beim Zusammenführen
+ * Das Programm patch versucht die in der "*.patch"-Datei angegebenen Änderungen 
+ * durchzuführen. Dabei muss es die passenden Stellen in den zu ändernden Dateien 
+ * finden, wobei einige Zeilen davor und danach bekannt sind. Wurden hier beispielsweise 
+ * bei der Entwicklung von OOStuBS Manipulationen vorgenommen, kann das Programm die 
+ * Stellen nicht eindeutig identifizieren. In einem solchen Fall meldet patch die Probleme. 
+ * Hier ist eine Beispielausgabe: 
+ * \verbatim
+patching file include/machine/io_port.h
+patching file Makefile
+Hunk #1 FAILED at 9.
+1 out of 1 hunk FAILED -- saving rejects to file Makefile.rej
+patching file include/device/keyboard.h
+patching file include/device/panic.h
+patching file include/guard/gate.h
+patching file include/machine/cpu.h
+patching file include/machine/keyctrl.h
+Hunk #1 succeeded at 20 with fuzz 2 (offset 8 lines).
+patching file include/machine/pic.h
+patching file include/machine/plugbox.h
+patching file include/user/task2.h
+patching file src/device/keyboard.cc
+patching file src/device/panic.cc
+patching file src/machine/pic.cc
+patching file src/machine/plugbox.cc
+patching file src/main.cc
+Hunk #1 FAILED at 9.
+Hunk #2 succeeded at 29 (offset 5 lines).
+Hunk #3 FAILED at 37.
+2 out of 3 hunks FAILED -- saving rejects to file src/main.cc.rej
+patching file src/user/task2.cc
+  \endverbatim
+ * In der Makefile, vermutlich ab Zeile 9, konnte er den "Hunk", also die Änderung 
+ * nicht durchführen. Genauso verhält es sich mit der Datei "code/src/main.cc" ab 
+ * vermutlich Zeile 9 und Zeile 37. In der main.cc-Datei konnte er aber eine von 
+ * drei Änderungen erfolgreich durchführen. Vermutlich bedeutet dabei, dass das 
+ * Programm patch davon ausging, dass dort der Bereich der Änderungen anfängt, da er 
+ * aber nicht erfolgreich war, kann diese Zeilenangabe nur als Anhaltspunkt genommen werden. \n 
+ * In dieser Anleitung wird die Fehlerbehebung am Beispiel von der Makefile gezeigt. \n 
+ * Nach der Einspielung des Patches gibt es drei Dateien in dem Ordner "/code/", 
+ * Makefile, Makefile.orig und Makefile.rej. Die erste Datei enthält alle erfolgreichen 
+ * Änderungen, die zweite Datei ist in der Form vor dem Einspielen des Patches und die 
+ * dritte Datei gibt die nicht erfolgreichen Veränderungen an. In diesem Beispiel sind 
+ * Makefile und Makefile.orig gleich, da es nur eine Veränderung in der makefile gab und 
+ * die fehlgeschlagen ist. Die reject-Datei Makefile.rej sieht so aus:
+ * \code{.py}
+***************
+*** 9,15 ****
+  LDFLAGS=-O0
+  ASMFLAGS=-g
+  
+- OBJECT_IGNORE= task1.o
+  
+  INCPATHS=
+  LDPATHS=
+--- 9,15 ----
+  LDFLAGS=-O0
+  ASMFLAGS=-g
+  
++ OBJECT_IGNORE= task1.o task2.o
+  
+  INCPATHS=
+  LDPATHS=
+  \endcode
+ * 
+ * Die obere Hälfte gibt an, die patch sich die Originaldatei in Zeile 9-15 vorstellt. 
+ * Das Minus gibt an, dass diese Zeile entfernt werden soll. Die zweite Hälfte gibt an, 
+ * wie er sich die fertig veränderte Datei vorstellt, das Plus gibt dabei an, dass die 
+ * Zeile eingefügt wurde. \n 
+ * Schauen wir uns nun die Makefile dieses Beispiels von Zeile 9-15 an: 
+ * \code{.py}
+LDFLAGS=-O0
+ASMFLAGS=-g
+
+#OBJECT_IGNORE= task1.o
+OBJECT_IGNORE= 
+
+INCPATHS=
+  \endcode
+ * 
+ * Ganz offenbar ist das schon die richtige Stelle, sie muss nur leicht abgeändert werden:
+ * 
+ * \code{.py}
+LDFLAGS=-O0
+ASMFLAGS=-g
+
+#OBJECT_IGNORE= task1.o
+OBJECT_IGNORE= task1.o task2.o
+
+INCPATHS=
+  \endcode
+ * 
+ * Schon ist der Patch bei dieser Datei erfolgreich durchgeführt wurden. Jetzt können die 
+ * .orig und .rej-Dateien gelöscht werden. \n 
+ * So muss auch bei anderen Fehlern vorgegangen werden. 
+ * 
+ * \subsection devenv_win_sec7_2 Zugriffsfehler
+ * In seltenen Fällen kann es passieren, dass Dateien Zugriffsrechte verlieren. 
+ * Bei einem Bauversuch von OOStuBS könnte dann beispielsweise folgende Fehlermeldung erscheinen:
+ * \verbatim
+1>  ./include/machine/cgascr.h:13:21: schwerwiegender Fehler: ./include/machine/io_port.h: Permission denied
+1>  Kompilierung beendet.
+  \endverbatim 
+ * Dann ist beim Patchen etwas schief gelaufen und die Zugriffsrechte auf die Datei, 
+ * in diesem Beispiel \"F:\\Daten\\oostubs\\code\\include\\machine\\io_port.h\" müssen 
+ * korrigiert werden (im Explorer Rechtsklick auf die Datei, "Eigenschaften", 
+ * Reiter "Sicherheit", hier kontrollieren, im Notfall "Bearbeiten" und korrigieren). 
+ * Bei den Tests zu dieser Anleitung trat dies Problem jedoch nur auf, als sich nicht an 
+ * diese Anleitung gehalten wurde, genauer gesagt, als Cygwin zum Patchen genutzt wurde 
+ * und nicht das oben angegebene "doConsole". 
+ * 
  * 
  * \section devenv_win_sec8 Alternativen
+ * Es gibt einen Haufen an Möglichkeiten, Betriebssysteme unter Windows zu entwickeln. 
+ * An dieser Stelle werden zwei potentielle Kandidaten für OOStuBS vorgestellt, diese 
+ * erfordern jedoch einen gewissen Aufwand und Zeitinvestition, haben dafür aber gewisse 
+ * Vorteile. 
+ * 
+ * \subsection devenv_win_sec8_1 ELF-Cross-Compiler
+ * 
+ * Bei einem ELF-Cross-Compiler handelt es sich in diesem Fall um eine Entwicklungsumgebung, 
+ * bei der die Ausführbaren Dateien nicht für das laufende Betriebssystem (hier Windows), 
+ * sondern für ein anderes - hier mit ELF-Dateiformat (Linux) - geeignet sind. Die Webseite 
+ * <a href="http://wiki.osdev.org/GCC_Cross-Compiler">OSDev.org</a> stellt eine gute Anleitung 
+ * für die Erstellung eines Cross-Compilers bereit. Diese Anleitung wurde auch für die Tests 
+ * an dieser Stelle verwendet. Sie wurde jedoch nur bis einschließlich "gcc" abgearbeitet, 
+ * mehr ist für die hier verwendeten Zwecke nicht notwendig. \n 
+ * Auch wurden einige Änderungen vorgenommen. Gleich zu Beginn bei "Preperation" wurden die 
+ * beiden exports verändert: 
+ * \code{.py}
+export PREFIX==/usr/src/cross
+export TARGET=i686-pc-linux 
+  \endcode
+ * 
+ * binutils wurde auch leicht anders konfiguriert: 
+ * \verbatim 
+../binutils-2.21.1/configure --target=$TARGET --prefix=$PREFIX --with-gnu-as --with-gnu-ld --disable-nls
+  \endverbatim
+ * Und zu guter letzt wurde auch gcc anders konfiguriert: 
+ * \verbatim 
+../gcc-4.6.1/configure --prefix=$PREFIX --target=$TARGET --disable-nls --enable-language=c,c++ --without-headers \
+          --with-newlib --disable-gdbtk --disable-libssp --enable-threads
+  \endverbatim
+ * 
+ * Die so erzeugten Dateien und Ordner von binutils und gcc liegen damit unter 
+ * \"F:\\Programme\\CygWin\\usr\\src\\cross\". \n 
+ * Von den oben angegebenen Schritten können alle verwendet werden, nur Schritt 4 
+ * muss abgewandelt werden. Bis einschließlich "Windows-Anpassungen - misc" ist noch 
+ * alles in Ordnung. Doch die folgenden Abschnitte sind überflüssig und sollten nicht 
+ * gemacht werden. Zuletzt muss noch die Makefile (\"F:\\Daten\\oostubs\\code\\Makefile\") 
+ * angepasst werden. Hier muss in der Zeile mit "PLATFORM=" ein "windowscross" anstelle 
+ * des vorhandenen - in diesem Beispiel "linux64" - eingetragen werden. \n 
+ * Schritt 5 und folgend kann dann wieder normal genutzt werden. Zu beachten ist nur, 
+ * auch "CROSSPATH" von "\F:\\Daten\\oostubs\\scripts\\setVariable.bat\" zu kontrollieren 
+ * und anzupassen. Im Anschluss wird oostubs dann nicht im PE-Format von Windows, 
+ * sondern ELF-Format von Linux/Unix erstellt. 
+ * 
+ * Der Haupt-Vorteil dieser Variante ist, dass die Vorlage nicht wesentlich 
+ * verändert werden muss. Je weniger Änderungen vorgenommen werden, desto weniger 
+ * neue Fehlerquellen fließen ein. Ebenfalls wird an diversen 
+ * "Betriebssystem-Entwicklungs-Fronten" vermittelt, dass bei einer Entwicklung eines 
+ * Betriebssystems unter Windows ein ELF-Cross-Compiler verwendet werden sollte. 
+ * Hilfe gibt es dann oft nur bei Verwendung eines solchen, da sich die Personen mit 
+ * anderen Varianten nicht auskennen. \n 
+ * Auch können diverse Boot-Manager zwar mit dem ELF-Format, aber nicht mit Windows 
+ * PE-Format umgehen. Und ein Betriebssystem kann noch so toll sein, kann es nicht 
+ * geladen werden, bringt es gar nichts. 
+ * 
+ * \subsection devenv_win_sec8_2 Entwicklung mit Visual Studio
+ * Auch mit Visual Studio direkt können Betriebssysteme erstellt werden. Damit kann 
+ * komplett auf Cygwin verzichtet werden. Jedoch ist es dafür notwendig jeden 
+ * Assembler-Code - sowohl die Assembler-Dateien, als auch die verschiedenen 
+ * Stellen Inline-Assembler - von der AT&T Assembler Syntax auf die von Intel umzustellen. 
+ * Dies ist eine Arbeit, die sich an dieser Stelle erspart wurde. Folglich ist diese 
+ * Variante ungeprüft und es werden keine Pakete angeboten, bei denen dies bereits umgesetzt 
+ * wurde. \n 
+ * Wen das nicht abschreckt: Einen Anhalt für das Vorgehen gibt 
+ * <a href="http://ksrenevasan.blogspot.com/2005/10/writing-multiboot-pe-kernels-using.html">dieser Blogeintrag</a> 
+ * (<a href="http://ksrenevasan.blogspot.com/2005/10/writing-multiboot-pe-kernels-using_03.html">Teil 2</a>). 
+ * Auch hat <a href="http://wiki.osdev.org/Visual_Studio">OSDev.org</a> einen entsprechenden 
+ * Eintrag parat. \n 
+ * Grob gesagt, muss das Gleiche wie für diese Anleitung passieren, der Multi-Boot-Header 
+ * muss korrekt und präsent sein und die Datei genau so vorliegen, wie sie nach dem Laden 
+ * durch ein PE-fähiges Ladeprogramm im RAM aussehen würde. \n 
+ * Der Patcher zum Einspielen der nächsten Aufgaben kann von dieser Webseite als 
+ * Windows-Binaries in Version 2.5.9 (von 2007) herunter geladen werden. 
+ * 
+ * 
+ * \subsection devenv_win_sec8_3 Bootloader GRUB
+ * Eine Alternative zu Syslinux (Schritt 6) ist GRUB. Im Wiki von 
+ * <a href="http://www.lowlevel.eu/wiki">lowlevel.eu</a> kann eine 
+ * <a href="http://www.lowlevel.eu/wiki/GRUB_Installation_auf_einem_USB-Stick#Windows">Anleitung</a> 
+ * gefunden werden, wie GRUB auf einen USB-Stick unter Windows installiert werden kann. Es gibt 
+ * auch eine <a href="http://wiki.osdev.org/GRUB#Installing_to_USB">Anleitung</a> von 
+ * <a href="http://wiki.osdev.org/">OSDev.org</a>, diese empfiehlt dafür eine Linux Live CD. \n 
+ * Beide Varianten wurden nicht getestet. 
+ * 
  * 
  * \section devenv_win_sec9 Quellen und Links
  * 
@@ -368,6 +1008,7 @@ $
  * - <a href="http://www.stack.nl/~dimitri/doxygen/">Doxygen</a>
  * - <a href="http://www.graphviz.org">Graphviz</a>
  * - <a href="http://www.syslinux.org/wiki/">Syslinux</a>
+ * - <a href="http://www.syslinux.org/wiki/index.php/Library_modules">Syslinux Modulabhängigkeiten</a>
  * - <a href="http://www.gnu.org/software/diffutils/manual/html_mono/diff.html">GNU Dokumentation "Comparing and Merging Files"</a>
  * 
  * - <a href="http://wiki.osdev.org/">OSDev.org-Wiki</a>
@@ -378,7 +1019,7 @@ $
  * 
  * \section devenv_win_secA Changelog
  * \author Michael Schiefer
- * \date 12.04.2013
+ * \date 15.04.2013
  * \version 1.1.1
  * 
  * <b>Changelog:</b>
@@ -417,13 +1058,14 @@ $
  *     </td>
  *   </tr>
  *   <tr>
- *     <th style="vertical-align:top;">1.1.1 (12.04.2013)</th>
+ *     <th style="vertical-align:top;">1.1.1 (15.04.2013)</th>
  *     <td>
  *       <ul style="margin:0px; margin-left:2px; margin-bottom:2px;">
  *         <li>Einbindung in Dokumentation</li>
  *         <li>Aktualisierung der einzelnen Programmversionen</li>
  *         <li>Syslinux an 5.0.1 angepasst</li>
  *         <li>Windows XP getestet</li>
+ *         <li>VS-Hilfsdateien angepasst</li>
  *       </ul>
  *     </td>
  *   </tr>

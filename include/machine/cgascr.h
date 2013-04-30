@@ -11,7 +11,7 @@
 
 /* INCLUDES */
 
-#include "machine/io_port.h"
+/* CLASSES */
 
 /** \brief CGA-Dispaly driver
  *
@@ -21,33 +21,24 @@
 class CGA_Screen {
   private:
     
-    
   protected:
     
   public:
     
+    /** 
+     * \brief Constructor
+     */
+    CGA_Screen();
     
-    /** \brief Constructor 
-     * 
-     * \~
-     * \todo write implementation
-     **/
-    CGA_Screen(){};
-  
-    /** \brief Destructor 
-     * 
-     * \~
-     * \todo write implementation
-     **/
-    ~CGA_Screen(){};
+    /** 
+     * \brief Destructor 
+     */
+    ~CGA_Screen();
     
     /** \brief set the cursor position
      *
      * @param x column number of new position 
      * @param y row number of new position
-     * 
-     * \~
-     * \todo write implementation
      */
     void setpos(unsigned short x, unsigned short y);
     
@@ -55,9 +46,6 @@ class CGA_Screen {
      *
      * @param x reference for column number of current position
      * @param y reference for row number of curent position
-     * 
-     * \~
-     * \todo write implementation
      */
     void getpos(unsigned short& x, unsigned short& y) const;
     
@@ -67,85 +55,90 @@ class CGA_Screen {
      * @param y row number of display position
      * @param c character to be displayed
      * @param attrib display attributs
-     * 
-     * \~
-     * \todo write implementation
      */
     void show(unsigned short x, unsigned short y, char c, unsigned char attrib);
     
-    /** \brief print a string to the current position
+    /** 
+     * \~german
+     * \brief gibt eine Zeichenkette an der aktuellen Position aus
      * 
-     * @param string string of characters to be displayed
-     * @param n number auf characters in string
-     * @param attrib display attributs
+     * Als Attribute werden die hinterlegten, aktuellen, Standardwerte verwendet.
      * 
-     * \~
-     * \todo write implementation
+     * @param string 
+     *    Zeichenkette, die ausgegeben werden soll
+     * @param n 
+     *    Anzahl an Zeichen, die von \c string ausgegeben werden soll
+     * 
+     * 
+     * \~english
+     * \brief print a string to the current position
+     * 
+     * @param string 
+     *    string of characters to be displayed
+     * @param n 
+     *    number auf characters in string
      */
-    void print(const char* string, unsigned int n, unsigned char attrib);
+    void print(const char* string, unsigned int n);
     
-    /** \brief scroll the display one line upwards
+    /** 
+     * \~german
+     * \brief das aktuelle Display wird eine Zeile nach oben gescrollt
      *
-     * The new row at the bottom of the screen is filled with spaces.
+     * Die so entstandene neue Zeile wird mit Leertasten aufgefüllt.
+     * Die Attribute dafür sind die aktuellen Standardwerte.
      * 
-     * \todo write implementation
-     **/
+     * \~english
+     * \brief scroll the display one line upwards
+     *
+     * The new row at the bottom of the screen is filled with spaces. The default 
+     * attributes are use.
+     */
     void scrollup();
     
-    /** \brief clear the screen 
+    /** 
+     * \~german
+     * \brief leert den aktuellen Bildschirm
      * 
-     * \~
-     * \todo write implementation
-     **/
+     * Dabei werden alle Zeilen mit Leertasten gefüllt. Als Attribute werden die 
+     * in einer Variable hinterlegten, aktuellen Standardwerte verwendet.
+     * 
+     * \~english
+     * \brief clear the screen 
+     */
     void clear();
     
-    /**
-     * \~german 
-     * \brief setzt die Vordergrundfarbe für die nachfolgenden Zeichen
+    /** 
+     * \~german
+     * \brief ändert die aktuellen Standardattribute
+     * 
+     * Diese aktuellen Standardattribute werden von den meisten Funktionen dieser Klasse 
+     * beim Setzen der CGA-Attribute genutzt.
+     * 
+     * \param fgColor
+     *    Vordergrundfarbe
+     * 
+     * \param bgColor
+     *    Hintergrundfarbe
+     * 
+     * \param blink
+     *    Soll der Text blinken? (true=blinken)
      * 
      * \~english
-     * \brief set foreground color for following characters
+     * \brief changes the used default attribute values 
      * 
-     * \~
-     * \todo write implementation
+     * Most of the function uses these attribute values to determine which values the new printed
+     * text should have.
+     * 
+     * \param fgColor
+     *    foregorund color
+     * 
+     * \param bgColor
+     *    backgorund color
+     * 
+     * \param blink
+     *    indecates if the text should blink (true = should blink)
      */
-    void setFGColor(unsigned char fgColor);
-    
-    /**
-     * \~german 
-     * \brief setzt die Hintergrundfarbe für die nachfolgenden Zeichen
-     * 
-     * \~english
-     * \brief set background color for following characters
-     * 
-     * \~
-     * \todo write implementation
-     */
-    void setBGColor(unsigned char bgColor);
-    
-    /**
-     * \~german 
-     * \brief setzt das Blinken für die nachfolgenden Zeichen
-     * 
-     * \~english
-     * \brief set blinking for following characters
-     * 
-     * \~
-     * \todo write implementation
-     */
-    void setBlink(unsigned char blink);
-    
-    /**
-     * \~german 
-     * \brief setzt die Attribute (alle) für die nachfolgenden Zeichen
-     * 
-     * \~english
-     * \brief set all attributes for following characters
-     * 
-     * \~
-     * \todo write implementation
-     */
-    void setDefaultAttrib(unsigned char attrib);
+    void setAttributes(int fgColor, int bgColor, bool blink);
 };
 
 #endif

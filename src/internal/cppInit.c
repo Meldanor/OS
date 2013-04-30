@@ -20,7 +20,7 @@ extern DestructorPointer DestructorListEnd;
 void constructObjects () {
   ConstructorPointer* start=&ConstructorListStart;
   ConstructorPointer* end  =&ConstructorListEnd;
-
+  
   while(start<end)
       (*start++)();
 }
@@ -31,7 +31,7 @@ void constructObjects () {
 void destructObjects () {
   DestructorPointer* start=&DestructorListStart;
   DestructorPointer* end  =&DestructorListEnd;
-
+  
   while(start<end)
       (*start++)();
 }

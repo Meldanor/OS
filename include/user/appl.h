@@ -16,7 +16,7 @@
  */        
 class Application {
   public:
-                      
+    
     /** \brief Start the application
      *
      * This method must be overwritten by the derived class.

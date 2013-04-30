@@ -3,6 +3,7 @@ CXX=g++
 ASM=gcc
 LD=ld
 EMU=qemu-system-i386
+#EMU=qemu-kvm
 EMUTARGET=${TARGET}
 GDB=gdb
 SED=sed

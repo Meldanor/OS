@@ -9,14 +9,15 @@
 #ifndef __Key_include__
 #define __Key_include__
 
-/** \brief Translator between scancodes ASCII-code and modifier bits.
+/** 
+ * \brief Translator between scancodes ASCII-code and modifier bits.
  */
 class Key {
   private:
     unsigned char asc;
     unsigned char scan;
     unsigned char modi;
-  
+    
     struct mbit {
       enum {
         shift       = 1,
@@ -111,16 +112,36 @@ class Key {
     }
     
     // methods to get the information of the keys: SHIFT, ALT, CTRL, ...
-    bool shift ()       { return modi & mbit::shift; }
-    bool alt_left ()    { return modi & mbit::alt_left; }
-    bool alt_right ()   { return modi & mbit::alt_right; }
-    bool ctrl_left ()   { return modi & mbit::ctrl_left; }
-    bool ctrl_right ()  { return modi & mbit::ctrl_right; }
-    bool caps_lock ()   { return modi & mbit::caps_lock; }
-    bool num_lock ()    { return modi & mbit::num_lock; }
-    bool scroll_lock () { return modi & mbit::scroll_lock; }
-    bool alt ()         { return alt_left ()  | alt_right (); }
-    bool ctrl ()        { return ctrl_left () | ctrl_right (); }
+    bool shift (){ 
+      return modi & mbit::shift; 
+    }
+    bool alt_left (){ 
+      return modi & mbit::alt_left; 
+    }
+    bool alt_right (){ 
+      return modi & mbit::alt_right; 
+    }
+    bool ctrl_left (){ 
+      return modi & mbit::ctrl_left; 
+    }
+    bool ctrl_right (){ 
+      return modi & mbit::ctrl_right; 
+    }
+    bool caps_lock (){ 
+      return modi & mbit::caps_lock; 
+    }
+    bool num_lock (){ 
+      return modi & mbit::num_lock; 
+    }
+    bool scroll_lock (){ 
+      return modi & mbit::scroll_lock; 
+    }
+    bool alt (){ 
+      return alt_left ()  | alt_right (); 
+    }
+    bool ctrl (){ 
+      return ctrl_left () | ctrl_right (); 
+    }
     
     /** \brief overloded cast operator
      *
@@ -141,8 +162,13 @@ class Key {
      */
     struct scan { 
       enum {
-        f1 = 0x3d, del = 0x53, up=72, down=80, left=75, right=77,
-        div = 8
+        f1    = 0x3d, 
+        del   = 0x53, 
+        up    = 72, 
+        down  = 80, 
+        left  = 75, 
+        right = 77,
+        div   = 8
       };
     };
 };

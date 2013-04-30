@@ -179,7 +179,8 @@ class Keyboard_Controller {
     
     /** \brief reboots the computer
      *
-     * This uses a keyboard controller command. **/
+     * This uses a keyboard controller command. 
+     */
     void reboot ();
     
     /** \brief set the speed and delay of repeats of the keyboard. 

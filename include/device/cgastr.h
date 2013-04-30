@@ -38,7 +38,7 @@ class CGA_Stream  : public O_Stream, public CGA_Screen {
      * Diese Funktion wird automatisch aufgerufen, sobald der Puffer voll ist oder eine 
      * "neue Zeile" als Zeichen zum Puffer hinzugefügt werden soll.
      * 
-     * \~endlish
+     * \~english
      * \brief flush the content of the internal buffer
      *
      * It is called automaticaly as soon as the buffer is full or if a newline is
@@ -47,19 +47,15 @@ class CGA_Stream  : public O_Stream, public CGA_Screen {
     virtual void flush();
     
     /**
+     * \~german
+     * \brief verbindet die setAttributes-Funktion von O_Stream mit dem CGA-Treiber
      * 
+     * \~english
+     * \brief combine the setAttributes function of O_Stream with the presented interface of the
+     *        CGA driver
      */
-    virtual void setAttribFGColor(unsigned char ucColor);
+    virtual void setAttributes(int fgColor, int bgColor, bool blink);
     
-    /**
-     * 
-     */
-    virtual void setAttribBGColor(unsigned char ucColor);
-    
-    /**
-     * 
-     */
-    virtual void setAttribBlink(unsigned char ucBlink);
 };
 
 #endif

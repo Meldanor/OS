@@ -23,7 +23,7 @@ class IO_Port {
   public:
     /** \brief Default constructor setting the port **/
     IO_Port (unsigned short a) : address (a) {};
-  
+    
     /** \brief write a byte value to the associated port.
      *
      * @param val byte value to write
@@ -34,7 +34,7 @@ class IO_Port {
         :"d"(address), "a"(val)
       );
     };
-  
+    
     /** \brief  write a word value to the associated port.
      *
      * @param val word value to write
@@ -45,7 +45,7 @@ class IO_Port {
         :"d"(address), "a"(val)
       );
     };
-  
+    
     /** \brief read a byte value from the associated port.
      *
      * @return the read byte value
@@ -66,7 +66,7 @@ class IO_Port {
      *
      * @return the read word value
      */
-    unsigned short inw () const { 	
+    unsigned short inw () const {
       volatile short val=0;
         asm(
           "in %0, %%ax\t\n"

@@ -9,37 +9,85 @@
 #ifndef __o_stream_include__
 #define __o_stream_include__
 
+/* INCLUDES */
 #include "object/strbuf.h"
 
-/**
+/* CLASSES */
+
+/** 
+ * \~german
+ * \brief Definition der Farben
  * 
+ * Durch die Verwendung eines enums werden automatisch die Farben Zahlenwerten zugewiesen.
+ * 
+ * \~english
+ * \brief Color definitions 
+ */
+enum Colors{
+    BLACK,BLUE,GREEN,CYAN,RED,MAGENTA,BROWN,LIGHTGREY,
+    DARKGREY,LIGHTBLUE,LIGHTGREEN,LIGHTCYAN,LIGHTRED,LIGHTMAGENTA,YELLOW,WHITE
+};
+
+/** \brief Manipulation object to set foreground color
+ *
+ *  the object will be created through the call of the constructor.
+ *  Afterwards it is passed via the << operator to the O_Stream object.
+ *  The O_Stream object then passes the internal color to the driver through the abstract setAttribute function.
+ *  Care needs to be taken, since the attribute change will effect the whole buffer including preceding characters.
  */
 class FGColor{
   public:
-    unsigned char fgColor;
-    
-    FGColor(unsigned char color):fgColor(color){}
+    /** 
+     * \brief internal color to be passed to driver
+     */
+    Colors color;
+    /** 
+     * \brief Constructor setting internal color
+     * \param color new foreground color
+     */
+    FGColor(Colors color) : color(color){}
 };
 
-/**
- * 
+/** \brief Manipulation object to set background color
+ *
+ *  the object will be created through the call of the constructor.
+ *  Afterwards it is passed via the << operator to the O_Stream object.
+ *  The O_Stream object then passes the internal color to the driver through the abstract setAttribute function.
+ *  Care needs to be taken, since the attribute change will effect the whole buffer including preceding characters.
  */
 class BGColor{
   public:
-    unsigned char bgColor;
-    
-    BGColor(unsigned char color):bgColor(color){}
+    /** 
+     * \brief internal color to be passed to driver 
+     */
+    Colors color;
+    /** 
+     * \brief Constructor setting internal color
+     * \param color new background color
+     */
+    BGColor(Colors color) : color(color){}
 };
 
-/**
- * 
+/** \brief Manipulation object to set blinking
+ *
+ *  the object will be created through the call of the constructor.
+ *  Afterwards it is passed via the << operator to the O_Stream object.
+ *  The O_Stream object then passes the internal blink attribute to the driver through the abstract setAttribute function.
+ *  Care needs to be taken, since the attribute change will effect the whole buffer including preceding characters.
  */
 class Blink{
   public:
-    bool bBlink;
-    
-    Blink(bool blink):bBlink(blink){}
+    /** 
+     * \brief internal state to be passed to driver 
+     */
+    bool blink;
+    /** 
+     * \brief Constructor setting internal state
+     * \param blink new blinking state
+     */
+    Blink(bool blink) : blink(blink){}
 };
+
 
 /** \brief Manipulation class providing formatted output support
  *
@@ -53,12 +101,46 @@ class Blink{
  */
 class O_Stream : public Stringbuffer{
   protected: 
-    virtual void setAttribFGColor(unsigned char ucColor) = 0;
-    virtual void setAttribBGColor(unsigned char ucColor) = 0;
-    virtual void setAttribBlink(unsigned char ucBlink) = 0;
+    /**
+     * \~german 
+     * \brief ermöglicht dem O_Stream das setzen der Attribute
+     * 
+     * Dem Stream können Attributwerte wie Farbe übergeben werden. Aufgrund der Kapselung 
+     * kann die Klasse aber die Attribute nicht setzen. Deshalb wird die abstrakte Funktion 
+     * deklariert, die in einer abgeleiteten Klasse implementiert werden muss.
+     * 
+     * \param fgColor
+     *    Vordergrundfarbe
+     * 
+     * \param bgColor
+     *    Hintergrundfarbe
+     * 
+     * \param blink
+     *    Soll es blinken?
+     * 
+     * \~english 
+     * \brief interface to set attributes
+     * 
+     * It is possible to stream in attributes like colour. But this class does not know
+     * how to how to set this, the driver has to do it. Hence this abstract function is provided
+     * as an interface and a later, specific class has to implement it.
+     * 
+     * \param fgColor
+     *    new foreground colour
+     * 
+     * \param bgColor
+     *    new background colour
+     * 
+     * \param blink
+     *    blinking state
+     */
+    virtual void setAttributes(int fgColor, int bgColor, bool blink) = 0;
+    
   public:
     
-    /** \brief basis for display of digits eg. 2, 8, 10 or 16 */
+    /** 
+     * \brief basis for display of digits eg. 2, 8, 10 or 16 
+     */
     enum Base{
       bin=2,
       oct=8,
@@ -66,27 +148,15 @@ class O_Stream : public Stringbuffer{
       hex=16
     };
     
-    /** \brief current selected base 
-     * 
-     * \~
-     *  \todo write declaration
-     **/
-    Base base;
-    
-    
-    /** \brief Default constructor initialising with dezimal system 
-     * 
-     * \~
-     *  \todo write implementation
-     **/
-    O_Stream(){};
+    /** 
+     * \brief Default constructor initialising with dezimal system 
+     */
+    O_Stream();
   
-    /** \brief Default Destructor
-     * 
-     * \~
-     * \todo write implementation
-     **/
-    virtual ~O_Stream(){};
+    /** 
+     * \brief Default Destructor
+     */
+    virtual ~O_Stream();
     
     /** \brief overloded output operator
      *
@@ -98,9 +168,6 @@ class O_Stream : public Stringbuffer{
      *
      * @param value value of datatype (has the type of datatype) 
      * @return reference to the current O_Stream object.
-     * 
-     * \~
-     * \todo write implementation
      **/
     O_Stream& operator << (char value); 
     
@@ -134,8 +201,31 @@ class O_Stream : public Stringbuffer{
     /** \copydoc operator<<(char value) **/
     O_Stream& operator << (void* value);
     
+    /** \brief overloded output manipulator
+     * 
+     * Operator << overloading the default operator. It is used to change the way the characters are printed on the screen.
+     * 
+     * @param fgColor new foreground color
+     * @return reference to the current O_Stream object.
+     */
     O_Stream& operator << (FGColor fgColor);
+    
+    /** \brief overloded output manipulator
+     *
+     * Operator << overloading the default operator. It is used to change the way the characters are printed on the screen.
+     *
+     * @param bgColor new background color
+     * @return reference to the current O_Stream object.
+     */
     O_Stream& operator << (BGColor bgColor);
+    
+    /** \brief overloded output manipulator
+     *
+     * Operator << overloading the default operator. It is used to change the way the characters are printed on the screen.
+     *
+     * @param blink new blinking state
+     * @return reference to the current O_Stream object.
+     */
     O_Stream& operator << (Blink blink);
     
     /** \brief overloaded output operator for manipulator functions
@@ -151,8 +241,7 @@ class O_Stream : public Stringbuffer{
      **/
     O_Stream& operator << (O_Stream& (*f) (O_Stream&));
     
-    /** declaration for manipulator functions **/
-    
+    /* declaration for manipulator functions */
     friend O_Stream& endl(O_Stream&);
     friend O_Stream& bin(O_Stream&);
     friend O_Stream& oct(O_Stream&);
@@ -165,48 +254,48 @@ class O_Stream : public Stringbuffer{
  *                          M A N I P U L A T O R E N                        *
 \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-/**
+/*
  * The following methods receive and return a referenz to the current O_Stream
  * object. Class O_Stream defines an operator that can be used to call this so
  * called manipulators. It is eveen possible to embedd the output of the method
  * into the input of the stream.
  * Main goal of the manipulators is to influence the display of the following 
  * output (eg. by choosing a basis for the display of digits).
- **/ 
+ */ 
 
 /** \brief print buffer after adding a newline 
  *
  * \~
  * \todo write implementation
- **/
+ */
 O_Stream& endl(O_Stream &out);
- 
+
 /** \brief switch basis of o_stream to binary 
  *
  * \~
  * \todo write implementation
- **/
+ */
 O_Stream& bin(O_Stream &out);
- 
+
 /** \brief switch basis of o_stream to octal 
  *
  * \~
  * \todo write implementation
- **/
+ */
 O_Stream& oct(O_Stream &out);
- 
+
 /** \brief switch basis of o_stream to decimal 
  *
  * \~
  * \todo write implementation
- **/
+ */
 O_Stream& dec(O_Stream &out);
- 
+
 /** \brief switch basis of o_stream to hexadecimal 
  *
  * \~
  * \todo write implementation
- **/
+ */
 O_Stream& hex(O_Stream &out);
- 
+
 #endif

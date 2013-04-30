@@ -41,34 +41,32 @@
  * 'protected'.
  */
 class Stringbuffer {
-  public:
-    
   protected:
     /** \brief buffer containing the characters
      * 
      * \~
      * \todo write declaration
-     **/
+     */
     
     /** \brief buffer pointer saving the position of the next insertion 
      * 
      * \~
      * \todo write declaration
-     **/
+     */
     short pos;
     
     /** \brief Default constructor setting the buffer empty. 
      * 
      * \~
      * \todo write implementation
-     **/
+     */
     Stringbuffer(){};
     
     /** \brief Default destructor of Stringbuffer
      *
      * \~
      * \todo write implementation
-     **/
+     */
     virtual ~Stringbuffer(){};
     
     /** \brief insert a character into the buffer
@@ -81,7 +79,7 @@ class Stringbuffer {
      * 
      * \~
      * \todo write implementation
-     **/
+     */
     void put(char c);
     
     /** \brief flush the content of the buffer to the screen
@@ -91,8 +89,11 @@ class Stringbuffer {
      * forced. After printing the buffer content the buffer pointer is reseted.
      * To enalbe the Stringbuffer to work with different output mechanisms the
      * method has to be implemented in a subclass of Stringbuffer.
-     **/
+     */
     virtual void flush() = 0;
+    
+  public:
+    
 };
 
 #endif

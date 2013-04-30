@@ -27,7 +27,7 @@ extern "C" void handleExceptionReserved(unsigned short slot);
  * @param slot number of occurred interrupt
  */
 void guardian (unsigned short slot) {
-
+  
 }
 
 
@@ -46,12 +46,9 @@ void guardian (unsigned short slot) {
  *   This are eflags while the error occures.
  * @param cs
  *   This is the value of the cs-register while the error occures.
- * 
- * \todo einkommentieren
  */
 void handleException(unsigned short slot, void* eip, unsigned int eflags, unsigned short cs){
   //Fehler melden
-  /* TODO einkommentieren
   kout.flush();
   kout << endl;
   kout << "Exception "    << slot << " occures";
@@ -60,7 +57,6 @@ void handleException(unsigned short slot, void* eip, unsigned int eflags, unsign
   kout << ", eflags: "  << bin  << eflags;
   kout << ", eip: "     << eip;
   kout << ")"           << endl;
-  */
   
   //und anhalten
   cpu.disable_int();
@@ -83,12 +79,9 @@ void handleException(unsigned short slot, void* eip, unsigned int eflags, unsign
  *   This is the value of the cs-register while the error occures.
  * @param errorCode
  *   This is the error code presented by the cpu for this error. The format is exception specific.
- * 
- * \todo einkommentieren
  */
 void handleExceptionE(unsigned short slot, void* eip, unsigned int eflags, unsigned short cs, unsigned int errorCode){
   //Fehler melden
-  /* TODO einkommentieren
   kout.flush();
   kout << endl;
   kout << "Exception "    << slot << " occures";
@@ -98,7 +91,6 @@ void handleExceptionE(unsigned short slot, void* eip, unsigned int eflags, unsig
   kout << ", eip: "       << eip;
   kout << ", errorCode: " << bin  << errorCode;
   kout << ")"             << endl;
-  */
   
   //und anhalten
   cpu.disable_int();
@@ -113,16 +105,12 @@ void handleExceptionE(unsigned short slot, void* eip, unsigned int eflags, unsig
  * 
  * @param slot 
  *   number of occurred exception as interrupt number
- * 
- * \todo einkommentieren
  */
 void handleExceptionReserved(unsigned short slot){
   //Fehler melden
-  /* TODO einkommentieren
   kout.flush();
   kout << endl;
   kout << "reserved Exception " << slot << " occures" << endl;
-  */
   
   //und anhalten
   cpu.disable_int();

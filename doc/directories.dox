@@ -73,10 +73,10 @@
  /** \dir src/guard
  * 
  * \~german
- * \brief <span style="padding-left:128px">  </span>
+ * \brief <span style="padding-left:128px"> Absicherung und Interrups </span>
  * 
  * \~english
- * \brief <span style="padding-left:128px">  </span>
+ * \brief <span style="padding-left:128px"> interrups and protection </span>
  */ 
  
 /** \dir src/internal

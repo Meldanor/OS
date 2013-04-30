@@ -14,22 +14,30 @@
 /** \file src/internal/boot.S
  * 
  * \~german
- * \brief 
+ * \brief enthält Start-Code
  * 
  * 
  * \~english
- * \brief 
+ * \brief startup code
  * 
  */ 
 
 /** \file src/internal/compat.S
  * 
  * \~german
- * \brief 
+ * \brief Dummy-Funktionen für Fehlerbehandlungen
  * 
+ * C++ baut automatisch einige Fehlerbehandlungsroutinen ein. Da das Betriebssystem selber
+ * ohne Bibliotheken gebaut wird sind auch diese Funktionen nicht hinterlegt und 
+ * müssen selber geschrieben werden. Dies wurde durch leere Funktionen gelöst. \n
+ * Die hinterlegten Funktionen werden in der Regel nie aufgerufen.
  * 
  * \~english
- * \brief 
+ * \brief dummy check functions
+ * 
+ * The compiler links to check function build in standard library. But the operating system
+ * is build without them thus this file contains empty functions with the defined names. \n
+ * Normally this function are not called.
  * 
  */ 
 
@@ -51,12 +59,12 @@
 /** \file src/device/cgastr.cc
  * 
  * \~german
- * \brief 
+ * \brief \ref CGA_Stream ist hier implementiert
  * 
  * 
  * 
  * \~english
- * \brief 
+ * \brief implementation of \ref CGA_Stream
  * 
  * 
  */ 
@@ -64,12 +72,12 @@
 /** \file src/guard/guardian.cc
  * 
  * \~german
- * \brief 
+ * \brief Interrupt-Behandlungsfunktionen
  * 
  * 
  * 
  * \~english
- * \brief 
+ * \brief interrupt handler function
  * 
  * 
  */ 
