@@ -8,6 +8,9 @@
  
 #include "machine/cgascr.h"
 
+ static char* SCREEN_POINTER = (char*)0xb8000;
+ static char* endOfDevice = (char*)0xb8faf;
+
 /** \todo implementieren **/
 CGA_Screen::CGA_Screen(){
   /* ToDo: insert sourcecode */
@@ -16,6 +19,23 @@ CGA_Screen::CGA_Screen(){
 /** \todo implementieren **/
 CGA_Screen::~CGA_Screen(){
   /* ToDo: insert sourcecode */ 
+}
+
+void CGA_Screen::clear()
+{
+
+	char* temp;
+	temp = SCREEN_POINTER;
+
+	while(temp < endOfDevice)
+	{
+		*temp = 0x20;
+		*(temp + 1) = 0x0;
+		temp += 0x2;
+	}
+
+
+
 }
 
 /** \todo implementieren **/
@@ -30,7 +50,13 @@ void CGA_Screen::getpos (unsigned short& x, unsigned short& y) const{
 
 /** \todo implementieren **/
 void CGA_Screen::show (unsigned short x, unsigned short y, char c, unsigned char attrib) {
-  /* ToDo: insert sourcecode */ 
+	// TODO: Implement range check for x and y
+  	char* temp = SCREEN_POINTER;
+  	// Every row = 160 Bytes (80 chars a 2 Byte)
+  	// Every cell in one row = 2 Byte
+  	int pos = x * 2 + y * 160;
+  	temp[pos] = c;
+  	temp[pos + 1] = attrib;
 }
 
 /** \todo implementieren **/

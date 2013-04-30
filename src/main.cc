@@ -48,9 +48,19 @@ extern "C" void kernel(uint32_t magic, const Multiboot_Info* info);
  * 
  **/
 void kernel(uint32_t magic, const Multiboot_Info* info){
+
+	CGA_Screen screen = CGA_Screen();
+	screen.clear();
+	screen.clear();
+	screen.show(0,0,'l', 2);
+	screen.show(1,0,'o', 2);
+	screen.show(2,0,'l', 2);
+	screen.clear();
+	screen.show(0,0,'a', 2);
+	screen.show(1,0,'h', 2);
+	screen.show(2,0,'a', 2);
+/*  TaskClass task(magic, info);
   
-  TaskClass task(magic, info);
-  
-  task.action();
+  task.action();*/
   
 }
