@@ -7,13 +7,20 @@
 \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
  
 #include "machine/cgascr.h"
+#include "machine/io_port.h"
 
- static char* SCREEN_POINTER = (char*)0xb8000;
- static char* endOfDevice = (char*)0xb8faf;
+static char* SCREEN_POINTER = (char*)0xb8000;
+static char* endOfDevice = (char*)0xb8faf;
 
-/** \todo implementieren **/
+static int fgColor;
+static int bgColor;
+static bool blink;
+
+
 CGA_Screen::CGA_Screen(){
-  /* ToDo: insert sourcecode */
+	fgColor = 15;
+	bgColor = 0;
+	blink = false;
 }
 
 /** \todo implementieren **/
@@ -29,7 +36,7 @@ void CGA_Screen::clear()
 
 	while(temp < endOfDevice)
 	{
-		*temp = 0x20;
+		*temp = ' ';
 		*(temp + 1) = 0x0;
 		temp += 0x2;
 	}
@@ -38,14 +45,52 @@ void CGA_Screen::clear()
 
 }
 
-/** \todo implementieren **/
 void CGA_Screen::setpos (unsigned short x, unsigned short y) {
-  /* ToDo: insert sourcecode */ 
+
+	// Is this neccessary or is this paradise?
+	unsigned short pos = (y * 160 + x * 2);
+
+	IO_Port idxPort = IO_Port(0x3d4);
+	IO_Port dataPort = IO_Port(0x3d5);
+
+	// convert the unsignded short to a single byte
+	char lowValue = (char)(pos >> 8);
+	// neccessary values are at right - no shift needed
+	char highValue = (char)(pos);
+
+	// Get control over the high register
+	idxPort.outb(0x14);
+	// Write high value into the high register
+	dataPort.outb(highValue);
+	// Get control over the high register
+	idxPort.outb(0x15);
+	// Write low value into the low register
+	dataPort.outb(lowValue);
 }
 
-/** \todo implementieren **/
 void CGA_Screen::getpos (unsigned short& x, unsigned short& y) const{
-  /* ToDo: insert sourcecode */ 
+	IO_Port idxPort = IO_Port(0x3d4);
+	IO_Port dataPort = IO_Port(0x3d5);
+
+	unsigned short pos = 0;
+
+	//unsigned short val,val_h,val_l;
+
+	idxPort.outb(0x14);
+	// Read from high index
+	// 0000 0000 1110 1001
+	pos = dataPort.inb();
+
+	idxPort.outb(0x15);
+	// Read from low index
+	// 0000 0000 0110 1100
+	// Bitshift the low index value 8 to the left
+	// 0110 1100 0000 0000 
+	// Combined  
+	unsigned short tmp = dataPort.inb();
+	pos = (tmp << 8) | pos;
+	y = pos / 160;
+	x = (pos % 160) >> 1;
 }
 
 /** \todo implementieren **/
