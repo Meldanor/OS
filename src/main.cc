@@ -51,7 +51,7 @@ void kernel(uint32_t magic, const Multiboot_Info* info){
 
 	CGA_Screen screen = CGA_Screen();
 	screen.clear();
-	screen.setpos(0,0);
+	/*screen.setpos(0,0);
 
 	unsigned short x; 
 	unsigned short y;
@@ -68,7 +68,12 @@ void kernel(uint32_t magic, const Multiboot_Info* info){
 	for (int i = 0 ; i < 26; ++i) {
 		screen.show(i, 1, (char)('A' + i), 2);	
 		screen.show(i, 2, (char)('Z' - i), 2);	
-	}
+	}*/
+	screen.setpos(0,0);
+	screen.print("Hallo World", sizeof("Hello World"));
+	screen.clear();
+	screen.setAttributes(13, 6, 1);
+	screen.print("Hallo World", sizeof("Hello World"));
 	/*screen.show(0,0,'l', 2);
 	screen.show(1,0,'o', 2);
 	screen.show(2,0,'l', 2);

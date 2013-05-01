@@ -12,15 +12,10 @@
 static char* SCREEN_POINTER = (char*)0xb8000;
 static char* endOfDevice = (char*)0xb8faf;
 
-static int fgColor;
-static int bgColor;
-static bool blink;
+static unsigned char defaultAttribute;
 
-
-CGA_Screen::CGA_Screen(){
-	fgColor = 15;
-	bgColor = 0;
-	blink = false;
+CGA_Screen::CGA_Screen() {
+    setAttributes(15, 0, 0);
 }
 
 /** \todo implementieren **/
@@ -104,9 +99,14 @@ void CGA_Screen::show (unsigned short x, unsigned short y, char c, unsigned char
   	temp[pos + 1] = attrib;
 }
 
-/** \todo implementieren **/
+
 void CGA_Screen::print (const char* string, unsigned int n) {
-  /* ToDo: insert sourcecode */ 
+	unsigned short x,y;
+	getpos(x,y);
+
+    for (unsigned int i = 0; i < n ; ++i) {
+        show(x+i, y, string[i], defaultAttribute);
+    }
 }
 
 /** \todo implementieren **/
@@ -114,7 +114,7 @@ void CGA_Screen::scrollup () {
   /* ToDo: insert sourcecode */ 
 }
 
-/** \todo implementieren **/
 void CGA_Screen::setAttributes(int fgColor, int bgColor, bool blink){
-  /* ToDo: insert sourcecode */ 
+    // TODO: Error
+    defaultAttribute = fgColor | (bgColor << 4) | (blink << 8);
 }
