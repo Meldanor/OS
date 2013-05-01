@@ -88,7 +88,6 @@ void CGA_Screen::getpos (unsigned short& x, unsigned short& y) const{
 	x = (pos % 160) >> 1;
 }
 
-/** \todo implementieren **/
 void CGA_Screen::show (unsigned short x, unsigned short y, char c, unsigned char attrib) {
 	// TODO: Implement range check for x and y
   	char* temp = SCREEN_POINTER;
@@ -109,9 +108,20 @@ void CGA_Screen::print (const char* string, unsigned int n) {
     }
 }
 
-/** \todo implementieren **/
 void CGA_Screen::scrollup () {
-  /* ToDo: insert sourcecode */ 
+    char *tmp = SCREEN_POINTER + 160;
+    // Shift memory 
+
+    while (tmp != endOfDevice) {
+        *(tmp - 160) = *tmp;
+        ++tmp;
+    }
+    tmp = tmp - 160;
+    while (tmp != endOfDevice) {
+        *tmp = ' ';
+        *(tmp + 1) = 0;
+        tmp += 2;
+    }
 }
 
 void CGA_Screen::setAttributes(int fgColor, int bgColor, bool blink){
