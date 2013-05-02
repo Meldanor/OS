@@ -8,4 +8,8 @@
 
 #include "object/strbuf.h"
 
-/* ToDo: insert sourcecode */ 
+void Stringbuffer::put(char c) {
+	buffer[pos++] = c;
+	if (pos >= BUFFERSIZE)
+		flush();
+}

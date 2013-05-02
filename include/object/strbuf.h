@@ -47,6 +47,7 @@ class Stringbuffer {
      * \~
      * \todo write declaration
      */
+    char buffer[BUFFERSIZE];
     
     /** \brief buffer pointer saving the position of the next insertion 
      * 
