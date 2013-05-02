@@ -100,6 +100,12 @@ class Blink{
  * for display of digits and to print the buffer after an endl.
  */
 class O_Stream : public Stringbuffer{
+    private:
+        void convertNumber(unsigned short value);
+        void convertNumber(unsigned int value);
+        void convertNumber(unsigned long value);
+        void printNumber(unsigned char number);
+        void printPrefix();
   protected: 
     /**
      * \~german 
