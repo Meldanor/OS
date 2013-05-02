@@ -10,6 +10,9 @@
 
 void Stringbuffer::put(char c) {
 	buffer[pos++] = c;
-	if (pos >= BUFFERSIZE)
+	if (pos >= BUFFERSIZE) {
 		flush();
+		pos = 0;
+	}
+		
 }
