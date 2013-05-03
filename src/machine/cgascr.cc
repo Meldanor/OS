@@ -8,6 +8,7 @@
  
 #include "machine/cgascr.h"
 #include "machine/io_port.h"
+#include "config.h"
 
 static char* SCREEN_MEMORY_START = (char*)0xb8000;
 static char* SCREEN_MEMORY_END = (char*)0xb8fa0;
@@ -15,7 +16,7 @@ static char* SCREEN_MEMORY_END = (char*)0xb8fa0;
 static unsigned char defaultAttribute;
 
 CGA_Screen::CGA_Screen() {
-    setAttributes(15, 0, 0);
+	defaultAttribute = DEFAULT_SCREEN_ATTRIB;
 }
 
 CGA_Screen::~CGA_Screen(){
