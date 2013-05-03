@@ -8,12 +8,15 @@
 
 #include "device/cgastr.h"
 
-/** \todo implementieren **/
 void CGA_Stream::flush () {
-  /* ToDo: insert sourcecode */ 
+	const char* tmp = (const char*)buffer;
+	unsigned int n = pos;
+	print(tmp, n);
+	unsigned short x,y;
+	getpos(x,y);
+	setpos(0, y+1);
 }
 
-/** \todo implementieren **/
 void CGA_Stream::setAttributes(int fgColor, int bgColor, bool blink){
-  /* ToDo: insert sourcecode */ 
+	CGA_Screen::setAttributes(fgColor, bgColor, blink);
 }

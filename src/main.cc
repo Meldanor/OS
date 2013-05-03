@@ -62,12 +62,12 @@ void kernel(uint32_t magic, const Multiboot_Info* info){
   	// Test to scroll up
   	// screen.scrollup();
 
-	// Test for printing large texts and autoscrolling in the console
-  	screen.clear();
-  	const char* text = "Dies ist ein ziemlich langer Text, damit er defintiv umgebrochen wird. Leider hat der alte Text, nicht ausgereicht.";
-  	unsigned int n = sizeof("Dies ist ein ziemlich langer Text, damit er defintiv umgebrochen wird. Leider hat der alte Text, nicht ausgereicht.");
-  	for (int i = 0 ; i< 20 ; ++i)
-  		screen.print(text,n);
+    // Test for printing large texts and autoscrolling in the console
+  	// screen.clear();
+  	// const char* text = "Dies ist ein ziemlich langer Text, damit er defintiv umgebrochen wird. Leider hat der alte Text, nicht ausgereicht.";
+  	// unsigned int n = sizeof("Dies ist ein ziemlich langer Text, damit er defintiv umgebrochen wird. Leider hat der alte Text, nicht ausgereicht.");
+  	// for (int i = 0 ; i< 20 ; ++i)
+  	// 	screen.print(text,n);
 
-
+    kout << "Hallo Welt" << endl;
 }
