@@ -99,46 +99,43 @@ O_Stream& O_Stream::operator << (unsigned long value) {
 
 void O_Stream::convertNumber(unsigned short value) {
     printPrefix();
-    unsigned char tmp[16] = {0};
     int i = 0;
     while (value > 0) {
-        tmp[i++] = value % base;
+        shortBuffer[i++] = value % base;
         value = value / base;
     }
     if (--i == -1)
         put('0');
     for (; i >= 0; --i) {
-        printNumber(tmp[i]);
+        printNumber(shortBuffer[i]);
     }
 }
 
 void O_Stream::convertNumber(unsigned int value) {
     printPrefix();
-    unsigned char tmp[32] = {0};
     int i = 0;
     while (value > 0) {
-        tmp[i++] = value % base;
+        intBuffer[i++] = value % base;
         value = value / base;
     }
     if (--i == -1)
         put('0');
     for (; i >= 0; --i) {
-        printNumber(tmp[i]);
+        printNumber(intBuffer[i]);
     }
 }
 
 void O_Stream::convertNumber(unsigned long value) {
     printPrefix();
-    unsigned char tmp[64] = {0};
     int i = 0;
     while (value > 0) {
-        tmp[i++] = value % base;
+        longBuffer[i++] = value % base;
         value = value / base;
     }
     if (--i == -1)
         put('0');
     for (; i >= 0; --i) {
-        printNumber(tmp[i]);
+        printNumber(longBuffer[i]);
     }
 }
 

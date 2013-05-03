@@ -101,6 +101,11 @@ class Blink{
  */
 class O_Stream : public Stringbuffer{
     private:
+        // buffer to convert the numbers to strings
+        unsigned char shortBuffer[sizeof(short) * 8];
+        unsigned char intBuffer[sizeof(int) * 8];
+        unsigned char longBuffer[sizeof(long) * 8];
+
         void convertNumber(unsigned short value);
         void convertNumber(unsigned int value);
         void convertNumber(unsigned long value);
