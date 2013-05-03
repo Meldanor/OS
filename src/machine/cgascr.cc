@@ -134,5 +134,22 @@ void CGA_Screen::scrollup () {
 }
 
 void CGA_Screen::setAttributes(int fgColor, int bgColor, bool blink) {
-    defaultAttribute = fgColor | (bgColor << 4) | (blink << 7);
+	if (fgColor != -1) {
+		// Delete the forground color flaggs
+		defaultAttribute &= ~(15);
+		// Set the forground color flag
+		defaultAttribute |= fgColor;
+	}
+	if (bgColor != -1) {
+		// delete the background color flaggs
+		defaultAttribute &= ~(7 << 4);
+		// Set the background color flag
+		defaultAttribute |= bgColor << 4;
+	}
+	if (blink != -1) {
+		// delete the blink flag
+		defaultAttribute &= ~(1 << 7);
+		// set the blink flag
+		defaultAttribute |= blink << 7;
+	}
 }

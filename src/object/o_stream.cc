@@ -174,19 +174,19 @@ O_Stream& O_Stream::operator << (void* value) {
 
 O_Stream& O_Stream::operator << (FGColor fgColor) {
   // TODO: How to prevent that all colors are set???
-    setAttributes(fgColor.color, 0 , 0);
+    setAttributes(fgColor.color, -1 , -1);
     return *this;
 }
 
 O_Stream& O_Stream::operator << (BGColor bgColor) {
   // TODO: How to prevent that all colors are set???  
-    setAttributes(0, bgColor.color , 0);
+    setAttributes(-1, bgColor.color , -1);
     return *this;
 }
 
 O_Stream& O_Stream::operator << (Blink blink) {
 // TODO: How to prevent that all colors are set???
-    setAttributes(0, 0 , blink.blink);
+    setAttributes(-1, -1 , blink.blink);
     return *this;
 }
 
