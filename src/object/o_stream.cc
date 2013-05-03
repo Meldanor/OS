@@ -33,7 +33,7 @@ O_Stream& O_Stream::operator << (unsigned char value) {
 
 O_Stream& O_Stream::operator << (char* value) {
     // Print the null terminated string
-    for (char* tmp = value; tmp != '\0'; ++tmp) {
+    for (char* tmp = value; *tmp != '\0'; ++tmp) {
         put (*tmp);
     }
     return *this;
@@ -41,7 +41,7 @@ O_Stream& O_Stream::operator << (char* value) {
 
 O_Stream& O_Stream::operator << (const char* value) {
     // Print the null terminated string
-    for (char* tmp = (char*)value; tmp != '\0'; ++tmp) {
+    for (char* tmp = (char*)value; *tmp != '\0'; ++tmp) {
         put (*tmp);
     }
     return *this;
@@ -166,7 +166,7 @@ void O_Stream::printPrefix() {
 }
 
 O_Stream& O_Stream::operator << (void* value) {
-    for (char* tmp = (char*)value; tmp != '\0'; ++tmp) {
+    for (char* tmp = (char*)value; *tmp != '\0'; ++tmp) {
         put (*tmp);
     }
     return *this;
