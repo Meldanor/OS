@@ -100,6 +100,11 @@ void CGA_Screen::print (const char* string, unsigned int n) {
 	// Get the current cursor position
 	getpos(x,y);
 	for (unsigned int i = 0 ; i < n ; ++i, ++x) {
+		if (string[i] == '\n') {
+			++y;
+			x = 0;
+			continue;
+		}
 		// Current line is full - switch to next line
 		if (x >= 80) {
 			++y;
@@ -134,22 +139,9 @@ void CGA_Screen::scrollup () {
 }
 
 void CGA_Screen::setAttributes(int fgColor, int bgColor, bool blink) {
-	if (fgColor != -1) {
-		// Delete the forground color flaggs
-		defaultAttribute &= ~(15);
-		// Set the forground color flag
-		defaultAttribute |= fgColor;
-	}
-	if (bgColor != -1) {
-		// delete the background color flaggs
-		defaultAttribute &= ~(7 << 4);
-		// Set the background color flag
-		defaultAttribute |= bgColor << 4;
-	}
-	if (blink != -1) {
-		// delete the blink flag
-		defaultAttribute &= ~(1 << 7);
-		// set the blink flag
-		defaultAttribute |= blink << 7;
-	}
+	defaultAttribute = (fgColor & 0xF) | ((bgColor & 0xE0) << 4);
+	if (blink) 
+		defaultAttribute |= (blink << 7);
+	else
+		defaultAttribute &= ~(blink << 7);
 }

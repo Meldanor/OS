@@ -106,6 +106,10 @@ class O_Stream : public Stringbuffer{
         void convertNumber(unsigned long value);
         void printNumber(unsigned char number);
         void printPrefix();
+
+        int curFGColor;
+        int curBGColor;
+        bool isBlinking;
   protected: 
     /**
      * \~german 

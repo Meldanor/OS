@@ -49,8 +49,14 @@ extern "C" void kernel(uint32_t magic, const Multiboot_Info* info);
  **/
 void kernel(uint32_t magic, const Multiboot_Info* info){
 
-	CGA_Screen screen = CGA_Screen();
+    // kout.clear();
+    // kout.setpos(32, 1);
+    // kout << "OOStuBs - Task 1" << endl;
+    // kout << FGColor(RED) << "Deine Oma" << FGColor(WHITE) << endl;
 	
+
+    TaskClass task(magic,info);
+    task.action();
 	// Test for setting and getting the cursor position
   	// unsigned short x,y;
   	// screen.getpos(x,y);
@@ -69,5 +75,5 @@ void kernel(uint32_t magic, const Multiboot_Info* info){
   	// for (int i = 0 ; i< 20 ; ++i)
   	// 	screen.print(text,n);
 
-    kout << "Hallo Welt" << endl;
+    // kout << "Hallo Welt" << endl;
 }

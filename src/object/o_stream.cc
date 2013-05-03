@@ -99,12 +99,14 @@ O_Stream& O_Stream::operator << (unsigned long value) {
 
 void O_Stream::convertNumber(unsigned short value) {
     printPrefix();
-    unsigned char tmp[16];
+    unsigned char tmp[16] = {0};
     int i = 0;
-    do {
+    while (value > 0) {
         tmp[i++] = value % base;
         value = value / base;
-    }while (value > 0);
+    }
+    if (--i == -1)
+        put('0');
     for (; i >= 0; --i) {
         printNumber(tmp[i]);
     }
@@ -112,12 +114,14 @@ void O_Stream::convertNumber(unsigned short value) {
 
 void O_Stream::convertNumber(unsigned int value) {
     printPrefix();
-    unsigned char tmp[32];
+    unsigned char tmp[32] = {0};
     int i = 0;
-    do {
+    while (value > 0) {
         tmp[i++] = value % base;
         value = value / base;
-    }while (value > 0);
+    }
+    if (--i == -1)
+        put('0');
     for (; i >= 0; --i) {
         printNumber(tmp[i]);
     }
@@ -125,12 +129,14 @@ void O_Stream::convertNumber(unsigned int value) {
 
 void O_Stream::convertNumber(unsigned long value) {
     printPrefix();
-    unsigned char tmp[64];
+    unsigned char tmp[64] = {0};
     int i = 0;
-    do {
+    while (value > 0) {
         tmp[i++] = value % base;
         value = value / base;
-    }while (value > 0);
+    }
+    if (--i == -1)
+        put('0');
     for (; i >= 0; --i) {
         printNumber(tmp[i]);
     }
@@ -173,24 +179,28 @@ O_Stream& O_Stream::operator << (void* value) {
 }
 
 O_Stream& O_Stream::operator << (FGColor fgColor) {
-  // TODO: How to prevent that all colors are set???
-    setAttributes(fgColor.color, -1 , -1);
+    curFGColor = fgColor.color;
+    setAttributes(curFGColor, curBGColor , isBlinking);
+    flush();
     return *this;
 }
 
-O_Stream& O_Stream::operator << (BGColor bgColor) {
-  // TODO: How to prevent that all colors are set???  
-    setAttributes(-1, bgColor.color , -1);
+O_Stream& O_Stream::operator << (BGColor bgColor) {  
+    curBGColor = bgColor.color;
+    setAttributes(curFGColor, curBGColor , isBlinking);
+    flush();
     return *this;
 }
 
 O_Stream& O_Stream::operator << (Blink blink) {
-// TODO: How to prevent that all colors are set???
-    setAttributes(-1, -1 , blink.blink);
+    isBlinking = blink.blink;
+    setAttributes(curFGColor, curBGColor , isBlinking);
+    flush();
     return *this;
 }
 
 O_Stream& endl (O_Stream& os) {
+    os.put('\n');
     os.flush();
     return os;
 }
@@ -206,7 +216,7 @@ O_Stream& oct (O_Stream& os) {
 }
 
 O_Stream& dec (O_Stream& os) {
-    base = O_Stream::oct;
+    base = O_Stream::dec;
     return os;
 }
 

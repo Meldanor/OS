@@ -9,12 +9,8 @@
 #include "device/cgastr.h"
 
 void CGA_Stream::flush () {
-	const char* tmp = (const char*)buffer;
-	unsigned int n = pos;
-	print(tmp, n);
-	unsigned short x,y;
-	getpos(x,y);
-	setpos(0, y+1);
+	print(buffer, pos);
+	pos = 0;
 }
 
 void CGA_Stream::setAttributes(int fgColor, int bgColor, bool blink){
