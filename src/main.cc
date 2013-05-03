@@ -58,4 +58,5 @@ void kernel(uint32_t magic, const Multiboot_Info* info){
   	screen.setpos(x+1,y);
   	screen.getpos(x,y);
   	screen.show(x,y, 'B', 2); 
+  	screen.scrollup();
 }

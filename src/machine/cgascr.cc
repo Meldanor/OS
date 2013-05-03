@@ -9,8 +9,8 @@
 #include "machine/cgascr.h"
 #include "machine/io_port.h"
 
-static char* SCREEN_POINTER = (char*)0xb8000;
-static char* endOfDevice = (char*)0xb8faf;
+static char* SCREEN_MEMORY_START = (char*)0xb8000;
+static char* SCREEN_MEMORY_END = (char*)0xb8fa0;
 
 static unsigned char defaultAttribute;
 
@@ -22,7 +22,7 @@ CGA_Screen::~CGA_Screen(){
 }
 
 void CGA_Screen::clear() {
-	for (char* tmp = SCREEN_POINTER ; tmp < endOfDevice ; tmp += 2) {
+	for (char* tmp = SCREEN_MEMORY_START ; tmp < SCREEN_MEMORY_END ; tmp += 2) {
 		*tmp = ' ';
 		*(tmp +1) = '\0';
 	}	
@@ -75,7 +75,7 @@ void CGA_Screen::getpos (unsigned short& x, unsigned short& y) const{
 
 void CGA_Screen::show (unsigned short x, unsigned short y, char c, unsigned char attrib) {
 	// TODO: Implement range check for x and y
-  	char* temp = SCREEN_POINTER;
+  	char* temp = SCREEN_MEMORY_START;
   	// Every row = 160 Bytes (80 chars a 2 Byte)
   	// Every cell in one row = 2 Byte
   	int pos = x * 2 + y * 160;
@@ -94,15 +94,15 @@ void CGA_Screen::print (const char* string, unsigned int n) {
 }
 
 void CGA_Screen::scrollup () {
-    char *tmp = SCREEN_POINTER + 160;
+    char *tmp = SCREEN_MEMORY_START + 160;
     // Shift memory 
 
-    while (tmp != endOfDevice) {
+    while (tmp != SCREEN_MEMORY_END) {
         *(tmp - 160) = *tmp;
         ++tmp;
     }
-    tmp = tmp - 160;
-    while (tmp != endOfDevice) {
+    tmp = SCREEN_MEMORY_END - 160;
+    while (tmp <= SCREEN_MEMORY_END) {
         *tmp = ' ';
         *(tmp + 1) = 0;
         tmp += 2;
