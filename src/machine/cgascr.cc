@@ -18,74 +18,59 @@ CGA_Screen::CGA_Screen() {
     setAttributes(15, 0, 0);
 }
 
-/** \todo implementieren **/
 CGA_Screen::~CGA_Screen(){
-  /* ToDo: insert sourcecode */ 
 }
 
-void CGA_Screen::clear()
-{
-
-	char* temp;
-	temp = SCREEN_POINTER;
-
-	while(temp < endOfDevice)
-	{
-		*temp = ' ';
-		*(temp + 1) = 0x0;
-		temp += 0x2;
-	}
-
-
-
+void CGA_Screen::clear() {
+	for (char* tmp = SCREEN_POINTER ; tmp < endOfDevice ; tmp += 2) {
+		*tmp = ' ';
+		*(tmp +1) = '\0';
+	}	
 }
 
 void CGA_Screen::setpos (unsigned short x, unsigned short y) {
 
-	// Is this neccessary or is this paradise?
-	unsigned short pos = (y * 160 + x * 2);
+	unsigned short pos = (x + y * 80);
 
 	IO_Port idxPort = IO_Port(0x3d4);
 	IO_Port dataPort = IO_Port(0x3d5);
 
-	// convert the unsignded short to a single byte
-	char lowValue = (char)(pos >> 8);
-	// neccessary values are at right - no shift needed
-	char highValue = (char)(pos);
+	// Shift bits of the left side of the position to the right 
+	unsigned char highValue = (unsigned char)(pos >> 8);
+	unsigned char lowValue = (unsigned char)(pos);
 
+	// Write the values to the graphic card register
 	// Get control over the high register
-	idxPort.outb(0x14);
+	idxPort.outb(14);
 	// Write high value into the high register
 	dataPort.outb(highValue);
 	// Get control over the high register
-	idxPort.outb(0x15);
+	idxPort.outb(15);
 	// Write low value into the low register
 	dataPort.outb(lowValue);
 }
 
 void CGA_Screen::getpos (unsigned short& x, unsigned short& y) const{
+
+	unsigned short pos = 0;
 	IO_Port idxPort = IO_Port(0x3d4);
 	IO_Port dataPort = IO_Port(0x3d5);
 
-	unsigned short pos = 0;
+	// Access the high register
+	idxPort.outb(14);
+	// Read the high bytes of the cursor position
+	unsigned char highValue = dataPort.inb();
 
-	//unsigned short val,val_h,val_l;
+	// Access the low register
+	idxPort.outb(15);
+	// Read the low bytes of the cursor position
+	unsigned char lowValue = dataPort.inb();
 
-	idxPort.outb(0x14);
-	// Read from high index
-	// 0000 0000 1110 1001
-	pos = dataPort.inb();
-
-	idxPort.outb(0x15);
-	// Read from low index
-	// 0000 0000 0110 1100
-	// Bitshift the low index value 8 to the left
-	// 0110 1100 0000 0000 
-	// Combined  
-	unsigned short tmp = dataPort.inb();
-	pos = (tmp << 8) | pos;
-	y = pos / 160;
-	x = (pos % 160) >> 1;
+	// Combine the high and low byte to one value
+	pos = ((((unsigned short)highValue) << 8) | lowValue);
+	// calculate the x and y position from the pos
+	y = pos / 80;
+	x = (pos % 80);
 }
 
 void CGA_Screen::show (unsigned short x, unsigned short y, char c, unsigned char attrib) {

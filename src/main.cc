@@ -50,42 +50,12 @@ extern "C" void kernel(uint32_t magic, const Multiboot_Info* info);
 void kernel(uint32_t magic, const Multiboot_Info* info){
 
 	CGA_Screen screen = CGA_Screen();
-	screen.clear();
-	/*screen.setpos(0,0);
+	
+  	unsigned short x,y;
+  	screen.getpos(x,y);
 
-	unsigned short x; 
-	unsigned short y;
-
-	screen.getpos(x,y);
-
-	screen.show(x,y, 'A', 2);
-
-	for (int i = 0 ; i< 26 ; ++i) {
-		screen.setpos(i, 3);
-		screen.getpos(x, y);
-		screen.show(x, y, (char)('A' + i), 2);
-	}
-	for (int i = 0 ; i < 26; ++i) {
-		screen.show(i, 1, (char)('A' + i), 2);	
-		screen.show(i, 2, (char)('Z' - i), 2);	
-	}*/
-	screen.setpos(0,0);
-	screen.print("Hallo World", sizeof("Hello World"));
-	screen.setpos(0,1);
-	screen.print("Hallo World", sizeof("Hello World"));
-	screen.setpos(0,2);
-	screen.print("Hallo World", sizeof("Hello World"));
-	screen.scrollup();
-	/*screen.show(0,0,'l', 2);
-	screen.show(1,0,'o', 2);
-	screen.show(2,0,'l', 2);
-	screen.clear();
-	screen.show(0,0,'a', 2);
-	screen.show(1,0,'h', 2);
-	screen.show(2,0,'a', 2);
-	*/
-/*  TaskClass task(magic, info);
-  
-  task.action();*/
-  
+  	screen.show(x,y, 'A', 2); 
+  	screen.setpos(x+1,y);
+  	screen.getpos(x,y);
+  	screen.show(x,y, 'B', 2); 
 }
