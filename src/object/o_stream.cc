@@ -102,7 +102,7 @@ void O_Stream::convertNumber(unsigned short value) {
     unsigned char tmp[16];
     int i = 0;
     do {
-        tmp[i] = value % base;
+        tmp[i++] = value % base;
         value = value / base;
     }while (value > 0);
     for (; i >= 0; --i) {
@@ -115,7 +115,7 @@ void O_Stream::convertNumber(unsigned int value) {
     unsigned char tmp[32];
     int i = 0;
     do {
-        tmp[i] = value % base;
+        tmp[i++] = value % base;
         value = value / base;
     }while (value > 0);
     for (; i >= 0; --i) {
@@ -128,7 +128,7 @@ void O_Stream::convertNumber(unsigned long value) {
     unsigned char tmp[64];
     int i = 0;
     do {
-        tmp[i] = value % base;
+        tmp[i++] = value % base;
         value = value / base;
     }while (value > 0);
     for (; i >= 0; --i) {
