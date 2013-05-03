@@ -9,6 +9,7 @@
 #ifndef __screen_include__
 #define __screen_include__
 
+#include "machine/io_port.h"
 /* INCLUDES */
 
 /* CLASSES */
@@ -20,7 +21,21 @@
  */
 class CGA_Screen {
   private:
-    
+    unsigned char colorAttribute;
+
+    // Pointer to the start of the graphical memory
+    static const char* SCREEN_MEMORY_START;
+    static const char* SCREEN_MEMORY_END;
+
+    // Number of coloumns (chars in one line)
+    static const int COLUMNS = 80;
+    // Number of lines 
+    static const int ROWS = 25;
+
+    // The ports to the graphic card register
+    static const IO_Port INDEX_PORT;
+    static const IO_Port DATA_PORT;
+
   protected:
     
   public:
