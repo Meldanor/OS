@@ -180,22 +180,22 @@ O_Stream& O_Stream::operator << (void* value) {
 
 O_Stream& O_Stream::operator << (FGColor fgColor) {
     curFGColor = fgColor.color;
-    setAttributes(curFGColor, curBGColor , isBlinking);
     flush();
+    setAttributes(curFGColor, curBGColor , isBlinking);
     return *this;
 }
 
 O_Stream& O_Stream::operator << (BGColor bgColor) {  
     curBGColor = bgColor.color;
-    setAttributes(curFGColor, curBGColor , isBlinking);
     flush();
+    setAttributes(curFGColor, curBGColor , isBlinking);
     return *this;
 }
 
 O_Stream& O_Stream::operator << (Blink blink) {
     isBlinking = blink.blink;
-    setAttributes(curFGColor, curBGColor , isBlinking);
     flush();
+    setAttributes(curFGColor, curBGColor , isBlinking);
     return *this;
 }
 
