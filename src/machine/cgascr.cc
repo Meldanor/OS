@@ -116,27 +116,22 @@ void CGA_Screen::print (const char* string, unsigned int n) {
 }
 
 void CGA_Screen::scrollup () {
-    char *tmp = SCREEN_MEMORY_START + 160;
-    // Shift memory 
-
-    while (tmp != SCREEN_MEMORY_END) {
-        *(tmp - 160) = *tmp;
-        ++tmp;
+    // Shift memory
+    for (char* tmp = SCREEN_MEMORY_START + 160 ; tmp <= SCREEN_MEMORY_END ; ++tmp) {
+    	*(tmp - 160) = *tmp;
     }
-    // Clear the last lin
-    tmp = SCREEN_MEMORY_END - 160;
-    while (tmp <= SCREEN_MEMORY_END) {
-        *tmp = ' ';
-        *(tmp + 1) = 0;
-        tmp += 2;
+    // Clear last line
+	for (char* tmp = SCREEN_MEMORY_END - 160 ; tmp <= SCREEN_MEMORY_END ; tmp += 2) {
+    	*tmp = ' ';
+    	*(tmp + 1) = 0;
     }
+    
     // update the cursor position
     unsigned short x,y;
     getpos(x,y);
     setpos(x,y-1);
 }
 
-void CGA_Screen::setAttributes(int fgColor, int bgColor, bool blink){
-    // TODO: Error
-    defaultAttribute = fgColor | (bgColor << 4) | (blink << 8);
+void CGA_Screen::setAttributes(int fgColor, int bgColor, bool blink) {
+    defaultAttribute = fgColor | (bgColor << 4) | (blink << 7);
 }
