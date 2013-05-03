@@ -51,12 +51,23 @@ void kernel(uint32_t magic, const Multiboot_Info* info){
 
 	CGA_Screen screen = CGA_Screen();
 	
-  	unsigned short x,y;
-  	screen.getpos(x,y);
+	// Test for setting and getting the cursor position
+  	// unsigned short x,y;
+  	// screen.getpos(x,y);
+  	// screen.show(x,y, 'A', 2); 
+  	// screen.setpos(x+1,y);
+  	// screen.getpos(x,y);
+  	// screen.show(x,y, 'B', 2);
 
-  	screen.show(x,y, 'A', 2); 
-  	screen.setpos(x+1,y);
-  	screen.getpos(x,y);
-  	screen.show(x,y, 'B', 2); 
-  	screen.scrollup();
+  	// Test to scroll up
+  	// screen.scrollup();
+
+	// Test for printing large texts and autoscrolling in the console
+  	// screen.clear();
+  	// const char* text = "Dies ist ein ziemlich langer Text, damit er defintiv umgebrochen wird. Leider hat der alte Text, nicht ausgereicht.";
+  	// unsigned int n = sizeof("Dies ist ein ziemlich langer Text, damit er defintiv umgebrochen wird. Leider hat der alte Text, nicht ausgereicht.");
+  	// for (int i = 0 ; i< 20 ; ++i)
+  	// 	screen.print(text,n);
+
+
 }

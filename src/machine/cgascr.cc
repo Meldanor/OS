@@ -22,13 +22,20 @@ CGA_Screen::~CGA_Screen(){
 }
 
 void CGA_Screen::clear() {
+	// Reset the screen
 	for (char* tmp = SCREEN_MEMORY_START ; tmp < SCREEN_MEMORY_END ; tmp += 2) {
 		*tmp = ' ';
 		*(tmp +1) = '\0';
-	}	
+	}
+	// Reset the cursor
+	setpos(0,0);
 }
 
 void CGA_Screen::setpos (unsigned short x, unsigned short y) {
+	// Range check
+	if (x < 0 || y < 0 || x >= 80 || y >= 25) {
+		return;
+	}
 
 	unsigned short pos = (x + y * 80);
 
@@ -74,7 +81,10 @@ void CGA_Screen::getpos (unsigned short& x, unsigned short& y) const{
 }
 
 void CGA_Screen::show (unsigned short x, unsigned short y, char c, unsigned char attrib) {
-	// TODO: Implement range check for x and y
+	// Range check
+	if (x >= 80 || y >= 25) {
+		return;
+	}
   	char* temp = SCREEN_MEMORY_START;
   	// Every row = 160 Bytes (80 chars a 2 Byte)
   	// Every cell in one row = 2 Byte
@@ -86,11 +96,23 @@ void CGA_Screen::show (unsigned short x, unsigned short y, char c, unsigned char
 
 void CGA_Screen::print (const char* string, unsigned int n) {
 	unsigned short x,y;
+	// Get the current cursor position
 	getpos(x,y);
-
-    for (unsigned int i = 0; i < n ; ++i) {
-        show(x+i, y, string[i], defaultAttribute);
-    }
+	for (unsigned int i = 0 ; i < n ; ++i, ++x) {
+		// Current line is full - switch to next line
+		if (x >= 80) {
+			++y;
+			x = 0;
+		}
+		//  Complete console is full - scroll up
+		if (y >= 25) {
+			--y;
+			scrollup();
+		}
+		show(x, y, string[i], defaultAttribute);
+	}
+	// Update the cursor position
+    setpos(x, y);
 }
 
 void CGA_Screen::scrollup () {
@@ -101,12 +123,17 @@ void CGA_Screen::scrollup () {
         *(tmp - 160) = *tmp;
         ++tmp;
     }
+    // Clear the last lin
     tmp = SCREEN_MEMORY_END - 160;
     while (tmp <= SCREEN_MEMORY_END) {
         *tmp = ' ';
         *(tmp + 1) = 0;
         tmp += 2;
     }
+    // update the cursor position
+    unsigned short x,y;
+    getpos(x,y);
+    setpos(x,y-1);
 }
 
 void CGA_Screen::setAttributes(int fgColor, int bgColor, bool blink){
