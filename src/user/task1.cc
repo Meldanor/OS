@@ -179,5 +179,5 @@ void Task1::action(){
   
   parseAndPrint();
   
-  //testKeyboard(); 
+  testKeyboard(); 
 }

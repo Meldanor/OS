@@ -258,12 +258,15 @@ void Keyboard_Controller::set_led (Leds led, bool on) {
     while (data_port.inb() != ack) {
         // Wait until the keyboard controller answer with an acknowledged
     }
-    // 
+    // Set the bit
     if (on) {
         leds |= led;
     }
+    // Delete the bit
     else {
         leds &= ~(led);
     }
+
+    // Write new led status
     data_port.outb(leds);
 }
