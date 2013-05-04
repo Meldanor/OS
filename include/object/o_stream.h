@@ -212,7 +212,13 @@ class O_Stream : public Stringbuffer{
     
     /** \copydoc operator<<(char value) **/
     O_Stream& operator << (long value);
-    
+
+    /** \copydoc operator<<(char value) **/
+    O_Stream& operator << (float value);
+
+    /** \copydoc operator<<(char value) **/
+    O_Stream& operator << (double value);
+
     /** \copydoc operator<<(char value) **/
     O_Stream& operator << (void* value);
     

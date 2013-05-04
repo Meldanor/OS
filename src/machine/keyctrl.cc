@@ -222,13 +222,24 @@ Key Keyboard_Controller::key_hit () {
   return invalid;
 }
 
-/**
- * \todo implementieren
- */
 void Keyboard_Controller::set_repeat_rate (unsigned char speed, unsigned char delay) {
-  
-  /* TODO: Insert sourcecode */
-  
+
+    while (ctrl_port.inb() & inpb) {
+        // Wait until keyboard in buffer is empty
+
+    }
+    // Now the buffer is empty
+    // Tell the keyboard controller, we want to update the speed and delay
+    data_port.outb(cmd_set_speed);
+
+    while (data_port.inb() != ack) {
+        // Wait until the keyboard controller answer with an acknowledged
+    }
+    // Delete possible other bits
+    speed &= 0x1F;
+    delay &= 0x3;
+    // Write new value to the controller
+    data_port.outb(speed | (delay << 5));
 }
 
 /**
@@ -236,6 +247,23 @@ void Keyboard_Controller::set_repeat_rate (unsigned char speed, unsigned char de
  */
 void Keyboard_Controller::set_led (Leds led, bool on) {
   
- /* TODO: Insert sourcecode */
+    while (ctrl_port.inb() & inpb) {
+        // Wait until keyboard in buffer is empty
 
+    }
+    // Now the buffer is empty
+    // Tell the keyboard controller, we want to update the speed and delay
+    data_port.outb(cmd_set_led);
+
+    while (data_port.inb() != ack) {
+        // Wait until the keyboard controller answer with an acknowledged
+    }
+    // 
+    if (on) {
+        leds |= led;
+    }
+    else {
+        leds &= ~(led);
+    }
+    data_port.outb(leds);
 }
