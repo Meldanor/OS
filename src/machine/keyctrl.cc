@@ -9,6 +9,7 @@
 /* INCLUDES */
 #include "machine/keyctrl.h"
 #include "machine/cpu.h"
+#include "device/cgastr.h"
 
 extern CPU cpu;
 
@@ -210,24 +211,39 @@ void Keyboard_Controller::reboot () {
   ctrl_port.outb (cmd_cpu_reset);       // reset
 }
 
-/**
- * \todo implementieren
- */
 Key Keyboard_Controller::key_hit () {
-  //Var init
-  Key invalid;                          // invalid default key
-  
-  /* TODO: Insert sourcecode */
-  
-  return invalid;
+
+    // invalid default key
+    Key invalid; 
+
+    // Get the status of the keycontroller
+    unsigned char status = ctrl_port.inb();
+    // No key pressed or status is from the mouse -> 
+    // Return invalid key
+    if (!(status & outb) || (status & auxb)) {
+        return invalid;
+    }
+
+    // Read data from the keyboard controller
+    code = data_port.inb();
+
+    // Decode the data from the keyboard controller
+    if (!key_decoded())
+        return invalid;
+
+    // Map the decoded data to an ASCII char
+    get_ascii_code();
+
+    // Return the key
+    return gather;
 }
 
 void Keyboard_Controller::set_repeat_rate (unsigned char speed, unsigned char delay) {
 
     while (ctrl_port.inb() & inpb) {
         // Wait until keyboard in buffer is empty
-
     }
+
     // Now the buffer is empty
     // Tell the keyboard controller, we want to update the speed and delay
     data_port.outb(cmd_set_speed);
@@ -242,15 +258,12 @@ void Keyboard_Controller::set_repeat_rate (unsigned char speed, unsigned char de
     data_port.outb(speed | (delay << 5));
 }
 
-/**
- * \todo implementieren
- */
 void Keyboard_Controller::set_led (Leds led, bool on) {
-  
+
     while (ctrl_port.inb() & inpb) {
         // Wait until keyboard in buffer is empty
-
     }
+
     // Now the buffer is empty
     // Tell the keyboard controller, we want to update the speed and delay
     data_port.outb(cmd_set_led);

@@ -159,7 +159,6 @@ void Task1::testKeyboard(){
   kout << endl << "Keyboard test: ";
   kout.flush();
   kout.getpos(x,y);
-  
   while(true){
     Key k=keyboard.key_hit();
     if(k.valid()){
