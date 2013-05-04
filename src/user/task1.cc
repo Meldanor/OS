@@ -165,7 +165,7 @@ void Task1::testKeyboard(){
       kout.setpos(x,y);
       kout << k.ascii() << " (" << (unsigned int)k.scancode() << ")   ";
       kout.flush();
-      kout.setpos(x+1,y);
+      kout.setpos(x++,y);
     }
   }
 }

@@ -76,4 +76,17 @@ void kernel(uint32_t magic, const Multiboot_Info* info){
   	// 	screen.print(text,n);
 
     // kout << "Hallo Welt" << endl;
+
+    // kout.clear();
+
+    // unsigned x,y;
+    // getpos(x,y);
+    // while(true) {
+    //     Key k = keyboard.key_hit();
+    //     if (!k.isValid())
+    //         continue;
+    //     kout << k.ascii();
+        
+    //     kout.flush();
+    // }
 }
