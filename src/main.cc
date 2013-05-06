@@ -57,6 +57,12 @@ void kernel(uint32_t magic, const Multiboot_Info* info){
 
     TaskClass task(magic,info);
     task.action();
+    // for (int j = 0; j < 10 ; ++j) {
+    //   for (int i = 0 ; i < 1234567 ; ++i);
+    // kout.scrollup();  
+    // }
+    // for (int i = 0 ; i < 1234567 ; ++i);
+    // kout.scrollup();
 	// Test for setting and getting the cursor position
   	// unsigned short x,y;
   	// screen.getpos(x,y);

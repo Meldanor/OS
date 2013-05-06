@@ -144,7 +144,7 @@ void CGA_Screen::setAttributes(int fgColor, int bgColor, bool blink) {
 	// 0xE0== 0111 0000 (Mask for back color)
 	// Shift the black ground color forth to the left to be at the right position
 	// Combine the both with the LOGICAL OR
-	colorAttribute = (fgColor & 0xF) | ((bgColor & 0xE0) << 4);
+	colorAttribute = (fgColor) | ((bgColor ) << 4);
 	// Set the bit
 	if (blink) 
 		colorAttribute |= 0x80;
