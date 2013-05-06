@@ -268,18 +268,29 @@ void Keyboard_Controller::set_led (Leds led, bool on) {
     // Tell the keyboard controller, we want to update the speed and delay
     data_port.outb(cmd_set_led);
 
-    while (data_port.inb() != ack) {
-        // Wait until the keyboard controller answer with an acknowledged
-    }
-    // Set the bit
-    if (on) {
-        leds |= led;
-    }
-    // Delete the bit
-    else {
-        leds &= ~(led);
+    unsigned char status =0;
+    do {
+        status = ctrl_port.inb();
+    } while ((status & outb) == 0);
+
+    if (data_port.inb() == ack) {
+        // Set the bit
+        if (on) {
+            leds |= led;
+        }
+        // Delete the bit
+        else {
+            leds &= ~(led);
+        }
+        // Write new led status
+        data_port.outb(leds);
+
+        // Leeren des Tastatur controller
+        do {
+            status = ctrl_port.inb();
+        } while ((status & outb) == 0);
+
+        data_port.inb();
     }
 
-    // Write new led status
-    data_port.outb(leds);
 }

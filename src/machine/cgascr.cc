@@ -102,6 +102,10 @@ void CGA_Screen::print (const char* string, unsigned int n) {
 		if (string[i] == '\n') {
 			++y;
 			x = 0;
+            if (y >= ROWS) {
+                --y;
+                scrollup();
+            }
 			continue;
 		}
 		// Current line is full - switch to next line
@@ -114,7 +118,7 @@ void CGA_Screen::print (const char* string, unsigned int n) {
 			--y;
 			scrollup();
 		}
-		show(x, y, string[i], colorAttribute);
+        show(x, y, string[i], colorAttribute);
 	}
 	// Update the cursor position
     setpos(x, y);
