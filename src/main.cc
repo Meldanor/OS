@@ -6,36 +6,52 @@
  *                                                                                               *
 \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-/* INCLUDES */
-
+/* * * * * * * * * * * * * * * * * * * * * * * * *\
+#                   INCLUDES                      #
+\* * * * * * * * * * * * * * * * * * * * * * * * */
 #include "machine/multiboot.h"
 #include "machine/cpu.h"
-#include "machine/keyctrl.h"
+#include "machine/pic.h"
+#include "machine/plugbox.h"
+
+#include "device/keyboard.h"
 #include "device/cgastr.h"
+#include "device/panic.h"
+
 #include "user/task1.h"
 
-/* MACROS */
 
+/* * * * * * * * * * * * * * * * * * * * * * * * *\
+#                    MACROS                       #
+\* * * * * * * * * * * * * * * * * * * * * * * * */
 /// \~german  festlegen, welche Aufgabenanwendung verwendet werden soll
 /// \~english define which task is desired
-#define USE_TASK           10
+#define USE_TASK           20
 
 //load the necessary header and define the class name of the task
 #if USE_TASK == 10
   #include "user/task1.h"
   typedef Task1 TaskClass;
   
+#elif USE_TASK == 20
+  #include "user/task2.h"
+  typedef Task2 TaskClass;
+
 #endif
 
-
-/* GLOBAL OBJECTS */
-
-CGA_Stream kout;
-Keyboard_Controller keyboard;
+/* * * * * * * * * * * * * * * * * * * * * * * * *\
+#                GLOBAL OBJECTS                   #
+\* * * * * * * * * * * * * * * * * * * * * * * * */
 CPU cpu;
+PIC pic;
+Panic panic;
+Plugbox plugbox;
+CGA_Stream kout;
+Keyboard keyboard;
 
-/* METHODS  */
-
+/* * * * * * * * * * * * * * * * * * * * * * * * *\
+#                   METHODS                       #
+\* * * * * * * * * * * * * * * * * * * * * * * * */
 extern "C" void kernel(uint32_t magic, const Multiboot_Info* info);
 
 /** \brief kernel entry point
@@ -49,50 +65,9 @@ extern "C" void kernel(uint32_t magic, const Multiboot_Info* info);
  **/
 void kernel(uint32_t magic, const Multiboot_Info* info){
 
-    // kout.clear();
-    // kout.setpos(32, 1);
-    // kout << "OOStuBs - Task 1" << endl;
-    // kout << FGColor(RED) << "Deine Oma" << FGColor(WHITE) << endl;
-	
-
-    TaskClass task(magic,info);
-    task.action();
-    // for (int j = 0; j < 10 ; ++j) {
-    //   for (int i = 0 ; i < 1234567 ; ++i);
-    // kout.scrollup();  
-    // }
-    // for (int i = 0 ; i < 1234567 ; ++i);
-    // kout.scrollup();
-	// Test for setting and getting the cursor position
-  	// unsigned short x,y;
-  	// screen.getpos(x,y);
-  	// screen.show(x,y, 'A', 2); 
-  	// screen.setpos(x+1,y);
-  	// screen.getpos(x,y);
-  	// screen.show(x,y, 'B', 2);
-
-  	// Test to scroll up
-  	// screen.scrollup();
-
-    // Test for printing large texts and autoscrolling in the console
-  	// screen.clear();
-  	// const char* text = "Dies ist ein ziemlich langer Text, damit er defintiv umgebrochen wird. Leider hat der alte Text, nicht ausgereicht.";
-  	// unsigned int n = sizeof("Dies ist ein ziemlich langer Text, damit er defintiv umgebrochen wird. Leider hat der alte Text, nicht ausgereicht.");
-  	// for (int i = 0 ; i< 20 ; ++i)
-  	// 	screen.print(text,n);
-
-    // kout << "Hallo Welt" << endl;
-
-    // kout.clear();
-
-    // unsigned x,y;
-    // getpos(x,y);
-    // while(true) {
-    //     Key k = keyboard.key_hit();
-    //     if (!k.isValid())
-    //         continue;
-    //     kout << k.ascii();
-        
-    //     kout.flush();
-    // }
+    #if USE_TASK == 10
+        TaskClass task(magic, info);
+    #else
+        TaskClass task;
+    #endif
 }

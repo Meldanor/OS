@@ -6,13 +6,16 @@
  *                                                                                               *
 \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+/* * * * * * * * * * * * * * * * * * * * * * * * *\
+#                   INCLUDES                      #
+\* * * * * * * * * * * * * * * * * * * * * * * * */
 #include "user/task1.h"
-#include "device/cgastr.h"
-#include "machine/keyctrl.h"
+#include "useful/kout.h"
+#include "useful/keyboard.h"
 
-extern CGA_Stream kout;
-extern Keyboard_Controller keyboard;
-
+/* * * * * * * * * * * * * * * * * * * * * * * * *\
+#                   METHODS                       #
+\* * * * * * * * * * * * * * * * * * * * * * * * */
 Task1::Task1(uint32_t magic, const ::Multiboot_Info* mbi)
             : Application(), magic(magic), mbi(reinterpret_cast<const Multiboot_Info*>(mbi)) {
   

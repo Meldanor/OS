@@ -120,6 +120,108 @@ make debug
  * die in leicht abgewandelter Form auch unter Linux funktioniert.
  * 
  * 
+ * \section devenv_sec5 Patch als Vorgabe
+ * Einige Vorgaben werden als Patchdatei angeboten. Diese kommen mit Hilfe von patch in das 
+ * vorhandene System eingebunden werden. In diesem Beispiel wird von einer bestehenden 
+ * Implementation der ersten Aufgabe ausgegangen. Die Vorgabe der zweiten soll gepatcht werden.
+ * Der Patch liegt bereits im Hauptverzeichnis von OOStuBS. Auch die Konsole befindet sich 
+ * in dem Ordner.
+ * \verbatim
+patch -p1 < Aufgabe2.patch
+\endverbatim
+ * 
+ * Im Anschluss sollten die Dateien der Vorgaben und die Änderungen der Vorgaben vorhanden sein.
+ * 
+ * Sind Binärdateien, wie Bilder, in den Änderungen erhalten, so werden diese als extra Paket 
+ * angeboten, die dann manuell in den richtigen Ordner kopiert werden müssen.
+ * 
+ * \subsection devenv_sec5_1 Fehler beim Patch
+ * Es kann vorkommen, dass patch nicht alle Stellen zum Ändern finden kann oder dass andere 
+ * Konflikte auftreten. Diese müssen dann manuell behoben werden. Nehmen wir folgendes Beispiel
+ * an:
+ * \verbatim
+ubuntu@ubuntuPC:/data/oostubs/oostubs$ patch -p1 < Aufgabe2.patch 
+patching file doc/task1.dox
+patching file doc/task2.dox
+patching file include/device/keyboard.h
+patching file include/device/panic.h
+patching file include/guard/gate.h
+patching file include/machine/cpu.h
+patching file include/machine/pic.h
+patching file include/machine/plugbox.h
+patching file include/useful/keyboard.h
+patching file include/useful/panic.h
+patching file include/useful/plugbox.h
+patching file include/user/task2.h
+patching file src/device/keyboard.cc
+patching file src/device/panic.cc
+patching file src/machine/pic.cc
+patching file src/machine/plugbox.cc
+patching file src/main.cc
+Hunk #3 FAILED at 65.
+1 out of 3 hunks FAILED -- saving rejects to file src/main.cc.rej
+patching file src/user/task1.cc
+patching file src/user/task2.cc
+ubuntu@ubuntuPC:/data/oostubs/oostubs$ 
+\endverbatim
+ * Die Datei main.cc konnte nicht erfolgreich aktualisiert werden. Die letzte der drei 
+ * Änderungen schlug fehl, vermutlich um Zeile 65. Durch den Fehler gibt es jetzt drei 
+ * verschiedene Dateien: main.cc, main.cc.rej und main.cc.orig. Die erste Datei enthält
+ * alle erfolgreichen Änderungen, die Datei .rej enthält die Fehler und orig enthält 
+ * den Zustand der Datei vor dem Einspielen der patch-Datei.
+ * Die rej-Datei könnte Aufschluss geben:
+ *
+ * \code{.py}
+ --- src/main.cc	2013-04-27 09:04:58.609128500 +0200
++++ src/main.cc	2013-05-01 19:13:16.249563000 +0200
+@@ -65,7 +80,11 @@
+ void kernel(uint32_t magic, const Multiboot_Info* info){
+   
++  #if USE_TASK == 10
+   TaskClass task(magic, info);
++  #else
++    TaskClass task;
++  #endif
+   
+   task.action();
+   
+
+\endcode
+ *  
+ * Offenbar konnte der Codeabschnitt nicht in der Datei gefunden werden. In der neuen 
+ * Datei hätte der gezeigte Quellcodeabschnitt von Zeile 65 bis Zeile 80 gehen und der Teil 
+ * mit dem Plus hätte eingefügt werden sollen.
+ * 
+ * Ein Blick in die aktuelle main.cc-Datei ab Zeile 65 ergibt:
+ * \code{.py}
+void kernel(uint32_t magic, const Multiboot_Info* info){
+  TaskClass task( magic, info);
+  
+  task.action();
+  
+}
+
+\endcode
+ * 
+ * In der Datei gibt es kleine Änderungen bzgl. Leerzeilen und Leertasten. Die vier neuen Zeilen 
+ * können leicht eingefügt werden und dann ist auch der Patch komplett.
+ * 
+ * <h4>Bilder</h4>
+ * \htmlonly
+        <ul style="margin:2px; padding:0px;">
+          <li style="list-style:none; display:inline; margin:2px; padding:2px;">
+            <a href="patch_01.png">
+              <img width=200 src="small_patch_01.png" />
+            </a>
+          </li>
+          <li style="list-style:none; display:inline; margin:2px; padding:2px;">
+            <a href="patch_02.png">
+              <img width=200 src="small_patch_02.png" />
+            </a>
+          </li>
+        </ul>
+ \endhtmlonly
+ * 
  * \~english
  * \page devenv Development Environment
  * There is no english description. Use the german version.

@@ -11,11 +11,11 @@
  * \section task1_sec2 Aufgabe
  * Testausgaben können die Fehlersuche vereinfachen und bieten eine gute Gelegenheit, 
  * sich in eine vorgegebene Entwicklungsumgebung einzuarbeiten. Aus diesem Grund soll 
- * unser Übungsbetriebssystem oo-StuBS als erstes solche Ausgabefunktionen erhalten. 
+ * unser Übungsbetriebssystem OOStuBS als erstes solche Ausgabefunktionen erhalten. 
  * Die zu implementierenden Ausgabefunktionen sollen ähnlich wie die IO-Streams der 
  * C++ Bibliothek verwendet werden können und mit Hilfe der Klassen IO_Port (wird von 
  * uns vorgegeben), CGA_Screen, Stringbuffer, O_Stream und CGA_Stream umgesetzt werden. 
- * Damit die Ausgabefunktionen auch überall in oo-StuBS verwendet werden können, soll ein 
+ * Damit die Ausgabefunktionen auch überall in OOStuBS verwendet werden können, soll ein 
  * globales CGA_Stream Objekt kout erzeugt werden. Um darüber hinaus auch interaktive 
  * Anwendungsprogramme zu erlauben, sollt ihr zusätzlich noch die Klasse Keyboard_Controller 
  * vervollständigen, die neben Key in der Vorgabe enthalten ist.
@@ -24,21 +24,23 @@
     size="4.2,4.2";
     node [shape=box, style="solid,filled", fillcolor=white];
     
-    {rank=same; kernelF;task1C;}
-    subgraph cluster_submain {
-      style=filled;
-      color=none;
-      label = "";
-      labeljust=l;
       kernelF [label="kernel(...)", shape=oval, URL="\ref kernel"];
-    }
     
     subgraph cluster_subuser {
+      rank="source";
       style=filled;
       color=lightgray;
       label = "user";
       labeljust=l;
       task1C [label="Task1", URL="\ref Task1"];
+    }
+    
+    subgraph cluster_subdevice {
+      style=filled;
+      color=lightgray;
+      label = "device";
+      labeljust=r;
+      cgastrC [label="CGA_Stream", URL="\ref CGA_Stream", color=blue];
     }
     
     subgraph cluster_submachine {
@@ -56,14 +58,6 @@
       keyC -> keyctrlC [arrowhead="ediamond"];
     }
     
-    subgraph cluster_subdevice {
-      style=filled;
-      color=lightgray;
-      label = "device";
-      labeljust=r;
-      cgastrC [label="CGA_Stream", URL="\ref CGA_Stream", color=blue];
-    }
-    
     subgraph cluster_subobject {
       style=filled;
       color=lightgray;
@@ -74,7 +68,7 @@
       ostrC -> strbufC [arrowhead="empty"];
     }
     
-    kernelF -> task1C [arrowhead="open"];
+    kernelF -> task1C [arrowhead="open", constraint=false];
     task1C -> cgastrC [arrowhead="open"];
     task1C -> keyctrlC [arrowhead="open"];
     cgastrC -> cgascrC [arrowhead="empty"];
@@ -123,7 +117,7 @@
  * den Video-RAM zu übertragen. Die Umsetzung des ASCII-Codes in eine Pixelmatrix wird 
  * dann eigenständig von der Grafikkarte vorgenommen.
  *
- * In der Übung zur Vorlesung sollen alle Ausgaben des Betriebssystems oo-StuBS im 
+ * In der Übung zur Vorlesung sollen alle Ausgaben des Betriebssystems OOStuBS im 
  * CGA-Textmodus erfolgen. Dieser Modus wird von fast allen Grafikkarten unterstützt, 
  * ist einfach zu programmieren und für ein Übungsbetriebssystem vollkommen ausreichend.
  * 
@@ -261,7 +255,7 @@
  * dann über das Datenregister. Daten- und Indexregister können direkt mit Hilfe der in und 
  * out Befehle angesprochen werden, da ihnen eigenständige Portadressen zugeordnet sind:
  * <table rules="all" border="1">
- *   <tr><td><strong>Port</strong></td><td><strong>Register</strong></td><td><strong>Zugriffsart</strong></td></tr>
+ *   <tr><th><strong>Port</strong></th><th><strong>Register</strong></th><th><strong>Zugriffsart</strong></th></tr>
  *   <tr><td>3d4</td><td>Indexregister</td><td>nur schreiben</td></tr>
  *   <tr><td>3d5</td><td>Datenregister</td><td>lesen und schreiben</td></tr>
  * </table>

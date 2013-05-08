@@ -6,25 +6,45 @@
  *                                                                                               *
 \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-/* INCLUDES */
-
+/* * * * * * * * * * * * * * * * * * * * * * * * *\
+#                    INCLUDES                     #
+\* * * * * * * * * * * * * * * * * * * * * * * * */
 #include "useful/kout.h"
 #include "useful/cpu.h"
 
-/* GLOBAL OBJECTS */
-
-/* declare methods as c-like  */
+/* * * * * * * * * * * * * * * * * * * * * * * * *\
+#            declare methods as c-like            #
+\* * * * * * * * * * * * * * * * * * * * * * * * */
 extern "C" void guardian (unsigned short slot);
 
 extern "C" void handleException(unsigned short slot, void* eip, unsigned int eflags, unsigned short cs);
 extern "C" void handleExceptionE(unsigned short slot, void* eip, unsigned int eflags, unsigned short cs, unsigned int errorCode);
 extern "C" void handleExceptionReserved(unsigned short slot);
 
-/* METHODS  */
 
-/** \brief Entry point for interrupts
+/* * * * * * * * * * * * * * * * * * * * * * * * *\
+#                    METHODS                      #
+\* * * * * * * * * * * * * * * * * * * * * * * * */
+/** 
+ * \~german
+ * \brief Einsprungspunkt für Interrupts
+ * 
+ * Da alle Interrupts hier auftreffen müssen die entsprechenden Interrupts aufgeteilt werden.
+ * Für die ersten 256 Interrupts kann die Plugbox verwendet werden. Alle anderen und damit 
+ * ungültigen Nummern sollten auf das globale \ref Panic -Objekt umgeleitet werden.
+ * 
+ * \param slot
+ *   Nummer des aufgetretenen Interrupts
+ * 
+ * \todo implementieren
+ * 
+ * \~english
+ * \brief Entry point for interrupts
+ * 
+ * \param slot 
+ *   number of occurred interrupt
  *
- * @param slot number of occurred interrupt
+ * \todo write implementation
  */
 void guardian (unsigned short slot) {
   
@@ -51,6 +71,7 @@ void handleException(unsigned short slot, void* eip, unsigned int eflags, unsign
   //Fehler melden
   kout.flush();
   kout << endl;
+  kout << FGColor(RED) << BGColor(BLACK) << Blink(false);
   kout << "Exception "    << slot << " occures";
   kout << endl            << "(";
   kout << "cs: "        << dec  << cs;
@@ -84,6 +105,7 @@ void handleExceptionE(unsigned short slot, void* eip, unsigned int eflags, unsig
   //Fehler melden
   kout.flush();
   kout << endl;
+  kout << FGColor(RED) << BGColor(BLACK) << Blink(false);
   kout << "Exception "    << slot << " occures";
   kout << endl            << "(";
   kout << "cs: "          << dec  << cs;
@@ -110,6 +132,7 @@ void handleExceptionReserved(unsigned short slot){
   //Fehler melden
   kout.flush();
   kout << endl;
+  kout << FGColor(RED) << BGColor(BLACK) << Blink(false);
   kout << "reserved Exception " << slot << " occures" << endl;
   
   //und anhalten
