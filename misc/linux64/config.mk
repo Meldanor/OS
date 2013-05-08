@@ -16,6 +16,6 @@ LDFLAGS=-e entry -T misc/sections -melf_i386
 ASMFLAGS=--32
 
 OBJDUMPFLAGS=-Cxd
-EMUFLAGS+=-no-kvm -net none -vga std -kernel
+EMUFLAGS+=-net none -vga std -kernel
 DEBUGFLAGS+=-s -S
 GDBFLAGS+=-x misc/gdb.script
