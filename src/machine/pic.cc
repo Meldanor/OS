@@ -17,7 +17,7 @@
 #                    METHODS                      # 
 \* * * * * * * * * * * * * * * * * * * * * * * * */
 
-PIC::PIC() : masterCntrlPort(0x20), slaveCntrlPort(0xa0), masterDataPort (0x21), slaveDataPort (0xa1) {
+PIC::PIC() : masterCntrlPort(0x20), slaveCntrlPort(0xA0), masterDataPort (0x21), slaveDataPort (0xA1) {
 
     // Initialize the pic controller
     // Standard status for the pic controller is something we dont want to have
