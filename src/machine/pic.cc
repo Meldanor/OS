@@ -17,32 +17,66 @@
 #                    METHODS                      # 
 \* * * * * * * * * * * * * * * * * * * * * * * * */
 
-/** \todo \~german verstehen \~english understand */
-PIC::PIC(){
-  IO_Port ctrl_1(0x20), ctrl_2(0xa0), mask_1(0x21), mask_2(0xa1);
-  
-  ctrl_1.outb(0x11);
-  ctrl_2.outb(0x11);
-  
-  mask_1.outb(32);
-  mask_2.outb(40);
-  
-  mask_1.outb(4);
-  mask_2.outb(2);
-  
-  mask_1.outb(3);
-  mask_2.outb(3);
-  
-  mask_1.outb(0xFB);
-  mask_2.outb(0xFF);
+PIC::PIC() : masterCntrlPort(0x20), slaveCntrlPort(0xa0), masterDataPort (0x21), slaveDataPort (0xa1) {
+
+    // Initialize the pic controller
+    // Standard status for the pic controller is something we dont want to have
+    // So we have to initialize it
+    // Nice dude!
+
+    masterCntrlPort.outb(0x11);
+    slaveCntrlPort.outb(0x11);
+
+    masterDataPort.outb(32);
+    slaveDataPort.outb(40);
+
+    masterDataPort.outb(4);
+    slaveDataPort.outb(2);
+
+    masterDataPort.outb(3);
+    slaveDataPort.outb(3);
+
+    masterDataPort.outb(0xFB);
+    slaveDataPort.outb(0xFF);
+
 }
 
-/** \todo \~german implementieren \~english write implementation*/
-void PIC::allow(Interrupts interrupt){
+void PIC::allow(Interrupts interrupt) {
+    unsigned char tmp = 0;
+    IO_Port dest = masterDataPort;
+    // OCW from master
+    if (interrupt < 8) {
+        dest = masterDataPort;
+        tmp = interrupt;
+    }
+        
+    // OCW from slave
+    else {
+        dest = slaveDataPort;
+        tmp = interrupt - 8;
+    }
+
+    // Delete the bit -> allow interrupt for this machine
+    dest.outb(dest.inb() & !(1 << tmp));
 }
 
-/** \todo \~german implementieren \~english write implementation*/
-void PIC::forbid(Interrupts interrupt){
+void PIC::forbid(Interrupts interrupt) {
+    unsigned char tmp = 0;
+    IO_Port dest = masterDataPort;
+    // OCW from master
+    if (interrupt < 8) {
+        dest = masterDataPort;
+        tmp = interrupt;
+    }
+        
+    // OCW from slave
+    else {
+        dest = slaveDataPort;
+        tmp = interrupt - 8;
+    }
+
+    // Set the bit -> disallow interrupt for this machine
+    dest.outb(dest.inb() | (1 << tmp));
 }
 
 /** \todo \~german implementieren \~english write implementation*/

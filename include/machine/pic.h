@@ -40,7 +40,13 @@
  * only be handled if the interrupt has been allowed and if the handling of 
  * interrupts is enabled (see class \ref CPU). 
  */
-class PIC{
+class PIC {
+    private:
+        IO_Port masterCntrlPort;
+        IO_Port slaveCntrlPort;
+
+        IO_Port masterDataPort;
+        IO_Port slaveDataPort;
   public:
     /** 
      * \~german
