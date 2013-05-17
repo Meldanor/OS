@@ -79,12 +79,31 @@ void PIC::forbid(Interrupts interrupt) {
     dest.outb(dest.inb() | (1 << tmp));
 }
 
-/** \todo \~german implementieren \~english write implementation*/
-void PIC::ack(bool secondPIC){
+// Inform the PIC that a interrupt is complete
+void PIC::ack(bool secondPIC) {
+
+    const unsigned char EOI = 0x20;
+
+    // When the slave ack is set, also set the master
+    if (secondPIC)
+        slaveCntrlPort.outb(EOI);
+
+    masterCntrlPort.outb(EOI);
 }
 
-/** \todo \~german implementieren \~english write implementation*/
-unsigned char PIC::getISR(bool secondPIC){
-  ///todo remove dummy
-  return 0;
+// Get the current stat of the ISR
+unsigned char PIC::getISR(bool secondPIC) {
+
+    const unsigned char READ_ISR = 0x0B;
+
+    // Get the ISR from the slave
+    if (secondPIC) {
+        slaveCntrlPort.outb(READ_ISR);
+        return slaveDataPort.inb();
+    }
+    // Get the ISR from the master
+    else {
+        masterCntrlPort.outb(READ_ISR);
+        return masterDataPort.inb();
+    }
 }
