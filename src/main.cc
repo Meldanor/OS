@@ -65,9 +65,12 @@ extern "C" void kernel(uint32_t magic, const Multiboot_Info* info);
  **/
 void kernel(uint32_t magic, const Multiboot_Info* info){
 
+    kout.clear();
     #if USE_TASK == 10
         TaskClass task(magic, info);
     #else
         TaskClass task;
     #endif
+
+    task.action();
 }
