@@ -17,7 +17,7 @@
 #                    METHODS                      # 
 \* * * * * * * * * * * * * * * * * * * * * * * * */
 
-Plugbox::Plugbox() : slotCounter(0) {
+Plugbox::Plugbox() {
 	// Fill array with standard values
 	for (int i = 0; i < 256 ; ++i) {
 		gates[i] = &panic;
