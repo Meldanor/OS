@@ -47,7 +47,7 @@ extern "C" void handleExceptionReserved(unsigned short slot);
  * \todo write implementation
  */
 void guardian (unsigned short slot) {
-  
+    kout << "Test" << endl;
 }
 
 

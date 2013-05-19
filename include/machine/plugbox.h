@@ -49,6 +49,9 @@ class Plugbox {
      *
      * \todo write declaration
      **/
+     Gate* gates[256];
+
+     unsigned short slotCounter;
     
   public:
     /** 

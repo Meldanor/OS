@@ -17,16 +17,25 @@
 #                    METHODS                      # 
 \* * * * * * * * * * * * * * * * * * * * * * * * */
 
-/** \todo \~german implementieren \~english write implementation*/
-Plugbox::Plugbox(){
+Plugbox::Plugbox() : slotCounter(0) {
+	// Fill array with standard values
+	for (int i = 0; i < 256 ; ++i) {
+		gates[i] = &panic;
+	}
 }
 
-/** \todo \~german implementieren \~english write implementation*/
-void Plugbox::assign(unsigned short slot, Gate& gate){
+void Plugbox::assign(unsigned short slot, Gate& gate) {
+	// Error
+	if (slot > 256)
+		return;
+	gates[slot] = &gate;
+	gate.setInterruptNumber(slot);
 }
 
-/** \todo \~german implementieren \~english write implementation*/
-Gate& Plugbox::report(unsigned short slot){
-  /// \todo Dummy entfernen, remove dummy
-  return panic;
+Gate& Plugbox::report(unsigned short slot) {
+	// Error - return panic object
+	if (slot > 256)
+		return panic;
+	else
+		return *(gates[slot]);
 }
