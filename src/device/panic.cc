@@ -22,6 +22,6 @@ Panic::Panic() : Gate() {
 }
 
 void Panic::trigger() {
-	kout << BGColor(RED) << "Error while triggering!" << BGColor(LIGHTGREY) << "InterruptNumber= " << gateInterruptNumber << endl << endl;
+	kout << FGColor(RED) << Blink(true) << "Error while triggering! Triggered the Panic Gate! CPU halted!" << endl;
 	cpu.halt();
 }

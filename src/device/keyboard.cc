@@ -28,6 +28,7 @@ Keyboard::Keyboard() : Keyboard_Controller() , Gate() {
 }
 
 void Keyboard::plugin() {
+	pic.allow(PIC::keyboard);
 	plugbox.assign(PIC::keyboard, *this);
 }
 

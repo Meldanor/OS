@@ -38,7 +38,6 @@ PIC::PIC() : masterCntrlPort(0x20), slaveCntrlPort(0xA0), masterDataPort (0x21),
 
     masterDataPort.outb(0xFB);
     slaveDataPort.outb(0xFF);
-
 }
 
 void PIC::allow(Interrupts interrupt) {
@@ -57,7 +56,7 @@ void PIC::allow(Interrupts interrupt) {
     }
 
     // Delete the bit -> allow interrupt for this machine
-    dest.outb(dest.inb() & !(1 << tmp));
+    dest.outb(dest.inb() & ~(1 << tmp));
 }
 
 void PIC::forbid(Interrupts interrupt) {

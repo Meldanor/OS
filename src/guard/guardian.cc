@@ -11,6 +11,9 @@
 \* * * * * * * * * * * * * * * * * * * * * * * * */
 #include "useful/kout.h"
 #include "useful/cpu.h"
+#include "useful/kout.h"
+#include "useful/plugbox.h"
+#include "useful/panic.h"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * *\
 #            declare methods as c-like            #
@@ -47,7 +50,12 @@ extern "C" void handleExceptionReserved(unsigned short slot);
  * \todo write implementation
  */
 void guardian (unsigned short slot) {
-    kout << "Test" << endl;
+    Gate& g = plugbox.report(slot);
+    // Is panic object - print slot number
+    if (&g == &panic) {
+        kout << "Slot:" << slot << endl;
+    }
+    g.trigger();
 }
 
 
