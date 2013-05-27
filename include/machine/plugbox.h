@@ -50,8 +50,11 @@ class Plugbox {
      * \todo write declaration
      **/
      Gate* gates[256];
-    
   public:
+    
+    static const unsigned short keyboardSlot = 33;
+    
+    static const unsigned short timerSlot = 32;
     /** 
      * \~german
      * \brief Standardkonstruktor

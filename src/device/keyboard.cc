@@ -29,24 +29,21 @@ Keyboard::Keyboard() : Keyboard_Controller() , Gate() {
 
 void Keyboard::plugin() {
 	pic.allow(PIC::keyboard);
-	plugbox.assign(PIC::keyboard, *this);
+	plugbox.assign(Plugbox::keyboardSlot, *this);
 }
 
 void Keyboard::trigger() {
 	Key key = key_hit();
-	// Invalid key
-	if (!key.valid()) {
-		kout << "Invalid key!" << endl;
-		pic.ack(isSecondPIC );
-		return;	
+	if (key.valid()) {
+
+		// CTRL + ALT + DEL = Reboot
+		 if (key.ctrl() && key.alt() && key.scancode() == Key::scan::del) {
+			reboot();
+		}
+		// Otherwise print the key in ascii on a specific position
+		else {
+			kout.show(4,10, key.ascii(), DEFAULT_SCREEN_ATTRIB);	
+		}
 	}
-	// CTRL + ALT + DEL = Reboot
-	else if (key.ctrl() && key.alt() && key.scancode() == Key::scan::del) {
-		reboot();
-	}
-	// Otherwise print the key in ascii on a specific position
-	else {
-		kout.show(4,10, key.ascii(), DEFAULT_SCREEN_ATTRIB);
-		pic.ack(isSecondPIC );	
-	}
+	pic.ack(isSecondPIC );	
 }

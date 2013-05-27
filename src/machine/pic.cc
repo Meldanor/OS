@@ -27,8 +27,9 @@ PIC::PIC() : masterCntrlPort(0x20), slaveCntrlPort(0xA0), masterDataPort (0x21),
     masterCntrlPort.outb(0x11);
     slaveCntrlPort.outb(0x11);
 
-    masterDataPort.outb(32);
-    slaveDataPort.outb(40);
+    // Offset for interrupt indecies
+    masterDataPort.outb(32); // Offset for devices on master
+    slaveDataPort.outb(40); // Offset for devices on slave
 
     masterDataPort.outb(4);
     slaveDataPort.outb(2);
