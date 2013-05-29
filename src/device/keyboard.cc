@@ -32,13 +32,28 @@ void Keyboard::plugin() {
 	plugbox.assign(Plugbox::keyboardSlot, *this);
 }
 
+extern unsigned char globalTaskChoice; 
+
 void Keyboard::trigger() {
 	Key key = key_hit();
 	if (key.valid()) {
 
 		// CTRL + ALT + DEL = Reboot
-		 if (key.ctrl() && key.alt() && key.scancode() == Key::scan::del) {
+		if (key.ctrl() && key.alt() && key.scancode() == Key::scan::del) {
 			reboot();
+		}
+		else if (key.alt()) {
+			switch(key.ascii()) {
+				case '1':
+					globalTaskChoice = 1;
+					break;
+				case '2':
+					globalTaskChoice = 2;
+					break;
+				default:
+					break;
+					// Nothing to do
+			}
 		}
 		// Otherwise print the key in ascii on a specific position
 		else {
