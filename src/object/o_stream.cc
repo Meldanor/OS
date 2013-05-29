@@ -96,43 +96,63 @@ O_Stream& O_Stream::operator << (unsigned long value) {
 
 void O_Stream::convertNumber(unsigned short value) {
     printPrefix();
-    int i = 0;
+    if (value == 0) {
+        put('0');
+    }
+    int n = 0;
     while (value > 0) {
-        shortBuffer[i++] = value % base;
+        numberBuffer[n++] = value % base;
         value = value / base;
     }
-    if (--i == -1)
-        put('0');
-    for (; i >= 0; --i) {
-        printNumber(shortBuffer[i]);
+    --n;
+    if (base == O_Stream::hex) {
+        for (int j = 3 - n; j > 0; --j)
+            put('0');
+    }
+    for (; n >= 0; --n) {
+        printNumber(numberBuffer[n]);
     }
 }
 
 void O_Stream::convertNumber(unsigned int value) {
     printPrefix();
-    int i = 0;
+    if (value == 0) {
+        put('0');
+        return;
+    }
+    int n = 0;
     while (value > 0) {
-        intBuffer[i++] = value % base;
+        numberBuffer[n++] = value % base;
         value = value / base;
     }
-    if (--i == -1)
-        put('0');
-    for (; i >= 0; --i) {
-        printNumber(intBuffer[i]);
+    --n;
+    if (base == O_Stream::hex) {
+        for (int j = 7 - n; j > 0; --j)
+            put('0');
+    }
+    for (; n >= 0; --n) {
+        printNumber(numberBuffer[n]);
     }
 }
 
 void O_Stream::convertNumber(unsigned long value) {
     printPrefix();
-    int i = 0;
+    if (value == 0) {
+        put('0');
+        return;
+    }
+    int n = 0;
     while (value > 0) {
-        longBuffer[i++] = value % base;
+        numberBuffer[n++] = value % base;
         value = value / base;
     }
-    if (--i == -1)
-        put('0');
-    for (; i >= 0; --i) {
-        printNumber(longBuffer[i]);
+    --n;
+    if (base == O_Stream::hex) {
+        for (int j = 15 - n; j > 0; --j)
+            put('0');
+    }
+    for (; n >= 0; --n) {
+        printNumber(numberBuffer[n]);
     }
 }
 

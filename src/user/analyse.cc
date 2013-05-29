@@ -67,14 +67,14 @@ void analyseException(unsigned short slot, void** esp){
  *   This is a pointer to the top of the stack as it would be in function \ref alphaAckermann
  *   of task3B.cc before calling gotoAnalyse.
  *   \~german
- *   Dis ist ein Zeiger auf den Anfang des Stacks. Er ist aufgebaut, wie kurz 
+ *   Dis ist ein Zeiger auf den Anfang des Stacks. Er ist aufgebau*kurz 
  *   vor dem Aufruf der Funktion gotoAnalyse innerhalb von \ref alphaAckermann in 
  *   der Datei task3B.cc. Auf diese Weise kann der Prozedurstack gut analysiert werden.
  * 
  * \~
  * \todo \~german Funktion fuer Analyse ausfuellen. \~english fill in todo area
  */
-void analyseProcedureStack(void** esp){
+void analyseProcedureStack(void** esp) {
   //Ausgabe, was passiert ist
   kout << endl;
   kout << "analyseProcedureStack(" << esp << ") called" << endl;
@@ -82,6 +82,21 @@ void analyseProcedureStack(void** esp){
   /* * * * * * * * * * * * * * * * * * *\
   # Start ToDo-Bereich                  #
   \* * * * * * * * * * * * * * * * * * */
+    kout << hex;
+    for (int i = 0 ; i < 60 ; ++i, ++esp) {
+
+        if (i % 4 == 0)
+            kout << endl;
+        void* tmp = *esp;
+        kout << (int) tmp << "   ";   
+    }
+    kout << endl;
+    // void* tmp = *esp;
+
+    // kout << (int)tmp;
+    // kout << hex;
+    // kout << (int)esp++ << " " << (int)esp++ << " " << (int)esp++ << " " << (int)esp++ << " " << endl; 
+    // kout << dec;
   //TODO Analyse-Ausgaben hier hin
   
   /* * * * * * * * * * * * * * * * * * *\
