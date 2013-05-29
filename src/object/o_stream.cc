@@ -96,7 +96,7 @@ O_Stream& O_Stream::operator << (unsigned long value) {
 
 void O_Stream::convertNumber(unsigned short value) {
     printPrefix();
-    if (value == 0) {
+    if (base != O_Stream::hex && value == 0) {
         put('0');
     }
     int n = 0;
@@ -116,9 +116,8 @@ void O_Stream::convertNumber(unsigned short value) {
 
 void O_Stream::convertNumber(unsigned int value) {
     printPrefix();
-    if (value == 0) {
+    if (base != O_Stream::hex && value == 0) {
         put('0');
-        return;
     }
     int n = 0;
     while (value > 0) {
@@ -137,9 +136,8 @@ void O_Stream::convertNumber(unsigned int value) {
 
 void O_Stream::convertNumber(unsigned long value) {
     printPrefix();
-    if (value == 0) {
+    if (base != O_Stream::hex && value == 0) {
         put('0');
-        return;
     }
     int n = 0;
     while (value > 0) {

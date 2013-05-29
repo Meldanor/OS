@@ -84,21 +84,21 @@ void analyseProcedureStack(void** esp) {
   \* * * * * * * * * * * * * * * * * * */
     kout << hex;
     for (int i = 0 ; i < 60 ; ++i, ++esp) {
-
         if (i % 4 == 0)
             kout << endl;
         void* tmp = *esp;
-        kout << (int) tmp << "   ";   
+        kout << (unsigned int) tmp << "   ";   
     }
     kout << endl;
-    // void* tmp = *esp;
+    kout << dec;
 
-    // kout << (int)tmp;
-    // kout << hex;
-    // kout << (int)esp++ << " " << (int)esp++ << " " << (int)esp++ << " " << (int)esp++ << " " << endl; 
-    // kout << dec;
-  //TODO Analyse-Ausgaben hier hin
-  
+    /*
+    Wiederholende Strukturen: Parameter und Frame
+    Array: Aufbau ganz normal?
+    Stack: OBen nach unten wachsend
+    Rekursiontiefe: 4
+
+    */
   /* * * * * * * * * * * * * * * * * * *\
   #  Ende ToDo-Bereich                  #
   \* * * * * * * * * * * * * * * * * * */
