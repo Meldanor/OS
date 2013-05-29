@@ -38,7 +38,41 @@ void analyseException(unsigned short slot, void** esp){
   /* * * * * * * * * * * * * * * * * * *\
   # Start ToDo-Bereich                  #
   \* * * * * * * * * * * * * * * * * * */
-  //TODO Analyse-Ausgaben hier hin
+    const char* error = "";
+    switch(slot) {
+        case 0: error = "Divide Error"; break;
+        case 1: error = "Debug/Reserved for Intel"; break;
+        case 2: error = "Nonmaskable Interrupt"; break;
+        case 3: error = "Breakpoint"; break;
+        case 4: error = "Overflow"; break;
+        case 5: error = "Bound Range Exceeded"; break;
+        case 6: error = "Invalid Opcoude Fault"; break;
+        case 7: error = "Device Not Available"; break;
+        case 8: error = "Double Fault"; break;
+        case 9: error = "Reserved"; break;
+        case 10: error = "Invalid TSS"; break;
+        case 11: error = "Segment Not Present"; break;
+        case 12: error = "Stack-Segment Fault"; break;
+        case 13: error = "General Protection"; break;
+        case 14: error = "Page Fault"; break;
+        case 15: error = "Reserved For Intel"; break;
+        case 16: error = "x87 FPU Floating-Point"; break;
+        case 17: error = "Aligment Check"; break;
+        case 18: error = "Machine Check"; break;
+        case 19: error = "SIMD Floating-Point Exception"; break;
+        case 20: error = "Virtualization Exception"; break;
+        default: error = "Generic Error - Such dir was aus";
+    }
+
+    kout << error << endl;
+
+    kout << hex;
+    
+    for (int i = 0 ; i < 6 ; ++i, ++esp) {
+        void* tmp = *esp;
+        kout << (unsigned int) tmp << "   " << endl;   
+    }
+    kout << dec;
   
   /* * * * * * * * * * * * * * * * * * *\
   #  Ende ToDo-Bereich                  #
