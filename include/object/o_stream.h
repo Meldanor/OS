@@ -152,6 +152,8 @@ class O_Stream : public Stringbuffer{
     virtual void setAttributes(int fgColor, int bgColor, bool blink) = 0;
     
   public:
+    // Current base
+    
     
     /** 
      * \brief basis for display of digits eg. 2, 8, 10 or 16 
@@ -163,10 +165,12 @@ class O_Stream : public Stringbuffer{
       hex=16
     };
     
+    Base base;
+
     /** 
      * \brief Default constructor initialising with dezimal system 
      */
-    O_Stream();
+    O_Stream() ;
   
     /** 
      * \brief Default Destructor

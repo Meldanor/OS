@@ -8,9 +8,6 @@
 
 #include "object/o_stream.h"
 
-// Current base
-O_Stream::Base base;
-
 O_Stream::O_Stream() : Stringbuffer() {
     // Standard base is decimal
     base = O_Stream::dec;
@@ -30,7 +27,7 @@ O_Stream& O_Stream::operator << (unsigned char value) {
     put(value);
     return *this;
 }
-
+    
 O_Stream& O_Stream::operator << (char* value) {
     // Print the null terminated string
     for (char* tmp = value; *tmp != '\0'; ++tmp) {
@@ -203,22 +200,22 @@ O_Stream& endl (O_Stream& os) {
 }
 
 O_Stream& bin (O_Stream& os) {
-    base = O_Stream::bin;
+    os.base = O_Stream::bin;
     return os;
 }
 
 O_Stream& oct (O_Stream& os) {
-    base = O_Stream::oct;
+    os.base = O_Stream::oct;
     return os;
 }
 
 O_Stream& dec (O_Stream& os) {
-    base = O_Stream::dec;
+    os.base = O_Stream::dec;
     return os;
 }
 
 O_Stream& hex (O_Stream& os) {
-    base = O_Stream::hex;
+    os.base = O_Stream::hex;
     return os;
 }
 
