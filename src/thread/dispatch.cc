@@ -16,10 +16,13 @@
 #                   METHODS                       #
 \* * * * * * * * * * * * * * * * * * * * * * * * */
 
-/**\~english \todo implement**/
-void Dispatcher::go(Thread& first){
+void Dispatcher::go(Thread& first) {
+    first.action();
 }
 
-/**\~english \todo implement**/
-void Dispatcher::dispatch(Thread& next){
+void Dispatcher::dispatch(Thread& next) {
+    // save context of current thread 
+    // TODO: Fuck with context
+    curActive = &next;
+    curActive->action();
 }

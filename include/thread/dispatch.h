@@ -30,8 +30,8 @@
 class Dispatcher {
 private:
   /** \brief The currently active thread
-   *  \todo define variable**/
-  
+    */
+    Thread* curActive;
 
 public:
   /** 
@@ -69,7 +69,7 @@ public:
    * \return pointer to the currently active thread.
    */
   Thread* active() const{
-		return 0;
+		return curActive;
   }
 };
 

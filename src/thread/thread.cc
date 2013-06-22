@@ -11,6 +11,7 @@
 \* * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "thread/thread.h"
+#include "useful/scheduler.h"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * *\
 #                   METHODS                       #
@@ -24,14 +25,16 @@ void Thread::kickoff(Thread* thread){
 Thread::Thread(){
 }
 
-/**\~english \todo implement**/
 Thread::~Thread(){
+    // scheduler.kill(*this);
 }
 
 /**\~english \todo implement**/
-void Thread::resume(){
+void Thread::resume() {
+	scheduler.resume();
 }
 
 /**\~english \todo implement**/
 void Thread::exit(){
+    scheduler.exit();
 }
