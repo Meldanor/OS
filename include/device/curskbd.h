@@ -6,13 +6,12 @@
  *                                                                                               * 
 \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef __keyboard_include__
-#define __keyboard_include__
+#ifndef __curskbd_include__
+#define __curskbd_include__
 
 /* * * * * * * * * * * * * * * * * * * * * * * * *\
 #                    INCLUDES                     #
 \* * * * * * * * * * * * * * * * * * * * * * * * */
-#include "machine/keyctrl.h"
 #include "guard/gate.h"
 #include "machine/key.h"
  
@@ -31,7 +30,7 @@
  * This class is a subclass of Gate and implements the interrupt routine used 
  * for the keyboard.
  */
-class Keyboard : public Keyboard_Controller, public Gate  {
+class Curses_Keyboard : public Gate  {
   public:
      
      /** 
@@ -41,7 +40,7 @@ class Keyboard : public Keyboard_Controller, public Gate  {
       * \~english
       * \brief constructor only calls constructor of base classes up to now
       */
-     Keyboard();
+     Curses_Keyboard();
      
     /** 
      * \~german
@@ -72,6 +71,8 @@ class Keyboard : public Keyboard_Controller, public Gate  {
      * \brief handle keyboard interrupt
      */
     virtual void trigger ();
+
+    Key key_hit();
 };
 
 #endif

@@ -6,12 +6,16 @@
  *                                                                                               *
 \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef __CPU_include__
-#define __CPU_include__
+#ifndef __virtcpu_include__
+#define __Virtcpu_include__
+
+#include <signal.h>
+#include <stdlib.h>
+#include <useful/pic.h>
 
 /** 
  * \~german
- * \brief Zugriff auf einige spezielle %CPU-Anweisungen
+ * \brief Emulation spezielle %CPU-Anweisungen für die virtuelle CPU eines Prozesses.
  * 
  * Die Klasse implementiert eine abstraktion des Prozessors. Sie bietet Funktionen zum aktivieren 
  * und deaktivieren von Interrupts im globalen Sinne. Ferner ist es möglich die %CPU anzuhalten.
@@ -21,96 +25,61 @@
  * die %CPU anzuhalten.
  * 
  * \~english
- * \brief Hardware accessor for %CPU specific instructions
+ * \brief Emulation of %CPU specific instructions of a virtual process CPU.
  *
  * Class CPU implements an abstraction of the processor. It provides methods to
  * enable/disable interrupts globally and to halt the processor.
  */
-class CPU {
+class Virtual_CPU {
   private:
     /**
      * \~german 
-     * \brief Diese Variable speichert den letzten Zustand
+     * \brief Diese Variable speichert den aktuellen Zustand
      * 
-     * Um den letzten Zustand der Interrupts wieder herzustellen, muss dieser Wert gespeichert 
-     * werden. Bei 0x0200 waren die bisherigen Interrupts an, bei 0 waren sie aus. 
-     * Alle anderen Zustände sind undefiniert und dürfen nicht angenommen werden.
+     * Diese Variable speichert den aktuellen Zustand um ihn bei Veränderung zurückzugeben.
      * 
      * \~english
-     * \brief This variable stores the last known state of the interrupt flag.
-     * 
-     * Only 0x0200 for active interrupts and 0 for deaktivated interrupts are allowed.
+     * \brief This variable stores the current state of the interrupt flag to enable feedback for extended APIs.
      */
-    int iIFlag;
+    bool state;
     
   public:
     
     /**
      * \~german
-     * \brief Konstruktor setzt \ref iIFlag auf 0
+     * \brief Konstruktor setzt \ref state auf false
      * 
      * \~english
-     * \brief initialize \ref iIFlag with zero
+     * \brief initialize \ref state to false
      **/
-    CPU():iIFlag(0){
-      
-    }
+    Virtual_CPU() : state(false){}
     
     /** 
      * \~german
      * \brief Interrupts werden global aktiviert
      * 
+     * \return der alte Zustand
+     *
      * \~english
      * \brief globally enable interrupts 
+     *
+     * \return the old state
      */
-    inline void enable_int () {
-      asm(
-        "movl $0x0200, %0 \n\t"
-        "sti \n\t"
-        :"=r"(iIFlag)
-      );
-    }
+    bool enable_int ();
     
     /** 
      * \~german
      * \brief Interupts werden global deaktiviert
+     *
+     * \return der alte Zustand
      * 
      * \~english
      * \brief globally dissable interrupts
+     *
+     * \return the old state
      */
-    inline void disable_int () {
-      asm(
-        "pushf\n\t"
-        "cli\n\t"
-        "movl (%%esp), %0\n\t"
-        "add $4, %%esp \n\t"
-        :"=r"(iIFlag)
-      );
-    }
-    
-    /** 
-     * \~german
-     * \brief stellt den letzten bekannten Zustand des Interrupt-Flags der %CPU wieder her
-     * 
-     * Waren die Interrupts vor der letzten Deaktivierung aktiv, so werden sie wieder aktiviert. 
-     * Waren sie aber bereits ausgeschaltet, so sind sie dies dann weiterhin. Umgekehrt gilt das 
-     * gleiche
-     * 
-     * \~english
-     * \brief restore old, known state of interrupt
-     */
-    inline void retore_interrupt_state () {
-      asm(
-        "cli \n\t"
-        "andl $0x0200, %0 \n\t"
-        "pushf \n\t"
-        "orl %0, (%%esp) \n\t"
-        "popf \n\t"
-        :
-        :"r"(iIFlag)
-      );
-    }
-    
+    bool disable_int ();
+       
     /** 
      * \~german
      * \brief hält die %CPU an
@@ -130,9 +99,7 @@ class CPU {
      * interrupt occurs.  If an interrupt occurs the cpu will handle the
      * interrupt and continue with the execution after the halt command.
      */
-    inline void halt () {
-      asm("hlt");
-    }
+    void halt ();
 };
 
 #endif

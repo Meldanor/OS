@@ -17,25 +17,29 @@
 #                    METHODS                      # 
 \* * * * * * * * * * * * * * * * * * * * * * * * */
 
-Plugbox::Plugbox() {
-	// Fill array with standard values
-	for (int i = 0; i < 256 ; ++i) {
-		gates[i] = &panic;
-	}
+Plugbox::Plugbox(){
+  //Var init
+  unsigned int i;
+  
+  i=0;
+  while(i<uiGateCount){
+    gates[i] = &panic;
+    i++;
+  }
 }
 
-void Plugbox::assign(unsigned short slot, Gate& gate) {
-	// Error
-	if (slot > 256)
-		return;
-	gates[slot] = &gate;
-	gate.setInterruptNumber(slot);
+void Plugbox::assign(unsigned short slot, Gate& gate){
+  //ubergebene Slotnummer sollte krorekt sein
+  if(slot<uiGateCount){
+    gates[slot] = &gate;
+  }
 }
 
-Gate& Plugbox::report(unsigned short slot) {
-	// Error - return panic object
-	if (slot > 256)
-		return panic;
-	else
-		return *(gates[slot]);
+Gate& Plugbox::report(unsigned short slot){
+  //ubergebene Slotnummer sollte krorekt sein
+  if(slot<uiGateCount){
+    return *(gates[slot]);
+  }else{
+    return panic;
+  }
 }

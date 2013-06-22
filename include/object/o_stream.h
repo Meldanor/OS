@@ -100,20 +100,17 @@ class Blink{
  * for display of digits and to print the buffer after an endl.
  */
 class O_Stream : public Stringbuffer{
-    private:
-        // buffer to convert the numbers to strings
-        unsigned char numberBuffer[64];
-
-        void convertNumber(unsigned short value);
-        void convertNumber(unsigned int value);
-        void convertNumber(unsigned long value);
-        void printNumber(unsigned char number);
-        void printPrefix();
-
-        int curFGColor;
-        int curBGColor;
-        bool isBlinking;
   protected: 
+    /// \~german  intern gespeicherte Vordergrundfarbe
+    /// \~english internal saved foreground color
+    int fgColor;
+    /// \~german  intern gespeicherte Hintergrundfarbe
+    /// \~english internal saved background color
+    int bgColor;
+    /// \~german  intern gespeicherte Blinkverhalten
+    /// \~english internal saved blinking status
+    bool blink;
+    
     /**
      * \~german 
      * \brief ermöglicht dem O_Stream das setzen der Attribute
@@ -150,8 +147,6 @@ class O_Stream : public Stringbuffer{
     virtual void setAttributes(int fgColor, int bgColor, bool blink) = 0;
     
   public:
-    // Current base
-    
     
     /** 
      * \brief basis for display of digits eg. 2, 8, 10 or 16 
@@ -163,12 +158,15 @@ class O_Stream : public Stringbuffer{
       hex=16
     };
     
+    /** 
+     * \brief current selected base 
+     */
     Base base;
-
+    
     /** 
      * \brief Default constructor initialising with dezimal system 
      */
-    O_Stream() ;
+    O_Stream();
   
     /** 
      * \brief Default Destructor
@@ -214,20 +212,14 @@ class O_Stream : public Stringbuffer{
     
     /** \copydoc operator<<(char value) **/
     O_Stream& operator << (long value);
-
-    /** \copydoc operator<<(char value) **/
-    O_Stream& operator << (float value);
-
-    /** \copydoc operator<<(char value) **/
-    O_Stream& operator << (double value);
-
+    
     /** \copydoc operator<<(char value) **/
     O_Stream& operator << (void* value);
     
     /** \brief overloded output manipulator
-     * 
+     *
      * Operator << overloading the default operator. It is used to change the way the characters are printed on the screen.
-     * 
+     *
      * @param fgColor new foreground color
      * @return reference to the current O_Stream object.
      */
@@ -258,9 +250,6 @@ class O_Stream : public Stringbuffer{
      *
      * @param f mainpulator function to be applied to the ostream
      * @return reference to the current O_Stream object.
-     * 
-     * \~
-     * \todo write implementation
      **/
     O_Stream& operator << (O_Stream& (*f) (O_Stream&));
     
@@ -284,40 +273,30 @@ class O_Stream : public Stringbuffer{
  * into the input of the stream.
  * Main goal of the manipulators is to influence the display of the following 
  * output (eg. by choosing a basis for the display of digits).
- */ 
+ **/ 
 
-/** \brief print buffer after adding a newline 
- *
- * \~
- * \todo write implementation
+/** 
+ * \brief print buffer after adding a newline 
  */
 O_Stream& endl(O_Stream &out);
 
-/** \brief switch basis of o_stream to binary 
- *
- * \~
- * \todo write implementation
+/** 
+ * \brief switch basis of o_stream to binary 
  */
 O_Stream& bin(O_Stream &out);
 
-/** \brief switch basis of o_stream to octal 
- *
- * \~
- * \todo write implementation
+/** 
+ * \brief switch basis of o_stream to octal 
  */
 O_Stream& oct(O_Stream &out);
 
-/** \brief switch basis of o_stream to decimal 
- *
- * \~
- * \todo write implementation
+/** 
+ * \brief switch basis of o_stream to decimal 
  */
 O_Stream& dec(O_Stream &out);
 
-/** \brief switch basis of o_stream to hexadecimal 
- *
- * \~
- * \todo write implementation
+/** 
+ * \brief switch basis of o_stream to hexadecimal 
  */
 O_Stream& hex(O_Stream &out);
 

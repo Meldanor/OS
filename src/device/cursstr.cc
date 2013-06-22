@@ -2,24 +2,22 @@
  *                                 Technische Informatik II                                      *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                                               *
- *                                 S T R I N G B U F F E R                                       *
+ *                              C U R S E S _ S T R E A M                                        *
  *                                                                                               *
 \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "object/strbuf.h"
+#include "device/cursstr.h"
+#include "config.h"
 
-Stringbuffer::Stringbuffer() : pos(0){
-  
+Curses_Stream::Curses_Stream(){
+  Curses_Screen::setAttributes(fgColor, bgColor, blink);
 }
 
-Stringbuffer::~Stringbuffer(){
-  
+void Curses_Stream::flush () {
+  print (buffer, pos);
+  pos = 0;
 }
 
-void Stringbuffer::put (char c) {
-  buffer[pos] = c;
-  pos++;
-  if (pos == sizeof (buffer))
-    flush ();
+void Curses_Stream::setAttributes(int fgColor, int bgColor, bool blink){
+  Curses_Screen::setAttributes(fgColor, bgColor, blink);
 }
-

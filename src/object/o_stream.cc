@@ -8,235 +8,156 @@
 
 #include "object/o_stream.h"
 
-O_Stream::O_Stream() : Stringbuffer() {
-    // Standard base is decimal
-    base = O_Stream::dec;
+O_Stream::O_Stream() : Stringbuffer(), fgColor(WHITE), bgColor(BLACK), blink(false), base(dec){
+  
 }
 
 O_Stream::~O_Stream(){
+  
 }
 
-O_Stream& O_Stream::operator << (char value) {
-    // Print the value 
-    put(value);
-    return *this;
+// display of a character
+O_Stream& O_Stream::operator << (char c) {
+  put(c);
+  return *this;
 }
 
-O_Stream& O_Stream::operator << (unsigned char value) {
-    // Print the value
-    put(value);
-    return *this;
-}
-    
-O_Stream& O_Stream::operator << (char* value) {
-    // Print the null terminated string
-    for (char* tmp = value; *tmp != '\0'; ++tmp) {
-        put (*tmp);
-    }
-    return *this;
+O_Stream& O_Stream::operator << (unsigned char c) {
+  return *this << (char) c;
 }
 
-O_Stream& O_Stream::operator << (const char* value) {
-    // Print the null terminated string
-    for (char* tmp = (char*)value; *tmp != '\0'; ++tmp) {
-        put (*tmp);
-    }
-    return *this;
+// display of a string
+O_Stream& O_Stream::operator << (char* string) {
+  return *this << static_cast<const char*>(string);
 }
 
-O_Stream& O_Stream::operator << (short value) {
-    // Check if negative - start with a '-' and convert number to positive
-    if (value < 0) {
-        put('-');
-        value *= -1;
-    }
-    convertNumber((unsigned short)value);
-    return *this;
+O_Stream& O_Stream::operator << (const char* string) {
+  while (*string)
+    put (*string++);
+  return *this;
 }
 
-O_Stream& O_Stream::operator << (unsigned short value) {
-    convertNumber(value);
-    return *this;
+// display of digits using basis base to determen the output refering to 
+// the value
+O_Stream& O_Stream::operator << (short ival) {
+  return *this << (long) ival;
 }
 
-O_Stream& O_Stream::operator << (int value) {
-    // Check if negative - start with a '-' and convert number to positive
-    if (value < 0) {
-        put('-');
-        value *= -1;
-    }
-    convertNumber((unsigned int)value);
-    return *this;
+O_Stream& O_Stream::operator << (unsigned short ival) {
+  return *this << (unsigned long) ival;
 }
 
-O_Stream& O_Stream::operator << (unsigned int value) {
-    convertNumber(value);
-    return *this;
+O_Stream& O_Stream::operator << (int ival) {
+  return *this << (long ) ival;
 }
 
-O_Stream& O_Stream::operator << (long value) {
-    // Check if negative - start with a '-' and convert number to positive
-    if (value < 0) {
-        put('-');
-        value *= -1;
-    }
-    convertNumber((unsigned long)value);
-    return *this;
+O_Stream& O_Stream::operator << (unsigned int ival) {
+  return *this << (unsigned long) ival;
+
 }
 
-O_Stream& O_Stream::operator << (unsigned long value) {
-    convertNumber(value);
-    return *this;
+// display of a digit as a long
+O_Stream& O_Stream::operator << (long ival) {
+  // if value is negative a minus is outputed first
+  if (ival < 0) {
+    put ('-');
+    ival = -ival;
+  }
+  // than the absolute value of the digit is outputed
+  return *this << (unsigned long) ival;
 }
 
-// The followning functions convert the value to a printable string
-// Every function convert the value to the string in the current base , but reversed.
-// The reversed string is temponary saved into an array (which size is the max count of binary)
-// After the convertion the reversed string will be reversed printed
-
-void O_Stream::convertNumber(unsigned short value) {
-    printPrefix();
-    if (base != O_Stream::hex && value == 0) {
-        put('0');
-    }
-    int n = 0;
-    while (value > 0) {
-        numberBuffer[n++] = value % base;
-        value = value / base;
-    }
-    --n;
-    if (base == O_Stream::hex) {
-        for (int j = 3 - n; j > 0; --j)
-            put('0');
-    }
-    for (; n >= 0; --n) {
-        printNumber(numberBuffer[n]);
-    }
+O_Stream& O_Stream::operator << (unsigned long ival) {
+  unsigned long div;
+  char digit;
+   
+  if (base == 8)
+    put ('0');              // oktal digits start with a NULL
+  else if (base == 16) {
+    put ('0');              // hexadezimal digits start with 0x
+    put ('x');
+  }
+  
+  // computes the max power of the choosen basis, that is smaler than the value
+  // of the digit
+  for (div = 1; ival/div >= (unsigned long) base; div *= base);
+  
+  // prints the digit character after character
+  for (; div > 0; div /= (unsigned long) base) {
+    digit = ival / div;
+    if (digit < 10)
+      put ('0' + digit);
+    else
+      put ('a' + digit - 10);
+    ival %= div;
+  }
+  return *this;
 }
 
-void O_Stream::convertNumber(unsigned int value) {
-    printPrefix();
-    if (base != O_Stream::hex && value == 0) {
-        put('0');
-    }
-    int n = 0;
-    while (value > 0) {
-        numberBuffer[n++] = value % base;
-        value = value / base;
-    }
-    --n;
-    if (base == O_Stream::hex) {
-        for (int j = 7 - n; j > 0; --j)
-            put('0');
-    }
-    for (; n >= 0; --n) {
-        printNumber(numberBuffer[n]);
-    }
+// display of a counter as hexadezimal digit
+O_Stream& O_Stream::operator << (void* ptr) {
+  Base oldbase = base;
+  base = hex;
+  *this << (unsigned long) ptr;
+  base = oldbase;
+  return *this;
 }
 
-void O_Stream::convertNumber(unsigned long value) {
-    printPrefix();
-    if (base != O_Stream::hex && value == 0) {
-        put('0');
-    }
-    int n = 0;
-    while (value > 0) {
-        numberBuffer[n++] = value % base;
-        value = value / base;
-    }
-    --n;
-    if (base == O_Stream::hex) {
-        for (int j = 15 - n; j > 0; --j)
-            put('0');
-    }
-    for (; n >= 0; --n) {
-        printNumber(numberBuffer[n]);
-    }
-}
-
-void O_Stream::printNumber(unsigned char number) {
-    // For number 0 - 9
-    if (number < 10) {
-        put('0' + number);
-    }
-    // For hexadecimal representation
-    else {
-        put('A' + (number - 10));
-    }
-}
-
-void O_Stream::printPrefix() {
-    switch (base) {
-        case O_Stream::bin:
-            // Do nothing
-            break;
-        case O_Stream::oct:
-            put('0');
-            break;
-        case O_Stream::dec:
-            // Do nothing
-            break;
-        case O_Stream::hex:
-            put('0');
-            put('x');
-            break;
-    }
-}
-
-O_Stream& O_Stream::operator << (void* value) {
-    for (char* tmp = (char*)value; *tmp != '\0'; ++tmp) {
-        put (*tmp);
-    }
-    return *this;
-}
-
-O_Stream& O_Stream::operator << (FGColor fgColor) {
-    curFGColor = fgColor.color;
-    flush();
-    setAttributes(curFGColor, curBGColor , isBlinking);
-    return *this;
-}
-
-O_Stream& O_Stream::operator << (BGColor bgColor) {  
-    curBGColor = bgColor.color;
-    flush();
-    setAttributes(curFGColor, curBGColor , isBlinking);
-    return *this;
-}
-
-O_Stream& O_Stream::operator << (Blink blink) {
-    isBlinking = blink.blink;
-    flush();
-    setAttributes(curFGColor, curBGColor , isBlinking);
-    return *this;
-}
-
-O_Stream& endl (O_Stream& os) {
-    os.put('\n');
-    os.flush();
-    return os;
-}
-
-O_Stream& bin (O_Stream& os) {
-    os.base = O_Stream::bin;
-    return os;
-}
-
-O_Stream& oct (O_Stream& os) {
-    os.base = O_Stream::oct;
-    return os;
-}
-
-O_Stream& dec (O_Stream& os) {
-    os.base = O_Stream::dec;
-    return os;
-}
-
-O_Stream& hex (O_Stream& os) {
-    os.base = O_Stream::hex;
-    return os;
-}
-
+// call of a manipulator
 O_Stream& O_Stream::operator << (O_Stream& (*f) (O_Stream&)) {
-    return f(*this);
+  return f(*this);
 }
+
+O_Stream& O_Stream::operator << (FGColor color){
+  flush();
+  fgColor = color.color;
+  setAttributes(fgColor, bgColor, blink);
+  return *this;
+}
+
+O_Stream& O_Stream::operator << (BGColor color){
+  flush();
+  bgColor = color.color;
+  setAttributes(fgColor, bgColor, blink);
+  return *this;
+}
+
+O_Stream& O_Stream::operator << (Blink blink){
+  flush();
+  this->blink = blink.blink;
+  setAttributes(fgColor, bgColor, this->blink);
+  return *this;
+}
+
+
+// ENDL: prints buffer after adding a newline at the end of the buffer
+O_Stream& endl (O_Stream& os) {
+  os << '\n';
+  os.flush ();
+  return os;
+}
+
+// BIN: choose binary basis for display
+O_Stream& bin (O_Stream& os) {
+  os.base = O_Stream::bin;
+  return os;
+}
+
+// OCT: choose oktale basis for display
+O_Stream& oct (O_Stream& os) {
+  os.base = O_Stream::oct;
+  return os;
+}
+
+// DEC: choose dezimal basis for display
+O_Stream& dec (O_Stream& os) {
+  os.base = O_Stream::dec;
+  return os;
+}
+
+// HEX: choose hexadezimal basis for display
+O_Stream& hex (O_Stream& os) {
+  os.base = O_Stream::hex;
+  return os;
+}
+

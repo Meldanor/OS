@@ -2,53 +2,52 @@
  *                                 Technische Informatik II                                      *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                                               *
- *                                    C G A _ S C R E E N                                        *
+ *                                    C U R S E S _ S C R E E N                                  *
  *                                                                                               *
 \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef __screen_include__
-#define __screen_include__
+#ifndef __cursscr_include__
+#define __cursscr_include__
 
-#include "machine/io_port.h"
 /* INCLUDES */
+#include <curses.h>
 
 /* CLASSES */
 
-/** \brief CGA-Dispaly driver
+/** \brief Curses-Display driver
  *
- * CGA_Screen enables the basic control of the screen of a computer by accessing
- * the screen memory and I/O ports directly.
- */
-class CGA_Screen {
+ * Curses is a GUI library for terminals. This class emulates a CGA-conforming
+ * screen using basic curses functions.
+ *
+ **/
+class Curses_Screen {
   private:
-    unsigned char colorAttribute;
-
-    // Pointer to the start of the graphical memory
-    static const char* SCREEN_MEMORY_START;
-    static const char* SCREEN_MEMORY_END;
-
-    // Number of coloumns (chars in one line)
-    static const int COLUMNS = 80;
-    // Number of lines 
-    static const int ROWS = 25;
-
-    // The ports to the graphic card register
-    static const IO_Port INDEX_PORT;
-    static const IO_Port DATA_PORT;
-
+      WINDOW* win;
+    
   protected:
+    /** 
+     * \~german
+     * \brief Attribut, welches genommen wird, wenn sonst nichts spezifiziert ist
+     * 
+     * Diese aktuellen Standardattribute werden von den meisten Funktionen dieser Klasse 
+     * beim Setzen der CGA-Attribute genutzt.
+     * 
+     * \~english
+     * \brief default attribute if no other is defined
+     */
+    unsigned char attribute;
     
   public:
     
     /** 
      * \brief Constructor
      */
-    CGA_Screen();
+    Curses_Screen();
     
     /** 
      * \brief Destructor 
      */
-    ~CGA_Screen();
+    ~Curses_Screen();
     
     /** \brief set the cursor position
      *

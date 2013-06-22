@@ -2,17 +2,24 @@
  *                                 Technische Informatik II                                      *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                                               *
- *                                    C G A _ S T R E A M                                        *
+ *                                         D I S P A T C H E R                                   *
  *                                                                                               *
 \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "device/cgastr.h"
+/* * * * * * * * * * * * * * * * * * * * * * * * *\
+#                   INCLUDES                      #
+\* * * * * * * * * * * * * * * * * * * * * * * * */
 
-void CGA_Stream::flush () {
-	print(buffer, pos);
-	pos = 0;
+#include "thread/dispatch.h"
+
+/* * * * * * * * * * * * * * * * * * * * * * * * *\
+#                   METHODS                       #
+\* * * * * * * * * * * * * * * * * * * * * * * * */
+
+/**\~english \todo implement**/
+void Dispatcher::go(Thread& first){
 }
 
-void CGA_Stream::setAttributes(int fgColor, int bgColor, bool blink){
-	CGA_Screen::setAttributes(fgColor, bgColor, blink);
+/**\~english \todo implement**/
+void Dispatcher::dispatch(Thread& next){
 }

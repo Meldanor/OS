@@ -6,47 +6,44 @@
  *                                                                                               * 
 \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef __pic_include__
-#define __pic_include__
+#ifndef __swpic_include__
+#define __swpic_include__
 
 /* * * * * * * * * * * * * * * * * * * * * * * * *\
 #                    INCLUDES                     #
 \* * * * * * * * * * * * * * * * * * * * * * * * */
-#include "machine/io_port.h"
+
+#include <signal.h>
 
 /* * * * * * * * * * * * * * * * * * * * * * * * *\
 #                    CLASSES                      #
 \* * * * * * * * * * * * * * * * * * * * * * * * */
 /** 
  * \~german
- * \brief Treiber für den %PIC (Programmable Interrupt Controller)
+ * \brief Emulation eines %PIC (Programmable Interrupt Controller) Treibers
  * 
  * Der %PIC (programmierbarer Interruptkontroller) ermöglicht es dem System bestimmte Interrupts 
  * bzw. unterbrechungen zu erlauben oder zu verbieten. Wurden die Interrupts global aktiviert,
  * so legt der PIC fest, welche Interrupts weitergreicht werden um vom System behandelt zu werden. 
  * Es ist wichtig,d ass Interrupts nur behandelt werden, falls der entsprechende Interrupt erlaubt 
- * wurde und die Behandlung im allgemeinen aktiviert ist - siehe dazu die Klasse \ref CPU.
+ * wurde und die Behandlung im allgemeinen aktiviert ist - siehe dazu die Klasse \ref Virtual_CPU.
  * 
  * Der %PIC basiert auf Intels 8259 Chip und besteht aus einem Master-Slave %PIC-System.
  * Heutzutage werden sie meist nur "emuliert". Verwendet wird mittlerweile APIC, welcher für 
  * ein Mehrkernbetrieb notwendig ist.
  * 
  * \~english
- * \brief Driver for Programmable Interrupt Controller
+ * \brief Emulation of a Driver for the PIC (Programmable Interrupt Controller)
  *
  * The %PIC or Programmable Interrupt Controller enables the system to 
  * allow/forbid interrupts. By allowing an interrupt the PIC defines which
  * interrupts are handled by the system. It is important that interrupts will
  * only be handled if the interrupt has been allowed and if the handling of 
- * interrupts is enabled (see class \ref CPU). 
+ * interrupts is enabled (see class \ref Virtual_CPU). 
  */
-class PIC {
-    private:
-        IO_Port masterCntrlPort;
-        IO_Port slaveCntrlPort;
-
-        IO_Port masterDataPort;
-        IO_Port slaveDataPort;
+class Software_PIC{
+  private:
+      sigset_t enabledSet, disabledSet;
   public:
     /** 
      * \~german
@@ -65,20 +62,6 @@ class PIC {
     enum Interrupts{
       timer         = 0,  ///< \~german Intervallzähler (PIT) \~english timer (PIT)
       keyboard      = 1,  ///< \~german Tastaturkontroller \~english keyboard controller
-      pic2          = 2,  ///< \~german Anschluss von Slave-PIC \~english second PIC
-      serial2       = 3,  ///< \~german RS-232 Port 2 und 4 \~english RS-232 port 2 and 4
-      serial1       = 4,  ///< \~german RS-232 Port 1 und 3 \~english RS-232 port 1 and 3
-      soundcard     = 5,  ///< \~german Soundkarte oder LPT 2 \~english sound card or LPT 2
-      floppy        = 6,  ///< \~german Diskettenkontroller \~english floppy disc controller
-      parallelport  = 7,  ///< \~german LPT 1 und unechter Interrupt \~english LPT 1
-      rtc           = 8,  ///< \~german Echtzeituhr vom CMOS (RTC) \~english real time clock
-      misc          = 9,  ///< \~german verschiedene \~english miscellaneous
-      ata4          = 10, ///< \~german vierter ATA(PI)/IDE \~english fourth ATA(PI)/IDE
-      ata3          = 11, ///< \~german dritter ATA(PI)/IDE \~english third ATA(PI)/IDE
-      secondps2     = 12, ///< \~german zweiter Tastaturkontrolleranschluss \~english second keyboard controller port
-      fpu           = 13, ///< \~german Gleitkommazahleneinheit \~english floating point unit
-      ata1          = 14, ///< \~german erster ATA(PI)/IDE \~english first ATA(PI)/IDE
-      ata2          = 15  ///< \~german zweiter ATA(PI)/IDE und unechter Interrupt\~english second ATA(PI)/IDE
     };
     
     /** 
@@ -93,8 +76,10 @@ class PIC {
      *
      * Setting up the PIC and masking all incoming interrupt channels
      */
-    PIC();
-  
+    Software_PIC();
+
+
+    ~Software_PIC();
     /** 
      * \~german
      * \brief erlaubt einen speziellen Interrupt von der Hardware
@@ -130,29 +115,7 @@ class PIC {
      * \param interrupt 
      *   number of interrupt that will be forbiden
      */
-    void forbid(Interrupts interrupt); 
-    
-    /**
-     * \~german
-     * \brief sendet ein "Acknowledgement" eines ausstehenden Interrupts
-     * 
-     * Die Funktion bestätigt die Behandlung eines aufgetretenen Interrupts. Dies sagt dem 
-     * PIC, dass der letzte gemeldete Interrupt abgearbeitet wurde
-     * 
-     * \~english
-     * \brief acknowledge the handling of a pending interrupt
-     *
-     * Acknowledge an occured interrupt. This tells the PIC that his last
-     * interrupt has been handled. This Method has to be called before the cpu is
-     * allowed to handle any new interrupts. If an interrupt is not acknowledged
-     * the same interrupt is called again and again.
-     * 
-     * If an interrupt accures at the slave %PIC than also the first one has to be acknowledged.
-     * 
-     * \param secondPIC
-     *   Should an acknowledgement send to the second and first PIC or yust the first one?
-     */
-    void ack(bool secondPIC);
+    void forbid(Interrupts interrupt);
     
     /** 
      * \~german
@@ -188,6 +151,8 @@ class PIC {
      *   The ISR of the desired PIC.
      */
     unsigned char getISR(bool secondPIC = false);
+
+    friend class Virtual_CPU;
 };
 
 #endif

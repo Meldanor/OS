@@ -11,19 +11,23 @@
 \* * * * * * * * * * * * * * * * * * * * * * * * */
 #include "useful/kout.h"
 #include "useful/cpu.h"
-#include "useful/kout.h"
+#include "useful/pic.h"
 #include "useful/plugbox.h"
-#include "useful/panic.h"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * *\
 #            declare methods as c-like            #
 \* * * * * * * * * * * * * * * * * * * * * * * * */
-extern "C" void guardian (unsigned short slot);
+//extern "C" void guardian (unsigned short slot);
 
 extern "C" void handleException(unsigned short slot, void* eip, unsigned int eflags, unsigned short cs);
 extern "C" void handleExceptionE(unsigned short slot, void* eip, unsigned int eflags, unsigned short cs, unsigned int errorCode);
 extern "C" void handleExceptionReserved(unsigned short slot);
 
+
+/* * * * * * * * * * * * * * * * * * * * * * * * *\
+#                externe Variablen                #
+\* * * * * * * * * * * * * * * * * * * * * * * * */
+extern unsigned int uiSpuriousInterruptCount;
 
 /* * * * * * * * * * * * * * * * * * * * * * * * *\
 #                    METHODS                      #
@@ -39,23 +43,34 @@ extern "C" void handleExceptionReserved(unsigned short slot);
  * \param slot
  *   Nummer des aufgetretenen Interrupts
  * 
- * \todo implementieren
- * 
  * \~english
  * \brief Entry point for interrupts
  * 
  * \param slot 
  *   number of occurred interrupt
- *
- * \todo write implementation
  */
 void guardian (unsigned short slot) {
-    Gate& g = plugbox.report(slot);
-    // Is panic object - print slot number
-    if (&g == &panic) {
-        kout << "Slot:" << slot << endl;
-    }
-    g.trigger();
+  //var init
+  bool bFinished = false;
+  Gate* gate;
+  
+  //falls es 32+7 oder 32+15 ist, koennte es ein "unechter"-Interrupt sein
+  if(slot == (32+7)){
+    bFinished = (pic.getISR() & 0x80) == 0;
+  }else if(slot == (32+15)){
+    bFinished = (pic.getISR(true) & 0x80) == 0;
+  }
+  
+  if(!bFinished){
+    //Gate holen
+    gate = &(plugbox.report(slot));
+    gate->setInterruptNumber(slot);
+    //und ausloesen
+    gate->trigger();
+  }else{
+    uiSpuriousInterruptCount++;
+    kout << "Spurious Interrupt (Nr. " << uiSpuriousInterruptCount << ") " << endl;
+  }
 }
 
 

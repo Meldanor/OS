@@ -6,31 +6,41 @@
  *                                                                                               *
 \* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef __cgastr_include__
-#define __cgastr_include__
+#ifndef __cursstr_include__
+#define __cursstr_include__
 
 #include "object/o_stream.h"
-#include "machine/cgascr.h"
+#include "machine/cursscr.h"
 
 /** 
  * \~german
- * \brief CGA basierte Ausgabe, ählich zu std::cout von C++
+ * \brief Curses basierte Ausgabe, ählich zu std::cout von C++
  * 
- * CGA_Stream ermöglicht die Ausgabe verschiedener Daten als Zeichenkette über den CGA-Modus der
- * Grafikkarte. Die Klasse ist sowohl von \ref CGA_Screen und \ref O_Stream abgeleitet. Dadurch
+ * Curses_Stream ermöglicht die Ausgabe verschiedener Daten als Zeichenkette über eine CGA-Emulation auf einer curses-basierten GUI. Die Klasse ist sowohl von \ref Curses_Screen und \ref O_Stream abgeleitet. Dadurch
  * sind weitere Ausgabeformate und Effekte möglich.
  * 
  * \~english
- * \brief CGA based output mechanism, similar to cout
+ * \brief Curses based output mechanism, similar to cout
  *
- * CGA_Stream enables the output of different data as string using the CGA 
- * screen. It is derived from the class CGA_Screen which makes additional 
- * formats and effects available.
- * CGA_Stream extends the functionality of the classes CGA_Screen and O_Stream.
+ * Curses_Stream enables the output of different data as string using a curses emulated CGA 
+ * screen. It is derived from the class Curses_Screen and O_Stream, which enables additional 
+ * formats and effects.
  */
-class CGA_Stream  : public O_Stream, public CGA_Screen {
+class Curses_Stream  : public O_Stream, public Curses_Screen {
   public:
-   
+    
+    /**
+     * \~german
+     * \brief Der Konstruktor ruft die Funktion \ref CGA_Screen::setAttributes, um damit die
+     *        durch \ref O_Stream verwalteten Attribute zu übernehmen.
+     * 
+     * \~english
+     * \brief constructor calls \ref Curses_Screen::setAttributes to set the default attributes of 
+     *  \ref O_Stream
+     * 
+     */
+    Curses_Stream();
+    
     /** 
      * \~german
      * \brief ausgeben des Inhaltes des internen Puffers
@@ -52,7 +62,7 @@ class CGA_Stream  : public O_Stream, public CGA_Screen {
      * 
      * \~english
      * \brief combine the setAttributes function of O_Stream with the presented interface of the
-     *        CGA driver
+     *        Curses driver
      */
     virtual void setAttributes(int fgColor, int bgColor, bool blink);
     

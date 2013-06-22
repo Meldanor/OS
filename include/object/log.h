@@ -9,56 +9,32 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * *\
 #                    INCLUDES                     #
 \* * * * * * * * * * * * * * * * * * * * * * * * */
-#include "device/keyboard.h"
-#include "useful/plugbox.h"
-#include "useful/pic.h"
-#include "useful/kout.h"
-#include "config.h"
+#include <sstream>
+#include <iostream>
 
 /* * * * * * * * * * * * * * * * * * * * * * * * *\
 #                    METHODS                      # 
 \* * * * * * * * * * * * * * * * * * * * * * * * */
-
-const unsigned char x = 4;
-const unsigned char y = 10;
-const bool isSecondPIC = PIC::keyboard >= 8;
-
-Keyboard::Keyboard() : Keyboard_Controller() , Gate() {
-
-}
-
-void Keyboard::plugin() {
-	pic.allow(PIC::keyboard);
-	plugbox.assign(Plugbox::keyboardSlot, *this);
-}
-
-extern unsigned char globalTaskChoice; 
-
-void Keyboard::trigger() {
-	Key key = key_hit();
-	if (key.valid()) {
-
-		// CTRL + ALT + DEL = Reboot
-		if (key.ctrl() && key.alt() && key.scancode() == Key::scan::del) {
-			reboot();
-		}
-		else if (key.alt()) {
-			switch(key.ascii()) {
-				case '1':
-					globalTaskChoice = 1;
-					break;
-				case '2':
-					globalTaskChoice = 2;
-					break;
-				default:
-					break;
-					// Nothing to do
-			}
-		}
-		// Otherwise print the key in ascii on a specific position
-		else {
-			kout.show(4,10, key.ascii(), DEFAULT_SCREEN_ATTRIB);	
-		}
-	}
-	pic.ack(isSecondPIC );	
-}
+/**
+ * \~english
+ * \brief Post-mortem log to track debugging information
+ *
+ * The log can be written to like an STL ostream object(cout). However compared
+ * to kout it allows not color specification and all manipulators need to be
+ * prefixed with std:: (std::endl, std::hex ...).
+ *
+ **/
+class Log : public std::stringstream
+{
+    public:
+    /**
+     * \~english
+     * \brief Post-mortem debug Destructor
+     *
+     * Prints the log's content to the terminal after termination of the operating system.
+     **/
+    ~Log()
+    {
+        std::cout << str();
+    }
+};

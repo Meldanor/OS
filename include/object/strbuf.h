@@ -42,33 +42,25 @@
  */
 class Stringbuffer {
   protected:
-    /** \brief buffer containing the characters
-     * 
-     * \~
-     * \todo write declaration
+    /** 
+     * \brief buffer containing the characters
      */
     char buffer[BUFFERSIZE];
     
-    /** \brief buffer pointer saving the position of the next insertion 
-     * 
-     * \~
-     * \todo write declaration
+    /** 
+     * \brief buffer pointer saving the position of the next insertion
      */
     short pos;
     
-    /** \brief Default constructor setting the buffer empty. 
-     * 
-     * \~
-     * \todo write implementation
+    /** 
+     * \brief Default constructor setting the buffer empty. 
      */
-    Stringbuffer(){};
+    Stringbuffer();
     
-    /** \brief Default destructor of Stringbuffer
-     *
-     * \~
-     * \todo write implementation
+    /** 
+     * \brief Default destructor of Stringbuffer
      */
-    virtual ~Stringbuffer(){};
+    virtual ~Stringbuffer();
     
     /** \brief insert a character into the buffer
      *
@@ -77,9 +69,6 @@ class Stringbuffer {
      * flush().
      *
      * @param c character to be inserted into the buffer
-     * 
-     * \~
-     * \todo write implementation
      */
     void put(char c);
     
