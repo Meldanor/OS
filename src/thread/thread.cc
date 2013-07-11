@@ -35,6 +35,7 @@ Thread::Thread() {
     
     //Successor-Context
     context.uc_link = NULL;
+    // 
     makecontext(&context,(void(*)())&Thread::kickoff,1,this);
 }
 

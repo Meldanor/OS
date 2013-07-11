@@ -11,7 +11,6 @@
 \* * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "device/watch.h"
-#include "thread/lock.h"
 #include <pthread.h>
 
 /* * * * * * * * * * * * * * * * * * * * * * * * *\

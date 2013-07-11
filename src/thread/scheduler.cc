@@ -20,7 +20,6 @@
 
 void Scheduler::schedule(Thread& first) {
 
-    Lock lock;
     go(first);
     if (!threads.empty()) {
         // dispatch(*threads.front());
@@ -31,13 +30,12 @@ void Scheduler::schedule(Thread& first) {
 }
 
 void Scheduler::ready(Thread& that) {
-    Lock lock;
+    
     threads.push_back(&that);
 }
 
 void Scheduler::exit() {
 
-    Lock lock;
 
     if (threads.empty()) {
         while(true) {
@@ -54,7 +52,6 @@ void Scheduler::exit() {
 void Scheduler::kill(Thread& that) {
 
     Lock lock;
-
     for (ThreadIterator iter = threads.begin(); iter != threads.end() ; ++iter) {
         Thread* thread = *iter;
         if (thread == &that) {
