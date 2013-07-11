@@ -12,6 +12,7 @@
 
 #include "thread/scheduler.h"
 #include "useful/kout.h"
+#include "thread/lock.h"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * *\
 #                   METHODS                       #
@@ -33,6 +34,9 @@ void Scheduler::ready(Thread& that) {
 }
 
 void Scheduler::exit() {
+
+    Lock lock;
+
     if (threads.empty()) {
         while(true) {
             kout << "NixZuTun" << endl;
@@ -46,6 +50,9 @@ void Scheduler::exit() {
 }
 
 void Scheduler::kill(Thread& that) {
+
+    Lock lock;
+
     for (ThreadIterator iter = threads.begin(); iter != threads.end() ; ++iter) {
         Thread* thread = *iter;
         if (thread == &that) {
@@ -57,6 +64,8 @@ void Scheduler::kill(Thread& that) {
 
 void Scheduler::resume() {
 
+    Lock lock;
+    
     threads.push_back(active());
     Thread* next = threads.front();
     threads.pop_front();
