@@ -17,12 +17,13 @@
 \* * * * * * * * * * * * * * * * * * * * * * * * */
 
 void Dispatcher::go(Thread& first) {
-    first.action();
+   	//In den ersten Thread springen
+    this->curActive = &first;
+    setcontext(&(first.context));
 }
 
 void Dispatcher::dispatch(Thread& next) {
-    // save context of current thread 
-    // TODO: Fuck with context
-    curActive = &next;
-    curActive->action();
+    Thread* temp = this->curActive;
+    this->curActive = &next;
+    swapcontext(&(temp->context),&(curActive->context));
 }

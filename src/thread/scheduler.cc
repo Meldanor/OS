@@ -20,9 +20,7 @@
 void Scheduler::schedule(Thread& first) {
 
     go(first);
-    if (threads.empty())
-        return;
-    else {
+    if (!threads.empty()) {
         // dispatch(*threads.front());
         Thread* next = threads.front();
         threads.pop_front();
@@ -34,10 +32,11 @@ void Scheduler::ready(Thread& that) {
     threads.push_back(&that);
 }
 
-/**\~english \todo implement**/
 void Scheduler::exit() {
     if (threads.empty()) {
-        while(true);
+        while(true) {
+            kout << "NixZuTun" << endl;
+        }
     }
     else {
         Thread* next = threads.front();
@@ -57,9 +56,9 @@ void Scheduler::kill(Thread& that) {
 }
 
 void Scheduler::resume() {
+
     threads.push_back(active());
     Thread* next = threads.front();
     threads.pop_front();
-    for (int i = 0 ; i < 25678565/50; ++i);
     dispatch(*next);
 }
