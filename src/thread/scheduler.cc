@@ -20,6 +20,7 @@
 
 void Scheduler::schedule(Thread& first) {
 
+    Lock lock;
     go(first);
     if (!threads.empty()) {
         // dispatch(*threads.front());
@@ -30,6 +31,7 @@ void Scheduler::schedule(Thread& first) {
 }
 
 void Scheduler::ready(Thread& that) {
+    Lock lock;
     threads.push_back(&that);
 }
 
@@ -64,10 +66,13 @@ void Scheduler::kill(Thread& that) {
 
 void Scheduler::resume() {
 
-    Lock lock;
+    Thread* next = active();
+    {
+        Lock lock;
+        threads.push_back(active());
+        next = threads.front();
+        threads.pop_front();
     
-    threads.push_back(active());
-    Thread* next = threads.front();
-    threads.pop_front();
+    }
     dispatch(*next);
 }

@@ -21,7 +21,6 @@ const unsigned int STACK_SIZE = 1024*1024;
 #                   METHODS                       #
 \* * * * * * * * * * * * * * * * * * * * * * * * */
 
-/**\~english \todo implement**/
 void Thread::kickoff(Thread* thread){
     thread->action();
     thread->exit();
@@ -40,16 +39,14 @@ Thread::Thread() {
 }
 
 Thread::~Thread(){
-    //scheduler.kill(*this);
+    scheduler.kill(*this);
 }
 
-/**\~english \todo implement**/
 void Thread::resume() {
 
     scheduler.resume();
 }
 
-/**\~english \todo implement**/
 void Thread::exit(){
     scheduler.exit();
 }
