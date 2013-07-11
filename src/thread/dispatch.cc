@@ -17,7 +17,7 @@
 \* * * * * * * * * * * * * * * * * * * * * * * * */
 
 void Dispatcher::go(Thread& first) {
-   	//In den ersten Thread springen
+    //In den ersten Thread springen
     this->curActive = &first;
     setcontext(&(first.context));
 }

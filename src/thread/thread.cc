@@ -46,7 +46,7 @@ Thread::~Thread(){
 /**\~english \todo implement**/
 void Thread::resume() {
 
-	scheduler.resume();
+    scheduler.resume();
 }
 
 /**\~english \todo implement**/

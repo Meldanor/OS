@@ -31,7 +31,7 @@ extern pthread_mutex_t tsMutex;
 
 Watch::Watch(unsigned int us) : Gate()
 {
-	// ????
+    // ????
     pthread_mutex_lock(&tsMutex);
     rrTimeSlice=us;
     pthread_mutex_unlock(&tsMutex);
@@ -39,12 +39,12 @@ Watch::Watch(unsigned int us) : Gate()
 
 /**\~english \todo implement**/
 void Watch::windup() {
-	plugbox.assign(Plugbox::timer,*this);
-	pic.allow(pic.timer);
+    plugbox.assign(Plugbox::timer,*this);
+    pic.allow(pic.timer);
 }
 
 /**\~english \todo implement**/
 void Watch::trigger() {
-	scheduler.resume();
+    scheduler.resume();
 }
  
